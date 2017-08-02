@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[大辉-wjh4dev]]></title>
-  <link href="www.wjh-dev.info/atom.xml" rel="self"/>
-  <link href="www.wjh-dev.info/"/>
-  <updated>2017-08-02T10:30:47+08:00</updated>
-  <id>www.wjh-dev.info/</id>
+  <link href="wjh4dev.github.io/atom.xml" rel="self"/>
+  <link href="wjh4dev.github.io/"/>
+  <updated>2017-08-02T10:54:52+08:00</updated>
+  <id>wjh4dev.github.io/</id>
   <author>
     <name><![CDATA[]]></name>
     
@@ -14,9 +14,9 @@
   
   <entry>
     <title type="html"><![CDATA[node包开发、发布流程]]></title>
-    <link href="www.wjh-dev.info/15006205842047.html"/>
+    <link href="wjh4dev.github.io/15006205842047.html"/>
     <updated>2017-07-21T15:03:04+08:00</updated>
-    <id>www.wjh-dev.info/15006205842047.html</id>
+    <id>wjh4dev.github.io/15006205842047.html</id>
     <content type="html"><![CDATA[
 <h3 id="toc_0">准备工作</h3>
 
@@ -116,9 +116,9 @@ npm install 你的包名，就可以向我们平时使用其他模块的包一�
   
   <entry>
     <title type="html"><![CDATA[node包详细开发过程]]></title>
-    <link href="www.wjh-dev.info/15014119322439.html"/>
+    <link href="wjh4dev.github.io/15014119322439.html"/>
     <updated>2017-07-30T18:52:12+08:00</updated>
-    <id>www.wjh-dev.info/15014119322439.html</id>
+    <id>wjh4dev.github.io/15014119322439.html</id>
     <content type="html"><![CDATA[
 <blockquote>
 <p>上一篇文章讲解了如何开发和发布node包的大体操作流程。<br/>
@@ -306,9 +306,9 @@ module.exports = {
   
   <entry>
     <title type="html"><![CDATA[npm 私有仓库配置过程]]></title>
-    <link href="www.wjh-dev.info/15014123618753.html"/>
+    <link href="wjh4dev.github.io/15014123618753.html"/>
     <updated>2017-07-30T18:59:21+08:00</updated>
-    <id>www.wjh-dev.info/15014123618753.html</id>
+    <id>wjh4dev.github.io/15014123618753.html</id>
     <content type="html"><![CDATA[
 <blockquote>
 <p>在开发过程中有时候我们需要开发自己的node package，但是由于是我们自己使用的包，不希望发布到<code>npmjs.org</code>公共库上去，于是就需要一个私有的仓库，推荐nexus，因为当初写java也是用nexus管理jar包的。<br/>
@@ -428,9 +428,9 @@ Logged in as wangjh on http://101.201.31.68:8888/repository/shfb-node-repo/.
   
   <entry>
     <title type="html"><![CDATA[NPM 模块管理器]]></title>
-    <link href="www.wjh-dev.info/15015937003199.html"/>
+    <link href="wjh4dev.github.io/15015937003199.html"/>
     <updated>2017-08-01T21:21:40+08:00</updated>
-    <id>www.wjh-dev.info/15015937003199.html</id>
+    <id>wjh4dev.github.io/15015937003199.html</id>
     <content type="html"><![CDATA[
 <h2 id="toc_0">简介</h2>
 
@@ -1445,9 +1445,9 @@ $ npm repo $package
   
   <entry>
     <title type="html"><![CDATA[React Native之webview 与 vue单页通信]]></title>
-    <link href="www.wjh-dev.info/15005174554482.html"/>
+    <link href="wjh4dev.github.io/15005174554482.html"/>
     <updated>2017-07-20T10:24:15+08:00</updated>
-    <id>www.wjh-dev.info/15005174554482.html</id>
+    <id>wjh4dev.github.io/15005174554482.html</id>
     <content type="html"><![CDATA[
 <blockquote>
 <p>由于目前需要在RN开发的webview中引用vue单页应用，但是需要一些交互（比如进入vue单页之后，此时就是完全进入Vue的路由体系中，要返回到RN的界面中就需要与RN进行通信）</p>
@@ -1579,9 +1579,9 @@ export default class 你的组件 extends React.Component {
   
   <entry>
     <title type="html"><![CDATA[React Native 版本升级无法编译]]></title>
-    <link href="www.wjh-dev.info/15004831139883.html"/>
+    <link href="wjh4dev.github.io/15004831139883.html"/>
     <updated>2017-07-20T00:51:53+08:00</updated>
-    <id>www.wjh-dev.info/15004831139883.html</id>
+    <id>wjh4dev.github.io/15004831139883.html</id>
     <content type="html"><![CDATA[
 <h2 id="toc_0">0.31.0 =&gt; 0.37.0</h2>
 
