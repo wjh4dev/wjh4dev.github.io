@@ -4,13 +4,879 @@
   <title><![CDATA[大辉-wjh4dev]]></title>
   <link href="wjh4dev.github.io/atom.xml" rel="self"/>
   <link href="wjh4dev.github.io/"/>
-  <updated>2017-08-14T09:26:28+08:00</updated>
+  <updated>2017-11-06T23:49:05+08:00</updated>
   <id>wjh4dev.github.io/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[《觉者》观后感之【生命观】]]></title>
+    <link href="wjh4dev.github.io/15099782269078.html"/>
+    <updated>2017-11-06T22:23:46+08:00</updated>
+    <id>wjh4dev.github.io/15099782269078.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>经典物理统一在原子上，量子物理统一在量子上，化学统一在元素上，生命统一在DNA上。</p>
+
+<p>人其实是很渺小的，就是一个物种，别把自己看的太高深。而且人是在不断演化中的（Evolution的翻译叫演化，不能称之为进化） 你只有拼命的去演变，才能和环境达成一个共同体，如果你不变，你肯定就会被抛弃掉。</p>
+
+<p>只有当一个人开始有清醒的意识到我必须要主动的去接受这个变化并且演化的时候，他就充满了一种生命的觉知性。</p>
+
+<p>如果这个觉知性是正确的话，你会觉得你对你的负熵会做得更好。你开始去学习，你开始去运动，学习其实不是为了让你变得全知全能，而是让你觉得我开始不害怕未知。</p>
+
+<p>因为已知圈越大，未知圈也会更大。学的越多，不知道的就更多。大家到一定程度都想不通了，只能升维，不再现有理论里继续在二维平面下去扩，我只要升高哪怕只是一点点，我就能无限的看见我的边界到底在哪儿？当你提升的纬度越高，想的就越明白，越往山顶爬科学与人文就越接近，升维之后就能看到我的边界和局限在哪，反而你就会不惑了。</p>
+</blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GET和POST到底有什么区别？]]></title>
+    <link href="wjh4dev.github.io/15099672927192.html"/>
+    <updated>2017-11-06T19:21:32+08:00</updated>
+    <id>wjh4dev.github.io/15099672927192.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>GET和POST是HTTP请求的两种基本方法，要说它们的区别，接触过WEB开发的人都能说出一二。</p>
+</blockquote>
+
+<p>最直观的区别就是GET把参数包含在URL中，POST通过request body传递参数。</p>
+
+<p>你可能自己写过无数个GET和POST请求，或者已经看过很多权威网站总结出的他们的区别，你非常清楚知道什么时候该用什么。</p>
+
+<p>当你被问到这个问题，你的内心充满了自信和喜悦。</p>
+
+<span id="more"></span><!-- more -->
+
+<p><img src="media/15099672927192/201610116690_465.jpg" alt="" style="width:250px;"/></p>
+
+<h3 id="toc_0">你知道的“标准答案”</h3>
+
+<p>你轻轻松松的给出了一个“标准答案”：</p>
+
+<ol>
+<li>GET在浏览器回退时是无害的，而POST会再次提交请求。 </li>
+<li>GET产生的URL地址可以被Bookmark，而POST不可以。 </li>
+<li>GET请求会被浏览器主动cache，而POST不会，除非手动设置。 </li>
+<li>GET请求只能进行url编码，而POST支持多种编码方式。 </li>
+<li>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。 </li>
+<li>GET请求在URL中传送的参数是有长度限制的，而POST么有。 </li>
+<li>对参数的数据类型，GET只接受ASCII字符，而POST没有限制。 </li>
+<li>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。 </li>
+<li>GET参数通过URL传递，POST放在Request body中。</li>
+</ol>
+
+<p><strong>“很遗憾，这不是我们要的回答!”</strong><br/>
+<img src="media/15099672927192/201610111292_9193.jpg" alt="" style="width:250px;"/></p>
+
+<p>请告诉我真相。。。</p>
+
+<h3 id="toc_1">如果我告诉你GET和POST本质上没有区别你信吗?</h3>
+
+<p>让我们扒下GET和POST的外衣，坦诚相见吧!</p>
+
+<p><img src="media/15099672927192/201610112524_6494.jpg" alt="" style="width:250px;"/></p>
+
+<h3 id="toc_2">敲黑板，划重点</h3>
+
+<ul>
+<li><p>GET和POST是什么？<br/>
+<strong>HTTP协议中的两种发送请求的方法。</strong></p></li>
+<li><p>HTTP是什么？<br/>
+<strong>HTTP是基于TCP/IP的关于数据如何在万维网中如何通信的协议。</strong></p></li>
+<li><p>HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP，也就是说，<strong>GET/POST都是TCP链接。GET和POST能做的事情是一样一样的。</strong> <br/>
+你要给GET加上request body，给POST带上url参数，技术上是完全行的通的。</p></li>
+</ul>
+
+<p>那么，“标准答案”里的那些区别是怎么回事?</p>
+
+<p><img src="media/15099672927192/201610118028_6465.jpg" alt="" style="width:250px;"/></p>
+
+<p>在我大万维网世界中，TCP就像汽车，我们用TCP来运输数据，它很可靠，从来不会发生丢件少件的现象。但是如果路上跑的全是看起来一模一样的汽车，那这个世界看起来是一团混乱，送急件的汽车可能被前面满载货物的汽车拦堵在路上，整个交通系统一定会瘫痪。</p>
+
+<p>为了避免这种情况发生，交通规则HTTP诞生了。</p>
+
+<p>HTTP给汽车运输设定了好几个服务类别，有GET, POST, PUT, DELETE等等，HTTP规定，当执行GET请求的时候，要给汽车贴上GET的标签(设置method为GET)，而且要求把传送的数据放在车顶上(url中)以方便记录。如果是POST请求，就要在车上贴上POST的标签，并把货物放在车厢里。当然，你也可以在GET的时候往车厢内偷偷藏点货物，但是这是很不光彩;也可以在POST的时候在车顶上也放一些数据，让人觉得傻乎乎的。<br/>
+HTTP只是个行为准则，而TCP才是GET和POST怎么实现的基本。</p>
+
+<p>但是，我们只看到HTTP对GET和POST参数的传送渠道(url还是requrest body)提出了要求。“标准答案”里关于参数大小的限制又是从哪来的呢?</p>
+
+<p><img src="media/15099672927192/201610118005_5917.jpg" alt="" style="width:350px;"/></p>
+
+<p>在我大万维网世界中，还有另一个重要的角色：运输公司。<br/>
+不同的浏览器(发起http请求)和服务器(接受http请求)就是不同的运输公司。 虽然理论上，你可以在车顶上无限的堆货物(url中无限加参数)。但是运输公司可不傻，装货和卸货也是有很大成本的，他们会限制单次运输量来控制风险，数据量太大对浏览器和服务器都是很大负担。<strong>业界不成文的规定是，(大多数)浏览器通常都会限制url长度在2K个字节，而(大多数)服务器最多处理64K大小的url。超过的部分，恕不处理。</strong>如果你用GET服务，在request body偷偷藏了数据，不同服务器的处理方式也是不同的，有些服务器会帮你卸货，读出数据，有些服务器直接忽略，所以，虽然GET可以带request body，也不能保证一定能被接收到哦。</p>
+
+<p>好了，现在你知道，GET和POST本质上就是TCP链接，并无差别。但是由于HTTP的规定和浏览器/服务器的限制，导致他们在应用过程中体现出一些不同。</p>
+
+<p>你以为本文就这么结束了?</p>
+
+<p><img src="media/15099672927192/20161011540_9940.jpg" alt="" style="width:250px;"/></p>
+
+<p>我们的大BOSS还等着出场呢。。。</p>
+
+<p>这位BOSS有多神秘?当你试图在网上找“GET和POST的区别”的时候，那些你会看到的搜索结果里，从没有提到他。他究竟是什么呢。。。</p>
+
+<p>GET和POST还有一个重大区别，简单的说：</p>
+
+<h3 id="toc_3">GET POST 深层重大区别</h3>
+
+<p><strong>GET产生一个TCP数据包;POST产生两个TCP数据包。</strong></p>
+
+<p>长的说：</p>
+
+<p>对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200(返回数据);</p>
+
+<p>而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok(返回数据)。</p>
+
+<p>也就是说，GET只需要汽车跑一趟就把货送到了，而POST得跑两趟，第一趟，先去和服务器打个招呼“嗨，我等下要送一批货来，你们打开门迎接我”，然后再回头把货送过去。</p>
+
+<p>因为POST需要两步，时间上消耗的要多一点，看起来GET比POST更有效。因此Yahoo团队有推荐用GET替换POST来优化网站性能。但这是一个坑!跳入需谨慎。为什么?</p>
+
+<ol>
+<li>GET与POST都有自己的语义，不能随便混用。</li>
+<li>据研究，在网络环境好的情况下，发一次包的时间和发两次包的时间差别基本可以无视。而在网络环境差的情况下，两次包的TCP在验证数据包完整性上，有非常大的优点。</li>
+<li>并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次。</li>
+</ol>
+
+<p>现在，当面试官再问你<strong>“GET与POST的区别”</strong>的时候，你的内心是不是这样的?<br/>
+<img src="media/15099672927192/201610116679_2810.jpg" alt="" style="width:250px;"/></p>
+
+<p>（全文完）</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[React Native 开发环境搭建 基于Mac]]></title>
+    <link href="wjh4dev.github.io/15060698348348.html"/>
+    <updated>2017-09-22T16:43:54+08:00</updated>
+    <id>wjh4dev.github.io/15060698348348.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>折腾RN有大半年的时间，刚开始折腾环境就搞的人差点吐血，本人前端，搞iOS开发环境，android开发环境，真是一脸懵逼的感觉。<br/>
+以下是一个整体流程图，可以让你心里有个整体把握，在进行每一步操作。有些操作时不能回退的，所以要把每步搞清楚了，再开始搭建环境。</p>
+</blockquote>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_0">搭建环境的整体流程图：（本流程基于Mac系统）</h3>
+
+<p>下面就直接进入主题，上图，如图是所有搭建环境的整理流程。<br/>
+<img src="media/15060698348348/15060701666498.jpg" alt="" style="width:1024px;"/></p>
+
+<p>如果你对环境搭建还有其他问题，可以查看<a href="http://reactnative.cn/">RN中文网</a>官方教程，有视频，有说明，很不错的社区。</p>
+
+<p>以下是一些开发RN的<a href="http://bbs.reactnative.cn/topic/130/%E6%96%B0%E6%89%8B%E6%8F%90%E9%97%AE%E5%89%8D%E5%85%88%E6%9D%A5%E8%BF%99%E9%87%8C%E7%9C%8B%E7%9C%8B-react-native%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98">常见问题</a></p>
+
+<h4 id="toc_1">关于学习技术</h4>
+
+<p>有些同学学技术就是喜欢百度一些个人博客，最然我也写博客，但是我个人还是建议，有任何问题，一定要找<strong>官网</strong>，官方毕竟是出品方，有最原始的一手资料。</p>
+
+<p>由于好多官方文档都是英文版的，所以有些同学看不懂，其实硬着头皮看，对自己只有好处没有坏处。</p>
+
+<p>再退一步如果实在是看不懂英文，那就找有没有中文网之类的。现在开源精神在国内也比较流行，大家都想为了技术奉献一些自己的力量，我也参与了一些中文站的翻译工作。</p>
+
+<p>这里推荐一下由腾讯前端大牛牵头的国内技术文档导航站点：<a href="https://www.docschina.org/">印记中文</a></p>
+
+<blockquote>
+<p><a href="https://www.docschina.org/">印记中文(docschina.org)</a>是一个技术文档导航站点（暂时只有前端，未来可能拓展），背后隐含着的是，我们致力于互联网技术中文文档翻译的基本理念和实际行动</p>
+</blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[javascript中函数的各种姿势]]></title>
+    <link href="wjh4dev.github.io/15048050884744.html"/>
+    <updated>2017-09-08T01:24:48+08:00</updated>
+    <id>wjh4dev.github.io/15048050884744.html</id>
+    <content type="html"><![CDATA[
+<p><img src="media/15048050884744/15048051116683.jpg" alt="" style="width:703px;"/></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[vue & vuex 开发套路总结（各种姿势、写法）]]></title>
+    <link href="wjh4dev.github.io/15044478743090.html"/>
+    <updated>2017-09-03T22:11:14+08:00</updated>
+    <id>wjh4dev.github.io/15044478743090.html</id>
+    <content type="html"><![CDATA[
+<p>开发vue有半年多，重复性码代码，感觉这不是我要的，刨根问底一向是我的习惯，所以今天就在写法上给大家刨一下vue，一来深度学习vue的各种用法，二来对于理解她的高级特性也很有帮助，再来给大家分享我的总结，希望大家能从我这里感悟点滴，那便值得。</p>
+
+<p>这里假设你已有 HTML、CSS 和 JavaScript 中级前端知识，并且了解 Vue.js 的一种或几种写法，并对单文件组件有一定了解，我这里主要做一些总结，如果有什么不妥之处可提出异议，共同探讨。</p>
+
+<p>文中使用的示例代码均按照“单文件组件”方式编写。其中介绍的内容更多是关于javascript的写法。至于 template 和 style 不是本次介绍的重点。</p>
+
+<p>本文可能会存在一些初学者不了解的知识点，或者名词，我会把我认为初学者有必要深究的名词在文末列出，供深度学习。</p>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_0">一、vue、vuex 简单介绍</h3>
+
+<ol>
+<li><p><a href="https://cn.vuejs.org/v2/guide/index.html">vue是什么？</a> </p>
+
+<p>官方是这么说的：</p>
+
+<blockquote>
+<p>Vue.js 是一套构建用户界面的渐进式框架。Vue采用自底向上增量开发的设计。Vue的核心库只关注试图层。</p>
+</blockquote>
+
+<p>在外界是这么理解他的：</p>
+
+<blockquote>
+<p>轻量的 MVVM 框架（MVVM是Model-View-ViewModel的简写）。</p>
+</blockquote>
+
+<p>至于什么是 MVVM⚠️ 这个留待后续分享。</p></li>
+<li><p><a href="https://vuex.vuejs.org/zh-cn/intro.html">vuex是什么？</a> </p>
+
+<blockquote>
+<p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+</blockquote></li>
+</ol>
+
+<p>介绍完今天上场的队员，那就直接开始操练了。</p>
+
+<h3 id="toc_1">二、vue 相关写法</h3>
+
+<p>对于vue来说通过数据驱动页面渲染是他的核心特性，要了解这些特性就需要对一些概念进行说明。</p>
+
+<p>先来看一个基础的单文件组件（⚠️示例只包含JS部分）：</p>
+
+<pre><code class="language-javascript">export default {
+  // 数据相关属性，顺序按照调用逻辑排序
+  props:[],         // 接收父组件属性
+  data () {         // 本组件数据区
+    return {}
+  },
+  computed: {},     // 计算属性
+  watch: {},        // 监控观察属性变化
+  methods: {},      // 方法函数区
+    
+  // 生命周期相关钩子函数
+  beforeCreate() {},
+  created() {},
+  beforeMount() {},
+  mounted() {},
+  beforeUpdate() {},
+  updated() {},
+  activated() {},
+  deactivated() {},
+  beforeDestroy() {},
+  destroyed() {}
+}
+</code></pre>
+
+<p>来一张生命周期图，我个人一般了解一个新知识都会希望能得到一张类似于此的整体性的结构示意图，清晰、明了，一目了然。<br/>
+<img src="media/15044478743090/15046214199582.jpg" alt="" style="width:600px;"/></p>
+
+<blockquote>
+<p>上面图中那句英文的意思：如果使用构建步骤，模板编译将提前执行，例如：单文件组件。</p>
+</blockquote>
+
+<p>了解了完整组件之后，可详细的研究一下各种属性、函数的写法。</p>
+
+<h4 id="toc_2">2.1 核心概念-数据相关</h4>
+
+<p>接下来，分别讲解：data、computed、watch的写法；<br/>
+有人说不是还有props、methods吗？因为他们两个写法单一，不做特别说明。</p>
+
+<blockquote>
+<ul>
+<li><p>props：可以是数组或对象，用于接收来自父组件的数据。props 可以是简单的数组，或者使用对象作为替代，对象允许配置高级选项，如类型检测、自定义校验和设置默认值。</p></li>
+<li><p>methods： 将被混入到 Vue 实例中。可以直接通过 VM 实例访问这些方法，或者在指令表达式中使用。方法中的 this 自动绑定为 Vue 实例。<br/>
+⚠️不可以使用ES6的箭头函数。理由和data不可以使用箭头函数一样，我们接下来就讲。</p></li>
+</ul>
+</blockquote>
+
+<h5 id="toc_3">2.1.1 data</h5>
+
+<p>data：官方推荐写法如下：</p>
+
+<pre><code class="language-js"> data () {
+    return {
+        // 这里必须设置纯粹的对象（含有零个或多个的key/value对）
+    }
+ }
+</code></pre>
+
+<blockquote>
+<p>问： 为什么不直接返回对象，而要用函数呢？<br/>
+答： data 必须声明为返回一个初始数据对象的函数，因为组件可能被用来创建多个实例。如果 data 仍然是一个纯粹的对象，则所有的实例将<strong>共享引用同一个数据对象</strong>！通过提供 data 函数，每次创建一个新实例后，我们能够调用 data 函数，从而返回初始数据的一个全新副本数据对象。</p>
+
+<p>问：这里的data函数可以使用ES6的箭头函数吗？<br/>
+答：不可以。理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例</p>
+</blockquote>
+
+<p>‼️ 说直白点就是js对象如果直接赋值会存在<strong>对象引用</strong>⚠️，给你的组件使用造成不必要的困扰，所以你需要拷贝一个新对象（这里的拷贝而且是<strong>深拷贝</strong>⚠️）而不是使用原有对象的引用。</p>
+
+<h5 id="toc_4">2.1.2 computed</h5>
+
+<p>写法有如下几种：</p>
+
+<pre><code class="language-js">data () {
+    return {
+        firstName: &quot;Wang&quot;,
+        lastName: &quot;Jianhui&quot;,
+        workDays: 5
+    }
+}
+computed: {
+    // 第一种：仅读取，值只须为函数
+    fullName () {
+        return this.firstName + &quot; &quot; + this.lastName
+    }
+    // 第二种：可读取和设置新值
+    overTime: {
+        get () {
+            return this.workDays - 5
+        },
+        set (d) {
+            this.workDays += d
+        }
+    }
+}
+...
+// 我们在使用以上属性的时候，就会得到以下结果：
+this.fullName   // =&gt; Wang Jianhui
+this.overTime   // =&gt; 0
+this.overTime = 1
+this.overTime   // =&gt; 1
+this.workDays   // =&gt; 6
+</code></pre>
+
+<p>此时，有人就会说了我用你这个计算属性算，还不如直接写个 methods 来的痛快，毕竟我们前端er写 methods 已经习惯了。</p>
+
+<blockquote>
+<p>我们可以将同一函数定义为一个 method 而不是一个计算属性。对于最终的结果，两种方式确实是相同的。然而，<strong>不同的是计算属性是基于它们的依赖进行缓存的</strong>。计算属性只有在它的相关依赖发生改变时才会重新求值。</p>
+</blockquote>
+
+<p>还有人说，你这个计算属性的函数写法和官网的不一样啊</p>
+
+<p>‼️⚠️js函数的写法之多，当我看到全部写法之后，就是这个表情👉😮</p>
+
+<p>这里给大家插入一个额外的话题，js函数的写法：</p>
+
+<hr/>
+
+<p>------------------强势插入--知识点---分割线--------------------<br/>
+这里就要给大家科普一下js的各种你见过没见过的写法了：<br/>
+本来这里的内容是要另起一篇讲的，由于内容太多这里就简单看个图就可以了，待再开一篇详细说明一下，各种写法的来源。<br/>
+<img src="media/15044478743090/15048056649887.jpg" alt="" style="width:627px;"/><br/>
+---------------强势插入-----结束------------------</p>
+
+<hr/>
+
+<p>计算属性的用法，在后面与 methods 和 watch 的对比中，你或许还会得到一些启发。</p>
+
+<h5 id="toc_5">2.1.3 watch</h5>
+
+<h4 id="toc_6">2.2 computed vs methods vs watch 对比</h4>
+
+<h3 id="toc_7">三、vuex 相关写法</h3>
+
+<h3 id="toc_8">四、vue 结合 vuex</h3>
+
+<h3 id="toc_9">五、⚠️名词解释</h3>
+
+<p>MVVM：<br/>
+深拷贝：<br/>
+对象的引用：</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GitHub 一些实际操作]]></title>
+    <link href="wjh4dev.github.io/15041787343491.html"/>
+    <updated>2017-08-31T19:25:34+08:00</updated>
+    <id>wjh4dev.github.io/15041787343491.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>记一次开源文档翻译经历</p>
+</blockquote>
+
+<h3 id="toc_0">fork</h3>
+
+<h3 id="toc_1">clone</h3>
+
+<h3 id="toc_2">push</h3>
+
+<h3 id="toc_3">pull request</h3>
+
+<h3 id="toc_4">开源精神</h3>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[javaScript模块化讲解]]></title>
+    <link href="wjh4dev.github.io/15040127013389.html"/>
+    <updated>2017-08-29T21:18:21+08:00</updated>
+    <id>wjh4dev.github.io/15040127013389.html</id>
+    <content type="html"><![CDATA[
+<h3 id="toc_0">模块化</h3>
+
+<p>NOTE：以下讨论都是基于 JavaScript 的模块组织（每个模块均以文件形式组织），而非工程的模块化。</p>
+
+<blockquote>
+<p>The secret to building large app is never build arge apps. Break your applications into small pieces. Then, assemble those testable, bite-sized pieces into your big application.</p>
+
+<p>Justin Meyer</p>
+</blockquote>
+
+<span id="more"></span><!-- more -->
+
+<p><strong>其他语言中的模块支持</strong></p>
+
+<ul>
+<li>Java - <code>import</code></li>
+<li>C# - <code>using</code></li>
+<li>css - <code>@import</code></li>
+</ul>
+
+<p>但在 JavaScript 中并不存在模块组织在并不支持，于是产生了很多，模块系统。</p>
+
+<p><strong>模块的职责</strong></p>
+
+<ul>
+<li>封装实现（将复杂的内容于外界个例）</li>
+<li>暴露接口（外部可通过接口使用模块）</li>
+<li>声明依赖（提供给模块系统使用）</li>
+</ul>
+
+<h4 id="toc_1">模块的使用</h4>
+
+<h5 id="toc_2">反模式（Anti-Pattern）</h5>
+
+<p>反模式既没有使用任何设计模式。</p>
+
+<p>math.js</p>
+
+<pre><code>function add(a, b) {
+  return a + b;
+}
+function sub(a, b) {
+  return a - b;
+}
+
+</code></pre>
+
+<p>上面的代码有下面的几个缺点：</p>
+
+<ul>
+<li>无封装性</li>
+<li>接口结构不明显</li>
+</ul>
+
+<p>calculator.js</p>
+
+<pre><code>var action = &#39;add&#39;;
+function compute(a, b) {
+  switch (action) {
+    case &#39;add&#39;: return add(a, b);
+    case &#39;sub&#39;: return sub(a, b);
+  }
+}
+
+</code></pre>
+
+<p>上面的代码也有几个缺点：</p>
+
+<ul>
+<li>没有依赖声明</li>
+<li>使用全局状态</li>
+</ul>
+
+<h5 id="toc_3">字面量（Object Literal）</h5>
+
+<p>math.js</p>
+
+<pre><code>var math = {
+  add: function(a, b) {
+    return a + b;
+  },
+  sub: function(a, b) {
+    return a - b;
+  }
+};
+
+</code></pre>
+
+<p>结构性好，但没有访问控制。</p>
+
+<p>calculator.js</p>
+
+<pre><code>var calculator = {
+  action: &#39;add&#39;,
+  compute: function(a, b) {
+    switch (action) {
+      case &#39;add&#39;: return add(a, b);
+      case &#39;sub&#39;: return sub(a, b);
+    }
+  }
+}
+
+</code></pre>
+
+<p>同样没有依赖声明</p>
+
+<h5 id="toc_4">IIFE（Immediately-invoked Function Expresion)</h5>
+
+<p>其为自执行函数。</p>
+
+<p><strong>版本一</strong></p>
+
+<p>calculator.js</p>
+
+<pre><code>var calculator = (function(){
+  var action = &#39;add&#39;;
+  return {
+    compute: function(a, b) {
+      switch (action) {
+        case &#39;add&#39;: return add(a, b);
+        case &#39;sub&#39;: return sub(a, b);
+      }
+    }
+  }
+})();
+
+</code></pre>
+
+<p>上面的代码可以进行访问控制，但是不能进行依赖声明。</p>
+
+<p><strong>版本二</strong></p>
+
+<p>calculator.js</p>
+
+<pre><code>var calculator = (function(m){
+  var action = &#39;add&#39;;
+  function compute(a, b) {
+    switch (action) {
+      case &#39;add&#39;: return m.add(a, b);
+      case &#39;sub&#39;: return m.sub(a, b);
+    }
+  }
+  return {
+    compute: compute;
+  }
+})(math)
+
+</code></pre>
+
+<p>上面的代码虽然可以显示的声明依赖，但是仍然污染了全局变量，而且必须手动进行依赖管理。</p>
+
+<h4 id="toc_5">命名空间（Namespace）</h4>
+
+<p>命运空间可以解决全局变量的污染的问题。</p>
+
+<p>math.js</p>
+
+<pre><code>namespace(&#39;math&#39;, [], function(){
+  function add(a, b) { return a + b; }
+  function sub(a, b) { return a - b; }
+  return {
+    add: add,
+    sub: sub
+  }
+})
+
+</code></pre>
+
+<p>calculator.js</p>
+
+<pre><code>//                     依赖声明        依赖注入
+//                         |               |
+namespace(&#39;calculator&#39;, [&#39;math&#39;], function(m){
+  var action = &#39;add&#39;;
+  function compute(a,b) {
+    return m[action](a, b);
+  }
+  return {
+    compute: compute;
+  }
+})
+
+</code></pre>
+
+<h4 id="toc_6">模块管理</h4>
+
+<p>复杂的模块管理，不能单纯的通过代码文件的排列顺序来进行管理。于是引入了模块系统，它有下面的职责：</p>
+
+<ul>
+<li>依赖管理（加载、分析、注入、初始化—）</li>
+<li>决定模块的写法</li>
+</ul>
+
+<p>常用的模块系统有 <code>Common.JS</code>、<code>AMD</code>、语言基本的模块化。</p>
+
+<h5 id="toc_7">CommonJS</h5>
+
+<p>CommonJS 是一个模块规范，通常适用于非浏览器环境（NodeJS）。</p>
+
+<blockquote>
+<p>A module spec for JavaScript outside the browser.</p>
+</blockquote>
+
+<p>math.js</p>
+
+<pre><code>function add(a, b) {
+  return a + b;
+}
+function sub(a, b) {
+  return a - b;
+}
+exports.add = add;
+exports.sub = sub;
+
+</code></pre>
+
+<p>calculator.js</p>
+
+<pre><code>// 依赖声明
+var math = require(&#39;./math&#39;);
+
+function Calculator(container) {
+  // ...
+}
+Calculator.prototype.compute = function(){
+  this.result.textContent = math.add(...);
+}
+
+// 接口暴露
+exports.Calculator = Calculator;
+
+</code></pre>
+
+<p><strong>优点</strong></p>
+
+<ul>
+<li>依赖管理成熟可靠</li>
+<li>社区活跃且规范接受度高</li>
+<li>运行时支持且模块化定义简单</li>
+<li>文件级别的模块作用域隔离</li>
+<li>可以处理循环依赖</li>
+</ul>
+
+<p><strong>缺点</strong></p>
+
+<ul>
+<li>不是标准组织规范</li>
+<li>同步请求未考虑浏览器环境（可以使用 Browserify 来解决）</li>
+</ul>
+
+<pre><code># browserify 为 npm 下命令行工具
+# &gt; 为 Linux/Unix 添加至命令
+browserify file0.js &gt; file1.js;
+
+</code></pre>
+
+<p>打包后的文件如下所示。</p>
+
+<pre><code>(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require==&quot;function&quot;&amp;&amp;require;if(!u&amp;&amp;a)return a(o,!0);if(i)return i(o,!0);var f=new Error(&quot;Cannot find module &#39;&quot;+o+&quot;&#39;&quot;);throw f.code=&quot;MODULE_NOT_FOUND&quot;,f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require==&quot;function&quot;&amp;&amp;require;for(var o=0;o&lt;r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+
+},{}]},{},[1]);
+
+</code></pre>
+
+<h5 id="toc_8">AMD（Asynchronous Module Definition）</h5>
+
+<p>适合异步环境的依赖管理方案。</p>
+
+<p>math.js</p>
+
+<pre><code>//   依赖列表
+//      |
+define([], function(){
+  function add(a, b) { return a + b; }
+  function sub(a, b) { return a - b; }
+// 接口暴露
+  return {
+    add: add,
+    sub: sub
+  }
+})
+
+</code></pre>
+
+<p>calculator.js</p>
+
+<pre><code>define([&#39;./math&#39;], function(math){
+  function Calculator(container) {
+    // ...
+  }
+  Calculator.prototype.compute = function(){
+    this.result.textContent = math.add(...);
+  };
+
+  // 暴露接口
+  return {
+    Calculator: Calculator;
+  }
+})
+
+</code></pre>
+
+<p><strong>优点</strong></p>
+
+<ul>
+<li>依赖管理成熟可靠</li>
+<li>社区活跃且规范接受度高</li>
+<li>转为异步环境制作，适合浏览器</li>
+<li>支持 CommonJS 的书写方式</li>
+<li>通过插件 API 可以加载非 JavaScript 资源</li>
+<li>成熟的打包构建工具，并可结合插件一同使用</li>
+</ul>
+
+<p><strong>缺点</strong></p>
+
+<ul>
+<li>模块定义繁琐，需要额外嵌套</li>
+<li>酷基本的支持，需要引入额外的库</li>
+<li>无法处理循环依赖</li>
+<li>无法实现条件加载</li>
+</ul>
+
+<h6 id="toc_9">Simplified CommonJS Wrapping</h6>
+
+<p>使用同样的 CommonJS 的依赖管理书写方法，之后在使用正则表达式来提取依赖列表。</p>
+
+<pre><code>define(function(require, exports){
+  // 依赖声明
+  var math = require(&#39;./math&#39;);
+
+  function Calculator(container) {
+    // ...
+  }
+  Calculator.prototype.compute = function(){
+    this.result.textContent = math.add(...);
+  }
+
+  // 接口暴露
+  exports.Calculator = Calculator;
+})
+
+</code></pre>
+
+<h5 id="toc_10">Loader Plugins</h5>
+
+<p>允许调用处理脚本外的其他资源（例如 HTML 与 CSS 文件），这样就可以形成一个完整的组件。</p>
+
+<pre><code>完整组件 = 结构 + 逻辑 + 样式
+
+</code></pre>
+
+<h5 id="toc_11">ECMAScript 6 Module</h5>
+
+<p>ECMAScript 6 中的模块化管理。</p>
+
+<p>math.js</p>
+
+<pre><code>function add(a, b) {
+  return a + b;
+}
+function sub(a, b) {
+  return a- b;
+}
+// export 关键字暴漏接口
+export {add, sub}
+
+</code></pre>
+
+<p>calculator.js</p>
+
+<pre><code>import {add} from &#39;./math&#39;;
+
+class Calculator {
+  constructor(container) {}
+  compute(){
+    this.result.textContent = add(+this.left.value, +this.right.value);
+  }
+}
+export{Calculator}
+
+</code></pre>
+
+<p><strong>优点</strong></p>
+
+<ul>
+<li>真正的规范未来标准</li>
+<li>语言基本支持</li>
+<li>适用于所有的 JavaScript 允许环境</li>
+<li>可用于处理循环依赖</li>
+</ul>
+
+<p><strong>缺点</strong></p>
+
+<ul>
+<li>规范未达到稳定级别</li>
+<li>暂无浏览器支持</li>
+</ul>
+
+<h4 id="toc_12">SystemJS</h4>
+
+<p>SystemJS 是一个动态模块加载器，下面是它的一下特性：</p>
+
+<ul>
+<li>支持加载 AMD</li>
+<li>支持加载 CommonJS</li>
+<li>支持加载 ES6</li>
+<li>支持加载 Transpiler 也可支持任意类型资源</li>
+</ul>
+
+<h4 id="toc_13">模块管理的对比</h4>
+
+<ul>
+<li>IIFE，没有解决核心的依赖分析和注入的问题。</li>
+<li>AMD，可以直接使用，库基本的支持。</li>
+<li>CommonJS，可以直接使用，在运行时的支持。</li>
+<li>ES6，语言本身的支持。</li>
+</ul>
+
+<p>使用插件工具，可以将后三种模块管理系统进行相互转换。</p>
+
+<h3 id="toc_14">框架</h3>
+
+<p>NOTE：以下讨论都是基于 JavaScript 的框架。</p>
+
+<h4 id="toc_15">库（Library）与框架（Framework）的区别</h4>
+
+<p><img src="media/15040127013389/tech_lib_and_frame.png" alt=""/></p>
+
+<p><strong>库</strong> 为针对特定问题的解答具有专业性，不控制应用的流程且被动调用。<br/>
+<strong>框架</strong> 具有<em>控制翻转</em>，决定应用的生命周期，于是便集成了大量的库。</p>
+
+<h4 id="toc_16">解决方案</h4>
+
+<p>常见的解决方案针对的方面：</p>
+
+<ul>
+<li>DOM</li>
+<li>Communication</li>
+<li>Utility</li>
+<li>Templating</li>
+<li>Component</li>
+<li>Routing（单页系统中尤其重要）</li>
+<li>Architecture</li>
+</ul>
+
+<p><strong>使用外部专业解决方案的原因</strong> 可以提高开发效率，可靠性高（浏览器兼容，测试覆盖），也配备优良的配套（文档及工具）。如果外部框架的质量可可靠性无法保证或无法满足业务学期时则不应该选择外部的框架。</p>
+
+<p><strong>实际项目中的使用</strong></p>
+
+<ul>
+<li>开发式：基于外部模块系统自由组合</li>
+<li>半开放：基于一个定制的模块系统，内部外部解决方案共存</li>
+<li>封闭式：深度定制的模块系统不引入外部模块</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[vue插件开发步骤详述]]></title>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  npm 私有仓库配置过程 - 大辉-wjh4dev
+  GitHub 一些实际操作 - 大辉-wjh4dev
   
   </title>
   
@@ -111,14 +111,14 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>npm 私有仓库配置过程</h1>
+          <h1>GitHub 一些实际操作</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2017/7/30</span>
+          <span class="date">2017/8/31</span>
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='Npm.html'>Npm</a></span>
+              <span class="posted-in"><a href='git.html'>git</a></span>
            
          
           <span class="comments">
@@ -132,130 +132,18 @@
 
       <div class="article-content">
       <blockquote>
-<p>在开发过程中有时候我们需要开发自己的node package，但是由于是我们自己使用的包，不希望发布到<code>npmjs.org</code>公共库上去，于是就需要一个私有的仓库，推荐nexus，因为当初写java也是用nexus管理jar包的。<br/>
-接下来就介绍如何配置nexus npm仓库。 </p>
+<p>记一次开源文档翻译经历</p>
 </blockquote>
 
-<span id="more"></span><!-- more -->
+<h3 id="toc_0">fork</h3>
 
-<h3 id="toc_0">一、nexus安装</h3>
+<h3 id="toc_1">clone</h3>
 
-<p>此处省略几百字...<br/>
-说几句题外话：对于一个开发人员，linux命令行模式还是必须要掌握的，安装软件，查看日志，都是必须的。因为你离不开它。就像写代码必须要电脑一样，这个年代你不可能在纸上写代码去执行。<br/>
-尤其近几年：前端使用的 Bower 管理器、Node 环境以及自动化测试、版本控制等都离不开 Linux 命令行的设计思想。所以<strong>linux命令、node命令、npm命令</strong>都需要掌握。</p>
+<h3 id="toc_2">push</h3>
 
-<h3 id="toc_1">二、nexus仓库配置</h3>
+<h3 id="toc_3">pull request</h3>
 
-<p>在nexus新建npm仓库：<code>Repositories &gt; create repository</code> 说明一下npm仓库有三种：</p>
-
-<pre><code>proxy：代理仓库（我们需要用到公网的包，从这个代理走）
-hosted：私有仓库（这就是你本地的仓库）
-group：仓库组（每个组里要包含 proxy 和 hosted ）
-</code></pre>
-
-<ol>
-<li><p>分别创建三种库：</p>
-
-<ul>
-<li><p>创建proxy仓库：<br/>
-填写require的地方；<br/>
-<img src="media/15014123618753/15015741997799.jpg" alt="" style="width:688px;"/><br/>
-完成之后就是如下的样子：<br/>
-<img src="media/15014123618753/15015744921908.jpg" alt="" style="width:646px;"/></p></li>
-<li><p>创建hosted仓库：<br/>
-同样填写required内容（就是你的仓库名称）<br/>
-<img src="media/15014123618753/15015746270890.jpg" alt=""/><br/>
-保存成功之后如下：（注意Deployment 要设置为：Allow redeploy，否则后续发布npm包，会失败）<br/>
-<img src="media/15014123618753/15015745874238.jpg" alt="" style="width:657px;"/></p></li>
-<li><p>创建Group组 （这个group组其实就是将上面两个组合到一块）<br/>
-注意填写仓库名称，将之前建立好的proxy和hosted添加到此group中<br/>
-<img src="media/15014123618753/15015749248742.jpg" alt="" style="width:675px;"/><br/>
-成功之后如下图：（我们最后要在本地使用的也就是下面标红这个仓库地址）<br/>
-<img src="media/15014123618753/15015749770106.jpg" alt="" style="width:658px;"/></p></li>
-</ul></li>
-</ol>
-
-<p>npm仓库配置完成之后，需要验证一下仓库可是使用。我们使用另一篇文章<a href="15006205842047.html">node包开发、发布流程</a>的例子试验一下。</p>
-
-<h3 id="toc_2">三、npm私服的使用</h3>
-
-<p>⚠️ 以下的仓库IP地址我都用yourIp替换了，需要替换成你自己的仓库IP地址。</p>
-
-<h4 id="toc_3">3.1 配置本地仓库地址</h4>
-
-<p>地址：<code>--registry=http://yourIp:port/repository/shfb-node-all/</code></p>
-
-<pre><code class="language-bash">$ &gt; npm config set registry http://yourIp:port/repository/shfb-node-all/
-
-$ &gt; npm adduser --registry=http://yourIp:port/repository/shfb-node-repo/
-Username: wangjh
-Password:
-Email: (this IS public) wangjh@bjshfb.com
-Logged in as wangjh on http://yourIp:port/repository/shfb-node-repo/.
-</code></pre>
-
-<h4 id="toc_4">3.2 使用本地仓库地址登录</h4>
-
-<pre><code class="language-bash">$ npm login
-Username: wangjh
-Password:
-Email:(this IS public) wangjh@bjshfb.com
-Logged in as wangjh on http://yourIp:port/repository/shfb-node-all/
-</code></pre>
-
-<p><img src="media/15014123618753/15015970250581.jpg" alt="" style="width:633px;"/></p>
-
-<h4 id="toc_5">3.3 publish注意</h4>
-
-<p>需要使用hosted地址发布：<br/>
-<code>http://yourIp:port/repository/shfb-node-repo/</code></p>
-
-<pre><code class="language-bash">$ npm publish --registry=http://yourIp:port/repository/shfb-node-repo/
-</code></pre>
-
-<p>结果如图：<br/>
-<img src="media/15014123618753/15015978199744.jpg" alt="" style="width:646px;"/></p>
-
-<p>于npm私服仓库查询发布npm包<br/>
-<img src="media/15014123618753/15015980573106.jpg" alt="" style="width:849px;"/></p>
-
-<h4 id="toc_6">3.4 发布成功如何使用？</h4>
-
-<p>新建项目直接使用<code>npm install</code>即可安装<code>learnNpm</code>包，前提是你的<code>registry</code>要指向我们的私服仓库。</p>
-
-<p>（全文完）</p>
-
-<h3 id="toc_7">目录</h3>
-
-<ul>
-<li>
-<a href="#toc_0">一、nexus安装</a>
-</li>
-<li>
-<a href="#toc_1">二、nexus仓库配置</a>
-</li>
-<li>
-<a href="#toc_2">三、npm私服的使用</a>
-<ul>
-<li>
-<a href="#toc_3">3.1 配置本地仓库地址</a>
-</li>
-<li>
-<a href="#toc_4">3.2 使用本地仓库地址登录</a>
-</li>
-<li>
-<a href="#toc_5">3.3 publish注意</a>
-</li>
-<li>
-<a href="#toc_6">3.4 发布成功如何使用？</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_7">目录</a>
-</li>
-</ul>
-
+<h3 id="toc_4">开源精神</h3>
 
 
     
@@ -266,16 +154,16 @@ Logged in as wangjh on http://yourIp:port/repository/shfb-node-all/
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="15014119322439.html" 
-          title="Previous Post: node包详细开发过程">&laquo; node包详细开发过程</a>
+          <a href="15044478743090.html" 
+          title="Previous Post: vue & vuex 开发套路总结（各种姿势、写法）">&laquo; vue & vuex 开发套路总结（各种姿势、写法）</a>
       
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="15015937003199.html" 
-          title="Next Post: NPM 模块管理器">NPM 模块管理器 &raquo;</a>
+          <a  href="15040127013389.html" 
+          title="Next Post: javaScript模块化讲解">javaScript模块化讲解 &raquo;</a>
       
       </p>
         </div>
