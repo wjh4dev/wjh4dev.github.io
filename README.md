@@ -15,14 +15,20 @@
 3. “XX工程师”要有工程化的思想；
 
 ## 知识分类
-【客户端】
-    1.1 浏览器
-    1.2 HTML
-    1.3 CSS
-    1.4 Javascript
-    
+【客户端】    
+1. 浏览器
+2. Javascript
+3. HTML
+4. CSS  
+  
 【服务端】
-    2.1 Linux
-    2.2 nginx
-    2.3 Nodejs
-    2.4 MySQL
+1. Linux
+2. nginx
+3. Nodejs
+4. MySQL
+
+【操作系统】
+1. Mac
+2. Windows
+3. iOS
+4. Android
