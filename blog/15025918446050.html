@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  vue & vuex 开发套路总结（各种姿势、写法） - 大辉-wjh4dev
+  vue插件开发步骤详述 - 大辉-wjh4dev
   
   </title>
   
@@ -88,7 +88,7 @@
         
             <li><a href="Tools.html">Tools</a></li>
         
-            <li><a href="%E6%84%8F%E8%AF%86.html">意识</a></li>
+            <li><a href="意识.html">意识</a></li>
          
 
       </ul>
@@ -111,14 +111,16 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>vue & vuex 开发套路总结（各种姿势、写法）</h1>
+          <h1>vue插件开发步骤详述</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2017/9/3</span>
+          <span class="date">2017/8/11</span>
 
           <span>posted in&nbsp;</span> 
           
               <span class="posted-in"><a href='Vue.html'>Vue</a></span>
+          
+              <span class="posted-in"><a href='Npm.html'>Npm</a></span>
            
          
           <span class="comments">
@@ -131,188 +133,285 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <p>开发vue有半年多，重复性码代码，感觉这不是我要的，刨根问底一向是我的习惯，所以今天就在写法上给大家刨一下vue，一来深度学习vue的各种用法，二来对于理解她的高级特性也很有帮助，再来给大家分享我的总结，希望大家能从我这里感悟点滴，那便值得。</p>
+      <span id="more"></span><!-- more -->
 
-<p>这里假设你已有 HTML、CSS 和 JavaScript 中级前端知识，并且了解 Vue.js 的一种或几种写法，并对单文件组件有一定了解，我这里主要做一些总结，如果有什么不妥之处可提出异议，共同探讨。</p>
+<h3 id="toc_0">一、关于vue插件</h3>
 
-<p>文中使用的示例代码均按照“单文件组件”方式编写。其中介绍的内容更多是关于javascript的写法。至于 template 和 style 不是本次介绍的重点。</p>
+<p>对于vue插件，官网有介绍：<a href="https://cn.vuejs.org/v2/guide/plugins.html#%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6">vue插件开发</a></p>
 
-<p>本文可能会存在一些初学者不了解的知识点，或者名词，我会把我认为初学者有必要深究的名词在文末列出，供深度学习。</p>
+<p>插件的导入形式有以下几种：</p>
 
-<span id="more"></span><!-- more -->
+<pre><code class="language-js">// ES6
+import shfbVueMenu from &#39;shfb-vue-menu&#39;;
 
-<h3 id="toc_0">一、vue、vuex 简单介绍</h3>
+// 通过require 导入
+var ShfbVueMenu = require(&#39;shfbVueMenu&#39;);
 
-<ol>
-<li><p><a href="https://cn.vuejs.org/v2/guide/index.html">vue是什么？</a> </p>
+// 通过use挂载
+Vue.use(shfbVueMenu);
 
-<p>官方是这么说的：</p>
-
-<blockquote>
-<p>Vue.js 是一套构建用户界面的渐进式框架。Vue采用自底向上增量开发的设计。Vue的核心库只关注试图层。</p>
-</blockquote>
-
-<p>在外界是这么理解他的：</p>
-
-<blockquote>
-<p>轻量的 MVVM 框架（MVVM是Model-View-ViewModel的简写）。</p>
-</blockquote>
-
-<p>至于什么是 MVVM⚠️ 这个留待后续分享。</p></li>
-<li><p><a href="https://vuex.vuejs.org/zh-cn/intro.html">vuex是什么？</a> </p>
-
-<blockquote>
-<p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
-</blockquote></li>
-</ol>
-
-<p>介绍完今天上场的队员，那就直接开始操练了。</p>
-
-<h3 id="toc_1">二、vue 相关写法</h3>
-
-<p>对于vue来说通过数据驱动页面渲染是他的核心特性，要了解这些特性就需要对一些概念进行说明。</p>
-
-<p>先来看一个基础的单文件组件（⚠️示例只包含JS部分）：</p>
-
-<pre><code class="language-javascript">export default {
-  // 数据相关属性，顺序按照调用逻辑排序
-  props:[],         // 接收父组件属性
-  data () {         // 本组件数据区
-    return {}
-  },
-  computed: {},     // 计算属性
-  watch: {},        // 监控观察属性变化
-  methods: {},      // 方法函数区
-    
-  // 生命周期相关钩子函数
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  activated() {},
-  deactivated() {},
-  beforeDestroy() {},
-  destroyed() {}
-}
+// 或者直接导入js文件
+&lt;script src=&quot;./dist/shfb-vue-menu.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 
-<p>来一张生命周期图，我个人一般了解一个新知识都会希望能得到一张类似于此的整体性的结构示意图，清晰、明了，一目了然。<br/>
-<img src="media/15044478743090/15046214199582.jpg" alt="" style="width:600px;"/></p>
+<h3 id="toc_1">二、vue插件规范</h3>
 
-<blockquote>
-<p>上面图中那句英文的意思：如果使用构建步骤，模板编译将提前执行，例如：单文件组件。</p>
-</blockquote>
+<p>vue插件需要一个公开的install方法，里面包含我们需要的插件代码。<br/>
+共有两个参数第一个是Vue的构造器，第二个是一个可选option对象。</p>
 
-<p>了解了完整组件之后，可详细的研究一下各种属性、函数的写法。</p>
+<pre><code class="language-js">import shfbVueMenu from &quot;./shfb-vue-menu.vue&quot;
+const shfbvuemenu = {
+  install(Vue, options) {
+    Vue.component(shfbVueMenu.name, shfbVueMenu)
+    // shfbVueMenu 组件的name属性
+    // 类似通过 this.$xxx 方式调用插件的 其实只是挂载到原型上而已
+    // Vue.prototype.$xxx  // 最终可以在任何地方通过 this.$xxx 调用
+    // 虽然没有明确规定用$开头  但是大家都默认遵守这个规定
+  }
+};
+</code></pre>
 
-<h4 id="toc_2">2.1 核心概念-数据相关</h4>
+<p>这样开发完的组件就可以使用如下代码使用：</p>
 
-<p>接下来，分别讲解：data、computed、watch的写法；<br/>
-有人说不是还有props、methods吗？因为他们两个写法单一，不做特别说明。</p>
+<pre><code class="language-js">import shfbVueMenu from &#39;shfb-vue-menu&#39;
+Vue.use(shfbVueMenu);
+</code></pre>
 
-<blockquote>
+<p>前提你需要：<code>npm install -S shfb-vue-menu</code></p>
+
+<h3 id="toc_2">三、开发过程</h3>
+
+<h4 id="toc_3">3.1 开发环境搭建</h4>
+
+<p>使用vue脚手架，创建webpack-simple项目（不要用webpack，配置太复杂不需要）</p>
+
+<pre><code class="language-bash">$ vue init webpack-simple shfb-vue-menu
+$ cd shfb-vue-menu
+$ npm install -dd
+$ npm run dev
+</code></pre>
+
+<p>工程目录如下：</p>
+
+<pre><code class="language-text">./
+├── README.md
+├── dist                    // 打包发布的文件
+│   ├── shfb-vue-menu.js
+│   └── shfb-vue-menu.js.map
+├── index.html                
+├── package-lock.json
+├── package.json
+├── src                     
+│   ├── App.vue
+│   ├── lib                 // 源码，也是主要编写代码的地方
+│   │    ├── index.js
+│   │    └── shfb-vue-menu.vue
+│   └── main.js
+├── tree.txt
+└── webpack.config.js
+</code></pre>
+
+<p>我们为了看到开发过程中的效果，就创建了整个vue工程；其实开发只有lib内的文件就可以了。<br/>
+<br></p>
+
+<h4 id="toc_4">3.2 业务代码编写</h4>
+
+<p>本次插件主要是讲解vue插件开发示例，所以业务代码比较简单，只有一个顶部导航菜单，而且是简单的。<br></p>
+
+<p><code>shfb-vue-menu.vue</code> <code>&lt;script&gt;</code>代码如下：</p>
+
+<pre><code class="language-js">export default {
+    // name 必须的
+    name: &#39;shfb-vue-menu&#39;,
+    // 接受外部传入 菜单title、以及菜单列表
+    props: [&#39;title&#39;, &#39;menuList&#39;],
+    data () {
+      return {}
+    },
+    created () {
+        // Todo: 后续自己查询菜单列表，不接受外部传入
+    },
+    methods: {
+      clickMenu(item){
+        console.log(item);
+      }
+    }
+  }
+</code></pre>
+
+<p>开发过程中需要时刻查看效果：<br/>
+<code>App.vue</code> 中如此使用：</p>
+
+<pre><code class="language-html">  &lt;div id=&quot;app&quot;&gt;
+    &lt;shfb-vue-menu title=&quot;四海棚改服务平台&quot; :menuList=&quot;menuList&quot;&gt;&lt;/shfb-vue-menu&gt;
+  &lt;/div&gt;
+</code></pre>
+
+<pre><code class="language-js">export default {
+    name: &#39;app&#39;,
+    data () {
+      return {
+        menuList: [
+          {itemName: &quot;信息登记&quot;, itemUrl: &quot;http://test.bjshfb.com:3002&quot;, itemActive: &#39;&#39;},
+          {itemName: &quot;居民签约&quot;, itemUrl: &quot;http://test.bjshfb.com:3003&quot;, itemActive: &#39;active&#39;},
+          {itemName: &quot;居民选房&quot;, itemUrl: &quot;http://test.bjshfb.com:3004&quot;, itemActive: &#39;&#39;},
+          {itemName: &quot;数据分析&quot;, itemUrl: &quot;http://test.bjshfb.com:3005&quot;, itemActive: &#39;&#39;},
+          {itemName: &quot;系统管理&quot;, itemUrl: &quot;http://test.bjshfb.com:3006&quot;, itemActive: &#39;&#39;}
+        ]
+      }
+    }
+  }
+</code></pre>
+
+<h4 id="toc_5">3.3 查看开发效果</h4>
+
+<p><img src="media/15025918446050/15025936675385.jpg" alt="" style="width:527px;"/><br/>
+至此一个简单的插件就开发完成了。但是你以为这样就可以使用了吗？NO，你需要打包发布</p>
+
+<h4 id="toc_6">3.4 发包准备工作</h4>
+
+<h5 id="toc_7">3.4.1 webpack.config.js配置调整</h5>
+
+<p><img src="media/15025918446050/15026017073126.jpg" alt="" style="width:587px;"/></p>
+
+<h5 id="toc_8">3.4.2 package.json配置调整</h5>
+
+<p><img src="media/15025918446050/15026016417208.jpg" alt="" style="width:718px;"/></p>
+
+<h5 id="toc_9">3.4.3 npm 配置调整</h5>
+
+<p><img src="media/15025918446050/15026017892518.jpg" alt="" style="width:696px;"/></p>
+
+<h5 id="toc_10">3.4.4 编写 README.md 说明</h5>
+
+<p><img src="media/15025918446050/15026031786411.jpg" alt="" style="width:795px;"/><br/>
+⚠️建议都去学习了解一下markdown语法。写文档需要。现在哪哪都是markdown</p>
+
+<h4 id="toc_11">3.5 发布包，持续优化</h4>
+
+<p>发包的过程我们之前已经在其他文章中说过，这里只贴一下过程即可；不清楚的可以翻看之前文章。</p>
+
+<h5 id="toc_12">3.5.1 登录私服仓库</h5>
+
+<p><img src="media/15025918446050/15026045993279.jpg" alt="" style="width:698px;"/></p>
+
+<h5 id="toc_13">3.5.2 发布包</h5>
+
+<p><img src="media/15025918446050/15026046363762.jpg" alt="" style="width:749px;"/></p>
+
+<h5 id="toc_14">3.5.3 查看是否发布成功</h5>
+
+<p>查看是否成功可以有很多形式，<br/>
+1. npm info xxx // 可以查看包信息<br/>
+2. 直接查看仓库。 仓库中已有，OK。<br/>
+<img src="media/15025918446050/15026047401242.jpg" alt="" style="width:754px;"/></p>
+
+<h3 id="toc_15">四、如何使用</h3>
+
+<p>其实上面已经有介绍，在新项目中使用插件：</p>
+
+<h4 id="toc_16">4.1 安装插件</h4>
+
+<p><code>npm install -S shfb-vue-menu</code></p>
+
+<h4 id="toc_17">4.2 引入插件</h4>
+
+<pre><code class="language-js">// 在main.js 中引入组件
+import shfbVueMenu from &#39;shfb-vue-menu&#39;
+Vue.use(shfbVueMenu);
+</code></pre>
+
+<h4 id="toc_18">4.3 页面直接使用组件标签即可</h4>
+
+<pre><code class="language-html">&lt;shfb-vue-menu title=&quot;四海棚改服务平台&quot; :menuList=&quot;menuList&quot;&gt;&lt;/shfb-vue-menu&gt;
+</code></pre>
+
+<p>可传递参数见上方属性说明</p>
+
+<h4 id="toc_19">4.4 引入插件的效果：</h4>
+
+<p>shfb-vue-menu安装使用效果：<br/>
+<img src="media/15025918446050/15025937125647.jpg" alt="" style="width:527px;"/></p>
+
+<h3 id="toc_20">总结</h3>
+
+<p>OK，至此这就是开发一个vue插件的全部过程，以及顺带又重新讲解了一下，发包的过程。<br/>
+今天就到这里。</p>
+
 <ul>
-<li><p>props：可以是数组或对象，用于接收来自父组件的数据。props 可以是简单的数组，或者使用对象作为替代，对象允许配置高级选项，如类型检测、自定义校验和设置默认值。</p></li>
-<li><p>methods： 将被混入到 Vue 实例中。可以直接通过 VM 实例访问这些方法，或者在指令表达式中使用。方法中的 this 自动绑定为 Vue 实例。<br/>
-⚠️不可以使用ES6的箭头函数。理由和data不可以使用箭头函数一样，我们接下来就讲。</p></li>
+<li>
+<a href="#toc_0">一、关于vue插件</a>
+</li>
+<li>
+<a href="#toc_1">二、vue插件规范</a>
+</li>
+<li>
+<a href="#toc_2">三、开发过程</a>
+<ul>
+<li>
+<a href="#toc_3">3.1 开发环境搭建</a>
+</li>
+<li>
+<a href="#toc_4">3.2 业务代码编写</a>
+</li>
+<li>
+<a href="#toc_5">3.3 查看开发效果</a>
+</li>
+<li>
+<a href="#toc_6">3.4 发包准备工作</a>
+<ul>
+<li>
+<a href="#toc_7">3.4.1 webpack.config.js配置调整</a>
+</li>
+<li>
+<a href="#toc_8">3.4.2 package.json配置调整</a>
+</li>
+<li>
+<a href="#toc_9">3.4.3 npm 配置调整</a>
+</li>
+<li>
+<a href="#toc_10">3.4.4 编写 README.md 说明</a>
+</li>
 </ul>
-</blockquote>
+</li>
+<li>
+<a href="#toc_11">3.5 发布包，持续优化</a>
+<ul>
+<li>
+<a href="#toc_12">3.5.1 登录私服仓库</a>
+</li>
+<li>
+<a href="#toc_13">3.5.2 发布包</a>
+</li>
+<li>
+<a href="#toc_14">3.5.3 查看是否发布成功</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_15">四、如何使用</a>
+<ul>
+<li>
+<a href="#toc_16">4.1 安装插件</a>
+</li>
+<li>
+<a href="#toc_17">4.2 引入插件</a>
+</li>
+<li>
+<a href="#toc_18">4.3 页面直接使用组件标签即可</a>
+</li>
+<li>
+<a href="#toc_19">4.4 引入插件的效果：</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_20">总结</a>
+</li>
+</ul>
 
-<h5 id="toc_3">2.1.1 data</h5>
-
-<p>data：官方推荐写法如下：</p>
-
-<pre><code class="language-js"> data () {
-    return {
-        // 这里必须设置纯粹的对象（含有零个或多个的key/value对）
-    }
- }
-</code></pre>
-
-<blockquote>
-<p>问： 为什么不直接返回对象，而要用函数呢？<br/>
-答： data 必须声明为返回一个初始数据对象的函数，因为组件可能被用来创建多个实例。如果 data 仍然是一个纯粹的对象，则所有的实例将<strong>共享引用同一个数据对象</strong>！通过提供 data 函数，每次创建一个新实例后，我们能够调用 data 函数，从而返回初始数据的一个全新副本数据对象。</p>
-
-<p>问：这里的data函数可以使用ES6的箭头函数吗？<br/>
-答：不可以。理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例</p>
-</blockquote>
-
-<p>‼️ 说直白点就是js对象如果直接赋值会存在<strong>对象引用</strong>⚠️，给你的组件使用造成不必要的困扰，所以你需要拷贝一个新对象（这里的拷贝而且是<strong>深拷贝</strong>⚠️）而不是使用原有对象的引用。</p>
-
-<h5 id="toc_4">2.1.2 computed</h5>
-
-<p>写法有如下几种：</p>
-
-<pre><code class="language-js">data () {
-    return {
-        firstName: &quot;Wang&quot;,
-        lastName: &quot;Jianhui&quot;,
-        workDays: 5
-    }
-}
-computed: {
-    // 第一种：仅读取，值只须为函数
-    fullName () {
-        return this.firstName + &quot; &quot; + this.lastName
-    }
-    // 第二种：可读取和设置新值
-    overTime: {
-        get () {
-            return this.workDays - 5
-        },
-        set (d) {
-            this.workDays += d
-        }
-    }
-}
-...
-// 我们在使用以上属性的时候，就会得到以下结果：
-this.fullName   // =&gt; Wang Jianhui
-this.overTime   // =&gt; 0
-this.overTime = 1
-this.overTime   // =&gt; 1
-this.workDays   // =&gt; 6
-</code></pre>
-
-<p>此时，有人就会说了我用你这个计算属性算，还不如直接写个 methods 来的痛快，毕竟我们前端er写 methods 已经习惯了。</p>
-
-<blockquote>
-<p>我们可以将同一函数定义为一个 method 而不是一个计算属性。对于最终的结果，两种方式确实是相同的。然而，<strong>不同的是计算属性是基于它们的依赖进行缓存的</strong>。计算属性只有在它的相关依赖发生改变时才会重新求值。</p>
-</blockquote>
-
-<p>还有人说，你这个计算属性的函数写法和官网的不一样啊</p>
-
-<p>‼️⚠️js函数的写法之多，当我看到全部写法之后，就是这个表情👉😮</p>
-
-<p>这里给大家插入一个额外的话题，js函数的写法：</p>
-
-<hr/>
-
-<p>------------------强势插入--知识点---分割线--------------------<br/>
-这里就要给大家科普一下js的各种你见过没见过的写法了：<br/>
-本来这里的内容是要另起一篇讲的，由于内容太多这里就简单看个图就可以了，待再开一篇详细说明一下，各种写法的来源。<br/>
-<img src="media/15044478743090/15048056649887.jpg" alt="" style="width:627px;"/><br/>
----------------强势插入-----结束------------------</p>
-
-<hr/>
-
-<p>计算属性的用法，在后面与 methods 和 watch 的对比中，你或许还会得到一些启发。</p>
-
-<h5 id="toc_5">2.1.3 watch</h5>
-
-<h4 id="toc_6">2.2 computed vs methods vs watch 对比</h4>
-
-<h3 id="toc_7">三、vuex 相关写法</h3>
-
-<h3 id="toc_8">四、vue 结合 vuex</h3>
-
-<h3 id="toc_9">五、⚠️名词解释</h3>
-
-<p>MVVM：<br/>
-深拷贝：<br/>
-对象的引用：</p>
 
 
     
@@ -323,16 +422,16 @@ this.workDays   // =&gt; 6
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="15048050884744.html" 
-          title="Previous Post: javascript中函数的各种姿势">&laquo; javascript中函数的各种姿势</a>
+          <a href="15040127013389.html" 
+          title="Previous Post: javaScript模块化讲解">&laquo; javaScript模块化讲解</a>
       
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="15041787343491.html" 
-          title="Next Post: GitHub 一些实际操作">GitHub 一些实际操作 &raquo;</a>
+          <a  href="15006205842047.html" 
+          title="Next Post: node包开发、发布流程">node包开发、发布流程 &raquo;</a>
       
       </p>
         </div>
@@ -398,7 +497,7 @@ this.workDays   // =&gt; 6
         
             <a href="Tools.html"><strong>Tools</strong></a>
         
-            <a href="%E6%84%8F%E8%AF%86.html"><strong>意识</strong></a>
+            <a href="意识.html"><strong>意识</strong></a>
          
         </p>
 
