@@ -1,5 +1,5 @@
-# [大辉 - Blog](https://wjh4dev.github.io/blog)
-> 访问地址：[https://wjh4dev.github.io/blog](https://wjh4dev.github.io/blog)
+# [大辉 - Blog](https://wjh4dev.github.io)
+> 访问地址：[https://wjh4dev.github.io](https://wjh4dev.github.io)
 
 记录开发过程中的曾经填过的各种坑，或者前人碰到的坑。
 趟坑最快的方式：
