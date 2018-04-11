@@ -1,0 +1,488 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  React Native之webview 与 vue单页通信 - 大辉-wjh4dev
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="大辉-wjh4dev" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:wjh4dev.github.io ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="_self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        <li id=""><a target="_self" href="about.html">About Me</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 大辉-wjh4dev</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="React%20Native.html">React Native</a></li>
+        
+            <li><a href="Vue.html">Vue</a></li>
+        
+            <li><a href="Npm.html">Npm</a></li>
+        
+            <li><a href="JavaScript.html">JavaScript</a></li>
+        
+            <li><a href="Tools.html">Tools</a></li>
+        
+            <li><a href="%E6%84%8F%E8%AF%86.html">意识</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>React Native之webview 与 vue单页通信</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2017/7/18</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='React%20Native.html'>React Native</a></span>
+          
+              <span class="posted-in"><a href='Vue.html'>Vue</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <blockquote>
+<p>由于目前需要在RN开发的webview中引用vue单页应用，但是需要一些交互（比如进入vue单页之后，此时就是完全进入Vue的路由体系中，要返回到RN的界面中就需要与RN进行通信）</p>
+</blockquote>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_0">整理大纲</h3>
+
+<ul>
+<li>
+<a href="#toc_0">整理大纲</a>
+</li>
+<li>
+<a href="#toc_1">安装环境依赖</a>
+</li>
+<li>
+<a href="#toc_2">使用方法</a>
+<ul>
+<li>
+<a href="#toc_3">React Native端</a>
+</li>
+<li>
+<a href="#toc_4">Web端</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3 id="toc_1">安装环境依赖</h3>
+
+<ol>
+<li>需要用到RN‘s webview 与页面通信的插件
+<a href="https://github.com/pinqy520/react-native-webview-invoke">react-native-webview-invoke</a></br>
+具体原理看这里：<a href="http://www.jianshu.com/p/b37ee000379e">关于 React Native 与 WebView 的通信</a></li>
+<li>RN版本：React Native &gt;= 0.37</li>
+<li>安装依赖包</li>
+</ol>
+
+<pre><code>$ npm install react-native-webview-invoke --save
+</code></pre>
+
+<h3 id="toc_2">使用方法</h3>
+
+<p>⭐️两端使用的方法是需要双方约定的。</p>
+
+<ol>
+<li>在RN组件引入<code>react-native-webview-invoke</code>包</li>
+</ol>
+
+<h4 id="toc_3">React Native端</h4>
+
+<pre><code class="language-javascript">import React from &#39;react&#39;;
+import { WebView } from &#39;react-native&#39;
+import createInvoke from &#39;react-native-webview-invoke/native&#39;
+
+export default class 你的组件 extends React.Component {
+  webview = WebView;
+  invoke = createInvoke(() =&gt; this.webview);
+  /**
+   * RN暴露接口，供 webview 页面调用
+   */
+  goBackRN = () =&gt; {
+    this.props.navigator.pop()
+  };
+  /**
+   * 设置返回给页面端的参数，可以接受数组
+   */
+  webGetParam = () =&gt; {
+    let channel = [&#39;rn&#39;];
+    let prjCd = this.props.prjCd;
+    let token = this.props.token;
+    // 返回结果数组[访问来源标志，项目编号，token]
+    return {channel, prjCd, token}
+  };
+
+  componentDidMount() {
+    this.invoke.define(&#39;goBackRN&#39;, this.goBackRN)
+    this.invoke.define(&#39;getParams&#39;, this.webGetParam)
+  }
+
+  render() {
+    return (
+      &lt;WebView ref={w =&gt; this.webview = w}
+               source={{uri: &#39;http://localhost:8080&#39;}}
+               onMessage={this.invoke.listener}
+      /&gt;
+    );
+  }
+}
+</code></pre>
+
+<h4 id="toc_4">Web端</h4>
+
+<p>这里有点需要注意的是，我的web页面是使用vue开发的，直接 <code>npm install</code> 包是没法使用的。<br/>
+所以只能在页面标签引入js：<br/>
+1. 需要引入<br/>
+<code>&lt;script src=&quot;https://tb1.bdstatic.com/tb/libs/rnwi-browser.js&quot;&gt;&lt;/script&gt;</code><br/>
+2. 在根组件<code>&lt;script&gt;</code>中编写调用代码：</p>
+
+<pre><code class="language-javascript">&lt;script&gt;
+     // 在vue组件 created 时，与RN通信获取RN传递参数
+     let invoke = window.WebViewInvoke
+     let getParams = invoke.bind(&#39;getParams&#39;)
+     // 获取RN传递参数
+     getParams().then((data) =&gt; {
+       this.prjCd = data.prjCd[0]
+       this.token = data.token[0]
+       this.channel = data.channel[0]
+     })
+    
+    ...
+    
+     // 获取全局对象，与RN通信，调用返回RN的方法
+     let invoke = window.WebViewInvoke
+     // 已经回到根目录，如果在RN中打开，返回RN界面
+     let goBackRN = invoke.bind(&#39;goBackRN&#39;)
+     goBackRN().then(function () {
+       console.log(&#39;go back to RN&#39;)
+     })
+&lt;/script&gt;
+</code></pre>
+
+<p>以上就是RN与页面通信插件的使用示例。如果还有疑问可查阅插件文档，文档地址开头已给出。</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="15015937003199.html" 
+          title="Previous Post: NPM 模块管理器">&laquo; NPM 模块管理器</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="15004831139883.html" 
+          title="Next Post: React Native 版本升级无法编译">React Native 版本升级无法编译 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          <div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://wjh4dev.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <div class="site-a-logo"><img src="https://en.gravatar.com/userimage/122855956/0ededf7548c0adfa5e75fbeb0a936af7.jpg" /></div>
+            
+                <h1>大辉-wjh4dev</h1>
+                <div class="site-des">努力走向巨人的肩上</div>
+                <div class="social">
+<a target="_blank" class="facebook" href="https://www.facebook.com/langwanghui" title="Facebook">Facebook</a>
+<a target="_blank" class="google" href="https://plus.google.com/u/0/103347543701613004798" rel="author" title="Google+">Google+</a>
+
+
+
+
+
+<a target="_blank" class="weibo" href="http://weibo.com/wangjianhui2464" title="weibo">Weibo</a>
+<a target="_blank" class="twitter" target="_blank" href="https://twitter.com/langwang_hui" title="Twitter">Twitter</a>
+<a target="_blank" class="github" target="_blank" href="https://github.com/wangjianhui2464" title="GitHub">GitHub</a>
+<a target="_blank" class="email" href="mailto:wangjianhui2464@gmail.com" title="Email">Email</a>
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="React%20Native.html"><strong>React Native</strong></a>
+        
+            <a href="Vue.html"><strong>Vue</strong></a>
+        
+            <a href="Npm.html"><strong>Npm</strong></a>
+        
+            <a href="JavaScript.html"><strong>JavaScript</strong></a>
+        
+            <a href="Tools.html"><strong>Tools</strong></a>
+        
+            <a href="%E6%84%8F%E8%AF%86.html"><strong>意识</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="15233569249531.html">GitLab 配置持续集成 runner</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15180793325774.html">CMD vs AMD vs CommonJS 的区别</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15158546952914.html">常用 Git 命令</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15099782269078.html">《觉者》观后感之【生命观】</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15099672927192.html">GET和POST到底有什么区别？</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2a0ad6a92a50be8be88107a12d4c731";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+  </body>
+</html>

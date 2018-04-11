@@ -1,0 +1,468 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  GET和POST到底有什么区别？ - 大辉-wjh4dev
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="大辉-wjh4dev" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:wjh4dev.github.io ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="_self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        <li id=""><a target="_self" href="about.html">About Me</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 大辉-wjh4dev</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="React%20Native.html">React Native</a></li>
+        
+            <li><a href="Vue.html">Vue</a></li>
+        
+            <li><a href="Npm.html">Npm</a></li>
+        
+            <li><a href="JavaScript.html">JavaScript</a></li>
+        
+            <li><a href="Tools.html">Tools</a></li>
+        
+            <li><a href="%E6%84%8F%E8%AF%86.html">意识</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>GET和POST到底有什么区别？</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2017/11/6</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='JavaScript.html'>JavaScript</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <blockquote>
+<p>GET和POST是HTTP请求的两种基本方法，要说它们的区别，接触过WEB开发的人都能说出一二。</p>
+</blockquote>
+
+<p>最直观的区别就是GET把参数包含在URL中，POST通过request body传递参数。</p>
+
+<p>你可能自己写过无数个GET和POST请求，或者已经看过很多权威网站总结出的他们的区别，你非常清楚知道什么时候该用什么。</p>
+
+<p>当你被问到这个问题，你的内心充满了自信和喜悦。</p>
+
+<span id="more"></span><!-- more -->
+
+<p><img src="media/15099672927192/201610116690_465.jpg" alt="" style="width:250px;"/></p>
+
+<h3 id="toc_0">你知道的“标准答案”</h3>
+
+<p>你轻轻松松的给出了一个“标准答案”：</p>
+
+<ol>
+<li>GET在浏览器回退时是无害的，而POST会再次提交请求。 </li>
+<li>GET产生的URL地址可以被Bookmark，而POST不可以。 </li>
+<li>GET请求会被浏览器主动cache，而POST不会，除非手动设置。 </li>
+<li>GET请求只能进行url编码，而POST支持多种编码方式。 </li>
+<li>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。 </li>
+<li>GET请求在URL中传送的参数是有长度限制的，而POST么有。 </li>
+<li>对参数的数据类型，GET只接受ASCII字符，而POST没有限制。 </li>
+<li>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。 </li>
+<li>GET参数通过URL传递，POST放在Request body中。</li>
+</ol>
+
+<p><strong>“很遗憾，这不是我们要的回答!”</strong><br/>
+<img src="media/15099672927192/201610111292_9193.jpg" alt="" style="width:250px;"/></p>
+
+<p>请告诉我真相。。。</p>
+
+<h3 id="toc_1">如果我告诉你GET和POST本质上没有区别你信吗?</h3>
+
+<p>让我们扒下GET和POST的外衣，坦诚相见吧!</p>
+
+<p><img src="media/15099672927192/201610112524_6494.jpg" alt="" style="width:250px;"/></p>
+
+<h3 id="toc_2">敲黑板，划重点</h3>
+
+<ul>
+<li><p>GET和POST是什么？<br/>
+<strong>HTTP协议中的两种发送请求的方法。</strong></p></li>
+<li><p>HTTP是什么？<br/>
+<strong>HTTP是基于TCP/IP的关于数据如何在万维网中如何通信的协议。</strong></p></li>
+<li><p>HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP，也就是说，<strong>GET/POST都是TCP链接。GET和POST能做的事情是一样一样的。</strong> <br/>
+你要给GET加上request body，给POST带上url参数，技术上是完全行的通的。</p></li>
+</ul>
+
+<p>那么，“标准答案”里的那些区别是怎么回事?</p>
+
+<p><img src="media/15099672927192/201610118028_6465.jpg" alt="" style="width:250px;"/></p>
+
+<p>在我大万维网世界中，TCP就像汽车，我们用TCP来运输数据，它很可靠，从来不会发生丢件少件的现象。但是如果路上跑的全是看起来一模一样的汽车，那这个世界看起来是一团混乱，送急件的汽车可能被前面满载货物的汽车拦堵在路上，整个交通系统一定会瘫痪。</p>
+
+<p>为了避免这种情况发生，交通规则HTTP诞生了。</p>
+
+<p>HTTP给汽车运输设定了好几个服务类别，有GET, POST, PUT, DELETE等等，HTTP规定，当执行GET请求的时候，要给汽车贴上GET的标签(设置method为GET)，而且要求把传送的数据放在车顶上(url中)以方便记录。如果是POST请求，就要在车上贴上POST的标签，并把货物放在车厢里。当然，你也可以在GET的时候往车厢内偷偷藏点货物，但是这是很不光彩;也可以在POST的时候在车顶上也放一些数据，让人觉得傻乎乎的。<br/>
+HTTP只是个行为准则，而TCP才是GET和POST怎么实现的基本。</p>
+
+<p>但是，我们只看到HTTP对GET和POST参数的传送渠道(url还是requrest body)提出了要求。“标准答案”里关于参数大小的限制又是从哪来的呢?</p>
+
+<p><img src="media/15099672927192/201610118005_5917.jpg" alt="" style="width:350px;"/></p>
+
+<p>在我大万维网世界中，还有另一个重要的角色：运输公司。<br/>
+不同的浏览器(发起http请求)和服务器(接受http请求)就是不同的运输公司。 虽然理论上，你可以在车顶上无限的堆货物(url中无限加参数)。但是运输公司可不傻，装货和卸货也是有很大成本的，他们会限制单次运输量来控制风险，数据量太大对浏览器和服务器都是很大负担。<strong>业界不成文的规定是，(大多数)浏览器通常都会限制url长度在2K个字节，而(大多数)服务器最多处理64K大小的url。超过的部分，恕不处理。</strong>如果你用GET服务，在request body偷偷藏了数据，不同服务器的处理方式也是不同的，有些服务器会帮你卸货，读出数据，有些服务器直接忽略，所以，虽然GET可以带request body，也不能保证一定能被接收到哦。</p>
+
+<p>好了，现在你知道，GET和POST本质上就是TCP链接，并无差别。但是由于HTTP的规定和浏览器/服务器的限制，导致他们在应用过程中体现出一些不同。</p>
+
+<p>你以为本文就这么结束了?</p>
+
+<p><img src="media/15099672927192/20161011540_9940.jpg" alt="" style="width:250px;"/></p>
+
+<p>我们的大BOSS还等着出场呢。。。</p>
+
+<p>这位BOSS有多神秘?当你试图在网上找“GET和POST的区别”的时候，那些你会看到的搜索结果里，从没有提到他。他究竟是什么呢。。。</p>
+
+<p>GET和POST还有一个重大区别，简单的说：</p>
+
+<h3 id="toc_3">GET POST 深层重大区别</h3>
+
+<p><strong>GET产生一个TCP数据包;POST产生两个TCP数据包。</strong></p>
+
+<p>长的说：</p>
+
+<p>对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200(返回数据);</p>
+
+<p>而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok(返回数据)。</p>
+
+<p>也就是说，GET只需要汽车跑一趟就把货送到了，而POST得跑两趟，第一趟，先去和服务器打个招呼“嗨，我等下要送一批货来，你们打开门迎接我”，然后再回头把货送过去。</p>
+
+<p>因为POST需要两步，时间上消耗的要多一点，看起来GET比POST更有效。因此Yahoo团队有推荐用GET替换POST来优化网站性能。但这是一个坑!跳入需谨慎。为什么?</p>
+
+<ol>
+<li>GET与POST都有自己的语义，不能随便混用。</li>
+<li>据研究，在网络环境好的情况下，发一次包的时间和发两次包的时间差别基本可以无视。而在网络环境差的情况下，两次包的TCP在验证数据包完整性上，有非常大的优点。</li>
+<li>并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次。</li>
+</ol>
+
+<p>现在，当面试官再问你<strong>“GET与POST的区别”</strong>的时候，你的内心是不是这样的?<br/>
+<img src="media/15099672927192/201610116679_2810.jpg" alt="" style="width:250px;"/></p>
+
+<p>（全文完）</p>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+          <a href="15099782269078.html" 
+          title="Previous Post: 《觉者》观后感之【生命观】">&laquo; 《觉者》观后感之【生命观】</a>
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="15060698348348.html" 
+          title="Next Post: React Native 开发环境搭建 基于Mac">React Native 开发环境搭建 基于Mac &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          <div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://wjh4dev.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <div class="site-a-logo"><img src="https://en.gravatar.com/userimage/122855956/0ededf7548c0adfa5e75fbeb0a936af7.jpg" /></div>
+            
+                <h1>大辉-wjh4dev</h1>
+                <div class="site-des">努力走向巨人的肩上</div>
+                <div class="social">
+<a target="_blank" class="facebook" href="https://www.facebook.com/langwanghui" title="Facebook">Facebook</a>
+<a target="_blank" class="google" href="https://plus.google.com/u/0/103347543701613004798" rel="author" title="Google+">Google+</a>
+
+
+
+
+
+<a target="_blank" class="weibo" href="http://weibo.com/wangjianhui2464" title="weibo">Weibo</a>
+<a target="_blank" class="twitter" target="_blank" href="https://twitter.com/langwang_hui" title="Twitter">Twitter</a>
+<a target="_blank" class="github" target="_blank" href="https://github.com/wangjianhui2464" title="GitHub">GitHub</a>
+<a target="_blank" class="email" href="mailto:wangjianhui2464@gmail.com" title="Email">Email</a>
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="React%20Native.html"><strong>React Native</strong></a>
+        
+            <a href="Vue.html"><strong>Vue</strong></a>
+        
+            <a href="Npm.html"><strong>Npm</strong></a>
+        
+            <a href="JavaScript.html"><strong>JavaScript</strong></a>
+        
+            <a href="Tools.html"><strong>Tools</strong></a>
+        
+            <a href="%E6%84%8F%E8%AF%86.html"><strong>意识</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="15233569249531.html">GitLab 配置持续集成 runner</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15180793325774.html">CMD vs AMD vs CommonJS 的区别</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15158546952914.html">常用 Git 命令</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15099782269078.html">《觉者》观后感之【生命观】</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15099672927192.html">GET和POST到底有什么区别？</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2a0ad6a92a50be8be88107a12d4c731";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+  </body>
+</html>

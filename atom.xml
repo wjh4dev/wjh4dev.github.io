@@ -1,0 +1,3323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[大辉-wjh4dev]]></title>
+  <link href="wjh4dev.github.io/atom.xml" rel="self"/>
+  <link href="wjh4dev.github.io/"/>
+  <updated>2018-04-11T23:12:19+08:00</updated>
+  <id>wjh4dev.github.io/</id>
+  <author>
+    <name><![CDATA[]]></name>
+    
+  </author>
+  <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[GitLab 配置持续集成 runner]]></title>
+    <link href="wjh4dev.github.io/15233569249531.html"/>
+    <updated>2018-04-10T18:42:04+08:00</updated>
+    <id>wjh4dev.github.io/15233569249531.html</id>
+    <content type="html"><![CDATA[
+<p>最近组内在编写 react 组件库，涉及到多人协作问题，多人协作肯定会碰到版本管理、代码持续集成等问题；在现在这个大环境下代码版本管理第一解决方案肯定是 git，代码持续集成大家肯定会想到 Jenkins。鉴于公司内部使用自建 gitlab 管理代码，其实 GitLab 中也有持续集成的功能，下面我们就重点说说使用 GitLab 进行持续集成（CI）的方法。</p>
+
+<span id="more"></span><!-- more -->
+
+<h2 id="toc_0">1. GitLab runner</h2>
+
+<blockquote>
+<p>本次实践基于：GitLab Community Edition 10.1.2；<br/>
+系统基于：windows7 x64企业版。</p>
+</blockquote>
+
+<h3 id="toc_1">1.1、什么是 runner？</h3>
+
+<p>runner 可以运行你的作业，并将运行结果返回给 GitLab 的工具，通常配合 Gitlab 持续集成使用。<br/>
+更多内容可以参考官网解释：<a href="https://docs.gitlab.com/runner/">GitLab Runner</a></p>
+
+<h3 id="toc_2">1.2、runner 安装配置</h3>
+
+<blockquote>
+<p>前提：你的机器上有基本的开发环境；git、.net framework4.0 等运行环境。鉴于前端开发有些 node 包经常要依赖 .net framework 所以直接安装一次 vs 是最省事的，将所有 .net framework 环境安装好。</p>
+</blockquote>
+
+<ol>
+<li>创建文件夹：<code>D:\GitLab-Runner</code>，并下载 <a href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-amd64.exe">gitlab-runner 安装程序</a> 放置于当前目录下。（<strong>下载程序必须改名为：<code>gitlab-runner</code></strong>）</li>
+<li>以<strong>管理员</strong>运行<strong>git-bash 或者 cmd 或者 powershell</strong> 等命令行工具。进入 <code>D:\GitLab-Runner</code> 目录下，下一步开始注册 Runners。</li>
+<li>注册 Runners</li>
+<li>查看 windows 服务中是否有 gitlab-runner 服务，如果有就启动，没有在命令行，继续执行：<code>./gitlab-runner.exe install</code> 即可安装服务，再次查看并启动。</li>
+<li>修改配置文件 <code>D:\GitLab-Runner\config.toml</code> 在其中 <code>[[runner]]</code> 下增加 <code>shell=&#39;powershell&#39;</code>。</li>
+</ol>
+
+<p>到此你的 gitlab-runner 就算安装成功了，在你的 gitlab 项目中查看，就会发现，已经有 activated 的 Runners 在运行了。</p>
+
+<h3 id="toc_3">1.3、runner 使用</h3>
+
+<p>使用需要在你的项目中增加配置文件：<code>.gitlab-ci.yml</code>。<br/>
+内容中执行的脚本是自己编写的。</p>
+
+<pre><code>stages:
+  - prepare
+  - eslint
+  - test
+  - deploy
+
+cache:
+  key: $CI_COMMIT_SHA
+  untracked: true
+
+prepare:
+  stage: prepare
+  script: npm install
+
+eslint:
+  stage: eslint
+  script: npm run eslint
+
+test:
+  stage: test
+  script:
+    - npm test
+
+build:
+  only:
+  - master@wangjianhui2464/react-components
+  stage: deploy
+  script:
+    - npm run build
+
+upload:
+  only:
+  - master@wangjianhui2464/react-components
+  stage: deploy
+  script:
+    - npm run upload
+
+</code></pre>
+
+<p>当你在你的仓库中配置好次配置文件之后，每次提交代码 gitlab 就会自动执行相应的 jobs。这样一个持续集成的环境就算搭建成功了。</p>
+
+<p>持续集成有时候会为我们的工程化提供很多便利，可谓是工程化之利器。</p>
+
+<p>文章配图，后续补充。</p>
+
+<h2 id="toc_4">参考文章：</h2>
+
+<p><a href="https://docs.gitlab.com/">GitLab官方文档</a><br/>
+<a href="https://www.cnblogs.com/xishuai/p/gitlab-ci.html">劈荆斩棘：Gitlab 部署 CI 持续集成</a><br/>
+<a href="http://www.cnblogs.com/newP/p/5735366.html#_Toc458009359">GitLab CI持续集成配置方案</a></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CMD vs AMD vs CommonJS 的区别]]></title>
+    <link href="wjh4dev.github.io/15180793325774.html"/>
+    <updated>2018-02-08T16:42:12+08:00</updated>
+    <id>wjh4dev.github.io/15180793325774.html</id>
+    <content type="html"><![CDATA[
+<p>作为一个前端开发面对不同的项目，不同的开发小组使用的不同技术栈总有一种“前端东西真是杂，学不完”的想法。其中包含的“杂”就有很多方面的内容。今天我们主要说的就是：前端模块化开发过程中遇到的“模块化规范”。</p>
+
+<p>提到前端模块化首先想到的肯定是 <code>CMD、AMD、CommonJS</code> 这些规范，当然还有 <code>UMD</code>。下面我们就逐个解释一下各种规范的意义，并做一下对比。</p>
+
+<ul>
+<li>
+<a href="#toc_0">1、概念解释</a>
+<ul>
+<li>
+<a href="#toc_1">1.1 AMD(Asynchronous module definition)</a>
+</li>
+<li>
+<a href="#toc_2">1.2 CMD()</a>
+</li>
+<li>
+<a href="#toc_3">1.3 CommonJS()</a>
+</li>
+<li>
+<a href="#toc_4">1.4 UMD()</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_5">2、不同模式的对比</a>
+</li>
+<li>
+<a href="#toc_6">参考资料：</a>
+</li>
+</ul>
+
+
+<span id="more"></span><!-- more -->
+
+<h2 id="toc_0">1、概念解释</h2>
+
+<h3 id="toc_1">1.1 AMD(Asynchronous module definition)</h3>
+
+<p>AMD 全称是：Asynchronous module definition，译为：异步模块定义。是编程语言 JavaScript 的规范。它定义了一个定义代码模块及其相关性的应用程序编程接口（API），并在需要时异步加载它们。AMD 的实现提供了以下好处：</p>
+
+<ul>
+<li>网站性能改进。为什么说改进了网站的性能，因为它实现了可以加载更小的JS文件，并且是再用到的时候才加载，也就是异步加载。</li>
+<li>减少页面错误。解释一下，AMD模式之所以能减少错误，是因为AMD实现了在开发时可以定义依赖关系，并且是在代码执行之前。这样就可以减少我们使用到了没有依赖的代码，从而减少错误。</li>
+</ul>
+
+<p><img src="media/15180793325774/15180832381487.jpg" alt="" style="width:481px;"/></p>
+
+<h3 id="toc_2">1.2 CMD()</h3>
+
+<h3 id="toc_3">1.3 CommonJS()</h3>
+
+<h3 id="toc_4">1.4 UMD()</h3>
+
+<h2 id="toc_5">2、不同模式的对比</h2>
+
+<h2 id="toc_6">参考资料：</h2>
+
+<p>1.<a href="https://addyosmani.com/writing-modular-js/">Writing Modular JavaScript With AMD, CommonJS &amp; ES Harmony</a><br/>
+2.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[常用 Git 命令]]></title>
+    <link href="wjh4dev.github.io/15158546952914.html"/>
+    <updated>2018-01-13T22:44:55+08:00</updated>
+    <id>wjh4dev.github.io/15158546952914.html</id>
+    <content type="html"><![CDATA[
+<p>在新的一年我定下了一个目标：每天坚持更新github。<br/>
+因为我有好几个github账号，于是来回切换github成了一个问题，一般工具都会记住密码，想切换账号就会有授权问题，于是命令行成了最好的选择。</p>
+
+<blockquote>
+<p>本文更多是工具类文字，转录自“阮一峰的网络日志”。</p>
+</blockquote>
+
+<p>所以下面就讲解一下git命令行操作。</p>
+
+<span id="more"></span><!-- more -->
+
+<blockquote>
+<p>其实一般操作就是以下内容：<strong>内容拉取、切换分支、修改内容、提交内容、推送远端...</strong><br/>
+<img src="media/15158546952914/15158549336894.jpg" alt="" style="width:1172px;"/><br/>
+（图片来源：阮一峰的网络日志，侵删）</p>
+</blockquote>
+
+<h4 id="toc_0">常用名称如下：</h4>
+
+<ul>
+<li>Workspace：工作区</li>
+<li>Index / Stage：暂存区</li>
+<li>Repository：仓库区（或本地仓库）</li>
+<li>Remote：远程仓库</li>
+</ul>
+
+<h2 id="toc_1">一、新建代码库</h2>
+
+<pre><code># 在当前目录新建一个Git代码库
+$ git init
+
+# 新建一个目录，将其初始化未Git代码库
+$ git init [project-name]
+
+# 下载一个项目和它的整个代码历史
+$ git clone [url]
+</code></pre>
+
+<h2 id="toc_2">二、配置</h2>
+
+<p>Git 的设置文件为<code>.gitconfig</code>，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。</p>
+
+<pre><code># 显示当前的Git配置
+$ git config --list
+
+# 编辑Git配置文件
+$ git config -e [--global]
+
+# 设置提交代码时的用户信息
+$ git config [--global] user.name &quot;[name]&quot;
+$ git config [--global] user.email &quot;[email]&quot;
+</code></pre>
+
+<h2 id="toc_3">三、增加/删除文件</h2>
+
+<pre><code># 添加指定文件到暂存区
+$ git add [file1] [file2] ...
+
+# 添加指定目录到暂存区，包括子目录
+$ git add [dir]
+
+# 添加当前目录的所有文件到暂存区
+$ git add .
+
+# 添加每个变化前，都会要求确认
+# 对于同一个文件的多处变化，可以实现分次提交
+$ git add -p
+
+# 删除工作区文件，并且将这次删除放入暂存区
+$ git rm [file1] [file2] ...
+
+# 停止追踪指定文件，但该文件会保留在工作区
+$ git rm --cached [file]
+
+# 改名文件，并且将这个改名放入暂存区
+$ git mv [file-original] [file-renamed]
+</code></pre>
+
+<h2 id="toc_4">四、代码提交</h2>
+
+<pre><code># 提交暂存区到仓库区
+$ git commit -m [message]
+
+# 提交暂存区的指定文件到仓库区
+$ git commit [file1] [file2] ... -m [message]
+
+# 提交工作区自上次commit之后的变化，直接到仓库区
+$ git commit -a
+
+# 提交时显示所有diff信息
+$ git commit -v
+
+# 使用一次新的commit，替代上一次提交
+# 如果代码没有任何新变化，则用来改写上一次commit的提交信息
+$ git commit --amend -m [message]
+
+# 重做上一次commit，并包括指定文件的新变化
+$ git commit --amend [file1] [file2] ...
+</code></pre>
+
+<h2 id="toc_5">五、分支</h2>
+
+<pre><code># 列出所有本地分支
+$ git branch
+
+# 列出所有远程分支
+$ git branch -r
+
+# 列出所有本地分支和远程分支
+$ git branch -a
+
+# 新建一个分支，但依然停留在当前分支
+$ git branch [branch-name]
+
+# 新建一个分支，并切换到该分支
+$ git checkout -b [branch]
+
+# 新建一个分支，指向指定commit
+$ git branch [branch] [commit]
+
+# 新建一个分支，与指定的远程分支建立追踪关系
+$ git branch --track [branch] [remote-branch]
+
+# 切换到指定分支，并更新工作区
+$ git checkout [branch-name]
+
+# 切换到上一个分支
+$ git checkout -
+
+# 建立追踪关系，在现有分支与指定的远程分支之间
+$ git branch --set-upstream [branch] [remote-branch]
+
+# 合并指定分支到当前分支
+$ git merge [branch]
+
+# 选择一个commit，合并进当前分支
+$ git cherry-pick [commit]
+
+# 删除分支
+$ git branch -d [branch-name]
+
+# 删除远程分支
+$ git push origin --delete [branch-name]
+$ git branch -dr [remote/branch]
+</code></pre>
+
+<h2 id="toc_6">六、标签</h2>
+
+<pre><code># 列出所有tag
+$ git tag
+
+# 新建一个tag在当前commit
+$ git tag [tag]
+
+# 新建一个tag在指定commit
+$ git tag [tag] [commit]
+
+# 删除本地tag
+$ git tag -d [tag]
+
+# 删除远程tag
+$ git push origin :refs/tags/[tagName]
+
+# 查看tag信息
+$ git show [tag]
+
+# 提交指定tag
+$ git push [remote] [tag]
+
+# 提交所有tag
+$ git push [remote] --tags
+
+# 新建一个分支，指向某个tag
+$ git checkout -b [branch] [tag]
+</code></pre>
+
+<h2 id="toc_7">七、查看信息</h2>
+
+<pre><code># 显示有变更的文件
+$ git status
+
+# 显示当前分支的版本历史
+$ git log
+
+# 显示commit历史，以及每次commit发生变更的文件
+$ git log --stat
+
+# 搜索提交历史，根据关键词
+$ git log -S [keyword]
+
+# 显示某个commit之后的所有变动，每个commit占据一行
+$ git log [tag] HEAD --pretty=format:%s
+
+# 显示某个commit之后的所有变动，其&quot;提交说明&quot;必须符合搜索条件
+$ git log [tag] HEAD --grep feature
+
+# 显示某个文件的版本历史，包括文件改名
+$ git log --follow [file]
+$ git whatchanged [file]
+
+# 显示指定文件相关的每一次diff
+$ git log -p [file]
+
+# 显示过去5次提交
+$ git log -5 --pretty --oneline
+
+# 显示所有提交过的用户，按提交次数排序
+$ git shortlog -sn
+
+# 显示指定文件是什么人在什么时间修改过
+$ git blame [file]
+
+# 显示暂存区和工作区的差异
+$ git diff
+
+# 显示暂存区和上一个commit的差异
+$ git diff --cached [file]
+
+# 显示工作区与当前分支最新commit之间的差异
+$ git diff HEAD
+
+# 显示两次提交之间的差异
+$ git diff [first-branch]...[second-branch]
+
+# 显示今天你写了多少行代码
+$ git diff --shortstat &quot;@{0 day ago}&quot;
+
+# 显示某次提交的元数据和内容变化
+$ git show [commit]
+
+# 显示某次提交发生变化的文件
+$ git show --name-only [commit]
+
+# 显示某次提交时，某个文件的内容
+$ git show [commit]:[filename]
+
+# 显示当前分支的最近几次提交
+$ git reflog
+</code></pre>
+
+<h2 id="toc_8">八、远程同步</h2>
+
+<pre><code># 下载远程仓库的所有变动
+$ git fetch [remote]
+
+# 显示所有远程仓库
+$ git remote -v
+
+# 显示某个远程仓库的信息
+$ git remote show [remote]
+
+# 增加一个新的远程仓库，并命名
+$ git remote add [shortname] [url]
+
+# 取回远程仓库的变化，并与本地分支合并
+$ git pull [remote] [branch]
+
+# 上传本地指定分支到远程仓库
+$ git push [remote] [branch]
+
+# 强行推送当前分支到远程仓库，即使有冲突
+$ git push [remote] --force
+
+# 推送所有分支到远程仓库
+$ git push [remote] --all
+</code></pre>
+
+<h2 id="toc_9">九、撤销</h2>
+
+<pre><code># 恢复暂存区的指定文件到工作区
+$ git checkout [file]
+
+# 恢复某个commit的指定文件到暂存区和工作区
+$ git checkout [commit] [file]
+
+# 恢复暂存区的所有文件到工作区
+$ git checkout .
+
+# 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变
+$ git reset [file]
+
+# 重置暂存区与工作区，与上一次commit保持一致
+$ git reset --hard
+
+# 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变
+$ git reset [commit]
+
+# 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致
+$ git reset --hard [commit]
+
+# 重置当前HEAD为指定commit，但保持暂存区和工作区不变
+$ git reset --keep [commit]
+
+# 新建一个commit，用来撤销指定commit
+# 后者的所有变化都将被前者抵消，并且应用到当前分支
+$ git revert [commit]
+
+# 暂时将未提交的变化移除，稍后再移入
+$ git stash
+$ git stash pop
+</code></pre>
+
+<h2 id="toc_10">十、其他</h2>
+
+<pre><code># 生成一个可供发布的压缩包
+$ git archive
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[《觉者》观后感之【生命观】]]></title>
+    <link href="wjh4dev.github.io/15099782269078.html"/>
+    <updated>2017-11-06T22:23:46+08:00</updated>
+    <id>wjh4dev.github.io/15099782269078.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>经典物理统一在原子上，量子物理统一在量子上，化学统一在元素上，生命统一在DNA上。</p>
+
+<p>人其实是很渺小的，就是一个物种，别把自己看的太高深。而且人是在不断演化中的（Evolution的翻译叫演化，不能称之为进化） 你只有拼命的去演变，才能和环境达成一个共同体，如果你不变，你肯定就会被抛弃掉。</p>
+
+<p>只有当一个人开始有清醒的意识到我必须要主动的去接受这个变化并且演化的时候，他就充满了一种生命的觉知性。</p>
+
+<p>如果这个觉知性是正确的话，你会觉得你对你的负熵会做得更好。你开始去学习，你开始去运动，学习其实不是为了让你变得全知全能，而是让你觉得我开始不害怕未知。</p>
+
+<p>因为已知圈越大，未知圈也会更大。学的越多，不知道的就更多。大家到一定程度都想不通了，只能升维，不再现有理论里继续在二维平面下去扩，我只要升高哪怕只是一点点，我就能无限的看见我的边界到底在哪儿？当你提升的纬度越高，想的就越明白，越往山顶爬科学与人文就越接近，升维之后就能看到我的边界和局限在哪，反而你就会不惑了。</p>
+</blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GET和POST到底有什么区别？]]></title>
+    <link href="wjh4dev.github.io/15099672927192.html"/>
+    <updated>2017-11-06T19:21:32+08:00</updated>
+    <id>wjh4dev.github.io/15099672927192.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>GET和POST是HTTP请求的两种基本方法，要说它们的区别，接触过WEB开发的人都能说出一二。</p>
+</blockquote>
+
+<p>最直观的区别就是GET把参数包含在URL中，POST通过request body传递参数。</p>
+
+<p>你可能自己写过无数个GET和POST请求，或者已经看过很多权威网站总结出的他们的区别，你非常清楚知道什么时候该用什么。</p>
+
+<p>当你被问到这个问题，你的内心充满了自信和喜悦。</p>
+
+<span id="more"></span><!-- more -->
+
+<p><img src="media/15099672927192/201610116690_465.jpg" alt="" style="width:250px;"/></p>
+
+<h3 id="toc_0">你知道的“标准答案”</h3>
+
+<p>你轻轻松松的给出了一个“标准答案”：</p>
+
+<ol>
+<li>GET在浏览器回退时是无害的，而POST会再次提交请求。 </li>
+<li>GET产生的URL地址可以被Bookmark，而POST不可以。 </li>
+<li>GET请求会被浏览器主动cache，而POST不会，除非手动设置。 </li>
+<li>GET请求只能进行url编码，而POST支持多种编码方式。 </li>
+<li>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。 </li>
+<li>GET请求在URL中传送的参数是有长度限制的，而POST么有。 </li>
+<li>对参数的数据类型，GET只接受ASCII字符，而POST没有限制。 </li>
+<li>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。 </li>
+<li>GET参数通过URL传递，POST放在Request body中。</li>
+</ol>
+
+<p><strong>“很遗憾，这不是我们要的回答!”</strong><br/>
+<img src="media/15099672927192/201610111292_9193.jpg" alt="" style="width:250px;"/></p>
+
+<p>请告诉我真相。。。</p>
+
+<h3 id="toc_1">如果我告诉你GET和POST本质上没有区别你信吗?</h3>
+
+<p>让我们扒下GET和POST的外衣，坦诚相见吧!</p>
+
+<p><img src="media/15099672927192/201610112524_6494.jpg" alt="" style="width:250px;"/></p>
+
+<h3 id="toc_2">敲黑板，划重点</h3>
+
+<ul>
+<li><p>GET和POST是什么？<br/>
+<strong>HTTP协议中的两种发送请求的方法。</strong></p></li>
+<li><p>HTTP是什么？<br/>
+<strong>HTTP是基于TCP/IP的关于数据如何在万维网中如何通信的协议。</strong></p></li>
+<li><p>HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP，也就是说，<strong>GET/POST都是TCP链接。GET和POST能做的事情是一样一样的。</strong> <br/>
+你要给GET加上request body，给POST带上url参数，技术上是完全行的通的。</p></li>
+</ul>
+
+<p>那么，“标准答案”里的那些区别是怎么回事?</p>
+
+<p><img src="media/15099672927192/201610118028_6465.jpg" alt="" style="width:250px;"/></p>
+
+<p>在我大万维网世界中，TCP就像汽车，我们用TCP来运输数据，它很可靠，从来不会发生丢件少件的现象。但是如果路上跑的全是看起来一模一样的汽车，那这个世界看起来是一团混乱，送急件的汽车可能被前面满载货物的汽车拦堵在路上，整个交通系统一定会瘫痪。</p>
+
+<p>为了避免这种情况发生，交通规则HTTP诞生了。</p>
+
+<p>HTTP给汽车运输设定了好几个服务类别，有GET, POST, PUT, DELETE等等，HTTP规定，当执行GET请求的时候，要给汽车贴上GET的标签(设置method为GET)，而且要求把传送的数据放在车顶上(url中)以方便记录。如果是POST请求，就要在车上贴上POST的标签，并把货物放在车厢里。当然，你也可以在GET的时候往车厢内偷偷藏点货物，但是这是很不光彩;也可以在POST的时候在车顶上也放一些数据，让人觉得傻乎乎的。<br/>
+HTTP只是个行为准则，而TCP才是GET和POST怎么实现的基本。</p>
+
+<p>但是，我们只看到HTTP对GET和POST参数的传送渠道(url还是requrest body)提出了要求。“标准答案”里关于参数大小的限制又是从哪来的呢?</p>
+
+<p><img src="media/15099672927192/201610118005_5917.jpg" alt="" style="width:350px;"/></p>
+
+<p>在我大万维网世界中，还有另一个重要的角色：运输公司。<br/>
+不同的浏览器(发起http请求)和服务器(接受http请求)就是不同的运输公司。 虽然理论上，你可以在车顶上无限的堆货物(url中无限加参数)。但是运输公司可不傻，装货和卸货也是有很大成本的，他们会限制单次运输量来控制风险，数据量太大对浏览器和服务器都是很大负担。<strong>业界不成文的规定是，(大多数)浏览器通常都会限制url长度在2K个字节，而(大多数)服务器最多处理64K大小的url。超过的部分，恕不处理。</strong>如果你用GET服务，在request body偷偷藏了数据，不同服务器的处理方式也是不同的，有些服务器会帮你卸货，读出数据，有些服务器直接忽略，所以，虽然GET可以带request body，也不能保证一定能被接收到哦。</p>
+
+<p>好了，现在你知道，GET和POST本质上就是TCP链接，并无差别。但是由于HTTP的规定和浏览器/服务器的限制，导致他们在应用过程中体现出一些不同。</p>
+
+<p>你以为本文就这么结束了?</p>
+
+<p><img src="media/15099672927192/20161011540_9940.jpg" alt="" style="width:250px;"/></p>
+
+<p>我们的大BOSS还等着出场呢。。。</p>
+
+<p>这位BOSS有多神秘?当你试图在网上找“GET和POST的区别”的时候，那些你会看到的搜索结果里，从没有提到他。他究竟是什么呢。。。</p>
+
+<p>GET和POST还有一个重大区别，简单的说：</p>
+
+<h3 id="toc_3">GET POST 深层重大区别</h3>
+
+<p><strong>GET产生一个TCP数据包;POST产生两个TCP数据包。</strong></p>
+
+<p>长的说：</p>
+
+<p>对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200(返回数据);</p>
+
+<p>而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok(返回数据)。</p>
+
+<p>也就是说，GET只需要汽车跑一趟就把货送到了，而POST得跑两趟，第一趟，先去和服务器打个招呼“嗨，我等下要送一批货来，你们打开门迎接我”，然后再回头把货送过去。</p>
+
+<p>因为POST需要两步，时间上消耗的要多一点，看起来GET比POST更有效。因此Yahoo团队有推荐用GET替换POST来优化网站性能。但这是一个坑!跳入需谨慎。为什么?</p>
+
+<ol>
+<li>GET与POST都有自己的语义，不能随便混用。</li>
+<li>据研究，在网络环境好的情况下，发一次包的时间和发两次包的时间差别基本可以无视。而在网络环境差的情况下，两次包的TCP在验证数据包完整性上，有非常大的优点。</li>
+<li>并不是所有浏览器都会在POST中发送两次包，Firefox就只发送一次。</li>
+</ol>
+
+<p>现在，当面试官再问你<strong>“GET与POST的区别”</strong>的时候，你的内心是不是这样的?<br/>
+<img src="media/15099672927192/201610116679_2810.jpg" alt="" style="width:250px;"/></p>
+
+<p>（全文完）</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[React Native 开发环境搭建 基于Mac]]></title>
+    <link href="wjh4dev.github.io/15060698348348.html"/>
+    <updated>2017-09-22T16:43:54+08:00</updated>
+    <id>wjh4dev.github.io/15060698348348.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>折腾RN有大半年的时间，刚开始折腾环境就搞的人差点吐血，本人前端，搞iOS开发环境，android开发环境，真是一脸懵逼的感觉。<br/>
+以下是一个整体流程图，可以让你心里有个整体把握，在进行每一步操作。有些操作时不能回退的，所以要把每步搞清楚了，再开始搭建环境。</p>
+</blockquote>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_0">搭建环境的整体流程图：（本流程基于Mac系统）</h3>
+
+<p>下面就直接进入主题，上图，如图是所有搭建环境的整理流程。<br/>
+<img src="media/15060698348348/15060701666498.jpg" alt="" style="width:1024px;"/></p>
+
+<p>如果你对环境搭建还有其他问题，可以查看<a href="http://reactnative.cn/">RN中文网</a>官方教程，有视频，有说明，很不错的社区。</p>
+
+<p>以下是一些开发RN的<a href="http://bbs.reactnative.cn/topic/130/%E6%96%B0%E6%89%8B%E6%8F%90%E9%97%AE%E5%89%8D%E5%85%88%E6%9D%A5%E8%BF%99%E9%87%8C%E7%9C%8B%E7%9C%8B-react-native%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98">常见问题</a></p>
+
+<h4 id="toc_1">关于学习技术</h4>
+
+<p>有些同学学技术就是喜欢百度一些个人博客，最然我也写博客，但是我个人还是建议，有任何问题，一定要找<strong>官网</strong>，官方毕竟是出品方，有最原始的一手资料。</p>
+
+<p>由于好多官方文档都是英文版的，所以有些同学看不懂，其实硬着头皮看，对自己只有好处没有坏处。</p>
+
+<p>再退一步如果实在是看不懂英文，那就找有没有中文网之类的。现在开源精神在国内也比较流行，大家都想为了技术奉献一些自己的力量，我也参与了一些中文站的翻译工作。</p>
+
+<p>这里推荐一下由腾讯前端大牛牵头的国内技术文档导航站点：<a href="https://www.docschina.org/">印记中文</a></p>
+
+<blockquote>
+<p><a href="https://www.docschina.org/">印记中文(docschina.org)</a>是一个技术文档导航站点（暂时只有前端，未来可能拓展），背后隐含着的是，我们致力于互联网技术中文文档翻译的基本理念和实际行动</p>
+</blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[javascript中函数的各种姿势]]></title>
+    <link href="wjh4dev.github.io/15048050884744.html"/>
+    <updated>2017-09-08T01:24:48+08:00</updated>
+    <id>wjh4dev.github.io/15048050884744.html</id>
+    <content type="html"><![CDATA[
+<p><img src="media/15048050884744/15048051116683.jpg" alt="" style="width:703px;"/></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[vue & vuex 开发套路总结（各种姿势、写法）]]></title>
+    <link href="wjh4dev.github.io/15044478743090.html"/>
+    <updated>2017-09-03T22:11:14+08:00</updated>
+    <id>wjh4dev.github.io/15044478743090.html</id>
+    <content type="html"><![CDATA[
+<p>开发vue有半年多，重复性码代码，感觉这不是我要的，刨根问底一向是我的习惯，所以今天就在写法上给大家刨一下vue，一来深度学习vue的各种用法，二来对于理解她的高级特性也很有帮助，再来给大家分享我的总结，希望大家能从我这里感悟点滴，那便值得。</p>
+
+<p>这里假设你已有 HTML、CSS 和 JavaScript 中级前端知识，并且了解 Vue.js 的一种或几种写法，并对单文件组件有一定了解，我这里主要做一些总结，如果有什么不妥之处可提出异议，共同探讨。</p>
+
+<p>文中使用的示例代码均按照“单文件组件”方式编写。其中介绍的内容更多是关于javascript的写法。至于 template 和 style 不是本次介绍的重点。</p>
+
+<p>本文可能会存在一些初学者不了解的知识点，或者名词，我会把我认为初学者有必要深究的名词在文末列出，供深度学习。</p>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_0">一、vue、vuex 简单介绍</h3>
+
+<ol>
+<li><p><a href="https://cn.vuejs.org/v2/guide/index.html">vue是什么？</a> </p>
+
+<p>官方是这么说的：</p>
+
+<blockquote>
+<p>Vue.js 是一套构建用户界面的渐进式框架。Vue采用自底向上增量开发的设计。Vue的核心库只关注试图层。</p>
+</blockquote>
+
+<p>在外界是这么理解他的：</p>
+
+<blockquote>
+<p>轻量的 MVVM 框架（MVVM是Model-View-ViewModel的简写）。</p>
+</blockquote>
+
+<p>至于什么是 MVVM⚠️ 这个留待后续分享。</p></li>
+<li><p><a href="https://vuex.vuejs.org/zh-cn/intro.html">vuex是什么？</a> </p>
+
+<blockquote>
+<p>Vuex 是一个专为 Vue.js 应用程序开发的<strong>状态管理模式</strong>。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+</blockquote></li>
+</ol>
+
+<p>介绍完今天上场的队员，那就直接开始操练了。</p>
+
+<h3 id="toc_1">二、vue 相关写法</h3>
+
+<p>对于vue来说通过数据驱动页面渲染是他的核心特性，要了解这些特性就需要对一些概念进行说明。</p>
+
+<p>先来看一个基础的单文件组件（⚠️示例只包含JS部分）：</p>
+
+<pre><code class="language-javascript">export default {
+  // 数据相关属性，顺序按照调用逻辑排序
+  props:[],         // 接收父组件属性
+  data () {         // 本组件数据区
+    return {}
+  },
+  computed: {},     // 计算属性
+  watch: {},        // 监控观察属性变化
+  methods: {},      // 方法函数区
+    
+  // 生命周期相关钩子函数
+  beforeCreate() {},
+  created() {},
+  beforeMount() {},
+  mounted() {},
+  beforeUpdate() {},
+  updated() {},
+  activated() {},
+  deactivated() {},
+  beforeDestroy() {},
+  destroyed() {}
+}
+</code></pre>
+
+<p>来一张生命周期图，我个人一般了解一个新知识都会希望能得到一张类似于此的整体性的结构示意图，清晰、明了，一目了然。<br/>
+<img src="media/15044478743090/15046214199582.jpg" alt="" style="width:600px;"/></p>
+
+<blockquote>
+<p>上面图中那句英文的意思：如果使用构建步骤，模板编译将提前执行，例如：单文件组件。</p>
+</blockquote>
+
+<p>了解了完整组件之后，可详细的研究一下各种属性、函数的写法。</p>
+
+<h4 id="toc_2">2.1 核心概念-数据相关</h4>
+
+<p>接下来，分别讲解：data、computed、watch的写法；<br/>
+有人说不是还有props、methods吗？因为他们两个写法单一，不做特别说明。</p>
+
+<blockquote>
+<ul>
+<li><p>props：可以是数组或对象，用于接收来自父组件的数据。props 可以是简单的数组，或者使用对象作为替代，对象允许配置高级选项，如类型检测、自定义校验和设置默认值。</p></li>
+<li><p>methods： 将被混入到 Vue 实例中。可以直接通过 VM 实例访问这些方法，或者在指令表达式中使用。方法中的 this 自动绑定为 Vue 实例。<br/>
+⚠️不可以使用ES6的箭头函数。理由和data不可以使用箭头函数一样，我们接下来就讲。</p></li>
+</ul>
+</blockquote>
+
+<h5 id="toc_3">2.1.1 data</h5>
+
+<p>data：官方推荐写法如下：</p>
+
+<pre><code class="language-js"> data () {
+    return {
+        // 这里必须设置纯粹的对象（含有零个或多个的key/value对）
+    }
+ }
+</code></pre>
+
+<blockquote>
+<p>问： 为什么不直接返回对象，而要用函数呢？<br/>
+答： data 必须声明为返回一个初始数据对象的函数，因为组件可能被用来创建多个实例。如果 data 仍然是一个纯粹的对象，则所有的实例将<strong>共享引用同一个数据对象</strong>！通过提供 data 函数，每次创建一个新实例后，我们能够调用 data 函数，从而返回初始数据的一个全新副本数据对象。</p>
+
+<p>问：这里的data函数可以使用ES6的箭头函数吗？<br/>
+答：不可以。理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例</p>
+</blockquote>
+
+<p>‼️ 说直白点就是js对象如果直接赋值会存在<strong>对象引用</strong>⚠️，给你的组件使用造成不必要的困扰，所以你需要拷贝一个新对象（这里的拷贝而且是<strong>深拷贝</strong>⚠️）而不是使用原有对象的引用。</p>
+
+<h5 id="toc_4">2.1.2 computed</h5>
+
+<p>写法有如下几种：</p>
+
+<pre><code class="language-js">data () {
+    return {
+        firstName: &quot;Wang&quot;,
+        lastName: &quot;Jianhui&quot;,
+        workDays: 5
+    }
+}
+computed: {
+    // 第一种：仅读取，值只须为函数
+    fullName () {
+        return this.firstName + &quot; &quot; + this.lastName
+    }
+    // 第二种：可读取和设置新值
+    overTime: {
+        get () {
+            return this.workDays - 5
+        },
+        set (d) {
+            this.workDays += d
+        }
+    }
+}
+...
+// 我们在使用以上属性的时候，就会得到以下结果：
+this.fullName   // =&gt; Wang Jianhui
+this.overTime   // =&gt; 0
+this.overTime = 1
+this.overTime   // =&gt; 1
+this.workDays   // =&gt; 6
+</code></pre>
+
+<p>此时，有人就会说了我用你这个计算属性算，还不如直接写个 methods 来的痛快，毕竟我们前端er写 methods 已经习惯了。</p>
+
+<blockquote>
+<p>我们可以将同一函数定义为一个 method 而不是一个计算属性。对于最终的结果，两种方式确实是相同的。然而，<strong>不同的是计算属性是基于它们的依赖进行缓存的</strong>。计算属性只有在它的相关依赖发生改变时才会重新求值。</p>
+</blockquote>
+
+<p>还有人说，你这个计算属性的函数写法和官网的不一样啊</p>
+
+<p>‼️⚠️js函数的写法之多，当我看到全部写法之后，就是这个表情👉😮</p>
+
+<p>这里给大家插入一个额外的话题，js函数的写法：</p>
+
+<hr/>
+
+<p>------------------强势插入--知识点---分割线--------------------<br/>
+这里就要给大家科普一下js的各种你见过没见过的写法了：<br/>
+本来这里的内容是要另起一篇讲的，由于内容太多这里就简单看个图就可以了，待再开一篇详细说明一下，各种写法的来源。<br/>
+<img src="media/15044478743090/15048056649887.jpg" alt="" style="width:627px;"/><br/>
+---------------强势插入-----结束------------------</p>
+
+<hr/>
+
+<p>计算属性的用法，在后面与 methods 和 watch 的对比中，你或许还会得到一些启发。</p>
+
+<h5 id="toc_5">2.1.3 watch</h5>
+
+<h4 id="toc_6">2.2 computed vs methods vs watch 对比</h4>
+
+<h3 id="toc_7">三、vuex 相关写法</h3>
+
+<h3 id="toc_8">四、vue 结合 vuex</h3>
+
+<h3 id="toc_9">五、⚠️名词解释</h3>
+
+<p>MVVM：<br/>
+深拷贝：<br/>
+对象的引用：</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GitHub 一些实际操作]]></title>
+    <link href="wjh4dev.github.io/15041787343491.html"/>
+    <updated>2017-08-31T19:25:34+08:00</updated>
+    <id>wjh4dev.github.io/15041787343491.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>记一次开源文档翻译经历</p>
+</blockquote>
+
+<h3 id="toc_0">fork</h3>
+
+<h3 id="toc_1">clone</h3>
+
+<h3 id="toc_2">push</h3>
+
+<h3 id="toc_3">pull request</h3>
+
+<h3 id="toc_4">开源精神</h3>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[javaScript模块化讲解]]></title>
+    <link href="wjh4dev.github.io/15040127013389.html"/>
+    <updated>2017-08-29T21:18:21+08:00</updated>
+    <id>wjh4dev.github.io/15040127013389.html</id>
+    <content type="html"><![CDATA[
+<h3 id="toc_0">模块化</h3>
+
+<p>NOTE：以下讨论都是基于 JavaScript 的模块组织（每个模块均以文件形式组织），而非工程的模块化。</p>
+
+<blockquote>
+<p>The secret to building large app is never build arge apps. Break your applications into small pieces. Then, assemble those testable, bite-sized pieces into your big application.</p>
+
+<p>Justin Meyer</p>
+</blockquote>
+
+<span id="more"></span><!-- more -->
+
+<p><strong>其他语言中的模块支持</strong></p>
+
+<ul>
+<li>Java - <code>import</code></li>
+<li>C# - <code>using</code></li>
+<li>css - <code>@import</code></li>
+</ul>
+
+<p>但在 JavaScript 中并不存在模块组织在并不支持，于是产生了很多，模块系统。</p>
+
+<p><strong>模块的职责</strong></p>
+
+<ul>
+<li>封装实现（将复杂的内容于外界个例）</li>
+<li>暴露接口（外部可通过接口使用模块）</li>
+<li>声明依赖（提供给模块系统使用）</li>
+</ul>
+
+<h4 id="toc_1">模块的使用</h4>
+
+<h5 id="toc_2">反模式（Anti-Pattern）</h5>
+
+<p>反模式既没有使用任何设计模式。</p>
+
+<p>math.js</p>
+
+<pre><code>function add(a, b) {
+  return a + b;
+}
+function sub(a, b) {
+  return a - b;
+}
+
+</code></pre>
+
+<p>上面的代码有下面的几个缺点：</p>
+
+<ul>
+<li>无封装性</li>
+<li>接口结构不明显</li>
+</ul>
+
+<p>calculator.js</p>
+
+<pre><code>var action = &#39;add&#39;;
+function compute(a, b) {
+  switch (action) {
+    case &#39;add&#39;: return add(a, b);
+    case &#39;sub&#39;: return sub(a, b);
+  }
+}
+
+</code></pre>
+
+<p>上面的代码也有几个缺点：</p>
+
+<ul>
+<li>没有依赖声明</li>
+<li>使用全局状态</li>
+</ul>
+
+<h5 id="toc_3">字面量（Object Literal）</h5>
+
+<p>math.js</p>
+
+<pre><code>var math = {
+  add: function(a, b) {
+    return a + b;
+  },
+  sub: function(a, b) {
+    return a - b;
+  }
+};
+
+</code></pre>
+
+<p>结构性好，但没有访问控制。</p>
+
+<p>calculator.js</p>
+
+<pre><code>var calculator = {
+  action: &#39;add&#39;,
+  compute: function(a, b) {
+    switch (action) {
+      case &#39;add&#39;: return add(a, b);
+      case &#39;sub&#39;: return sub(a, b);
+    }
+  }
+}
+
+</code></pre>
+
+<p>同样没有依赖声明</p>
+
+<h5 id="toc_4">IIFE（Immediately-invoked Function Expresion)</h5>
+
+<p>其为自执行函数。</p>
+
+<p><strong>版本一</strong></p>
+
+<p>calculator.js</p>
+
+<pre><code>var calculator = (function(){
+  var action = &#39;add&#39;;
+  return {
+    compute: function(a, b) {
+      switch (action) {
+        case &#39;add&#39;: return add(a, b);
+        case &#39;sub&#39;: return sub(a, b);
+      }
+    }
+  }
+})();
+
+</code></pre>
+
+<p>上面的代码可以进行访问控制，但是不能进行依赖声明。</p>
+
+<p><strong>版本二</strong></p>
+
+<p>calculator.js</p>
+
+<pre><code>var calculator = (function(m){
+  var action = &#39;add&#39;;
+  function compute(a, b) {
+    switch (action) {
+      case &#39;add&#39;: return m.add(a, b);
+      case &#39;sub&#39;: return m.sub(a, b);
+    }
+  }
+  return {
+    compute: compute;
+  }
+})(math)
+
+</code></pre>
+
+<p>上面的代码虽然可以显示的声明依赖，但是仍然污染了全局变量，而且必须手动进行依赖管理。</p>
+
+<h4 id="toc_5">命名空间（Namespace）</h4>
+
+<p>命运空间可以解决全局变量的污染的问题。</p>
+
+<p>math.js</p>
+
+<pre><code>namespace(&#39;math&#39;, [], function(){
+  function add(a, b) { return a + b; }
+  function sub(a, b) { return a - b; }
+  return {
+    add: add,
+    sub: sub
+  }
+})
+
+</code></pre>
+
+<p>calculator.js</p>
+
+<pre><code>//                     依赖声明        依赖注入
+//                         |               |
+namespace(&#39;calculator&#39;, [&#39;math&#39;], function(m){
+  var action = &#39;add&#39;;
+  function compute(a,b) {
+    return m[action](a, b);
+  }
+  return {
+    compute: compute;
+  }
+})
+
+</code></pre>
+
+<h4 id="toc_6">模块管理</h4>
+
+<p>复杂的模块管理，不能单纯的通过代码文件的排列顺序来进行管理。于是引入了模块系统，它有下面的职责：</p>
+
+<ul>
+<li>依赖管理（加载、分析、注入、初始化—）</li>
+<li>决定模块的写法</li>
+</ul>
+
+<p>常用的模块系统有 <code>Common.JS</code>、<code>AMD</code>、语言基本的模块化。</p>
+
+<h5 id="toc_7">CommonJS</h5>
+
+<p>CommonJS 是一个模块规范，通常适用于非浏览器环境（NodeJS）。</p>
+
+<blockquote>
+<p>A module spec for JavaScript outside the browser.</p>
+</blockquote>
+
+<p>math.js</p>
+
+<pre><code>function add(a, b) {
+  return a + b;
+}
+function sub(a, b) {
+  return a - b;
+}
+exports.add = add;
+exports.sub = sub;
+
+</code></pre>
+
+<p>calculator.js</p>
+
+<pre><code>// 依赖声明
+var math = require(&#39;./math&#39;);
+
+function Calculator(container) {
+  // ...
+}
+Calculator.prototype.compute = function(){
+  this.result.textContent = math.add(...);
+}
+
+// 接口暴露
+exports.Calculator = Calculator;
+
+</code></pre>
+
+<p><strong>优点</strong></p>
+
+<ul>
+<li>依赖管理成熟可靠</li>
+<li>社区活跃且规范接受度高</li>
+<li>运行时支持且模块化定义简单</li>
+<li>文件级别的模块作用域隔离</li>
+<li>可以处理循环依赖</li>
+</ul>
+
+<p><strong>缺点</strong></p>
+
+<ul>
+<li>不是标准组织规范</li>
+<li>同步请求未考虑浏览器环境（可以使用 Browserify 来解决）</li>
+</ul>
+
+<pre><code># browserify 为 npm 下命令行工具
+# &gt; 为 Linux/Unix 添加至命令
+browserify file0.js &gt; file1.js;
+
+</code></pre>
+
+<p>打包后的文件如下所示。</p>
+
+<pre><code>(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require==&quot;function&quot;&amp;&amp;require;if(!u&amp;&amp;a)return a(o,!0);if(i)return i(o,!0);var f=new Error(&quot;Cannot find module &#39;&quot;+o+&quot;&#39;&quot;);throw f.code=&quot;MODULE_NOT_FOUND&quot;,f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require==&quot;function&quot;&amp;&amp;require;for(var o=0;o&lt;r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+
+},{}]},{},[1]);
+
+</code></pre>
+
+<h5 id="toc_8">AMD（Asynchronous Module Definition）</h5>
+
+<p>适合异步环境的依赖管理方案。</p>
+
+<p>math.js</p>
+
+<pre><code>//   依赖列表
+//      |
+define([], function(){
+  function add(a, b) { return a + b; }
+  function sub(a, b) { return a - b; }
+// 接口暴露
+  return {
+    add: add,
+    sub: sub
+  }
+})
+
+</code></pre>
+
+<p>calculator.js</p>
+
+<pre><code>define([&#39;./math&#39;], function(math){
+  function Calculator(container) {
+    // ...
+  }
+  Calculator.prototype.compute = function(){
+    this.result.textContent = math.add(...);
+  };
+
+  // 暴露接口
+  return {
+    Calculator: Calculator;
+  }
+})
+
+</code></pre>
+
+<p><strong>优点</strong></p>
+
+<ul>
+<li>依赖管理成熟可靠</li>
+<li>社区活跃且规范接受度高</li>
+<li>转为异步环境制作，适合浏览器</li>
+<li>支持 CommonJS 的书写方式</li>
+<li>通过插件 API 可以加载非 JavaScript 资源</li>
+<li>成熟的打包构建工具，并可结合插件一同使用</li>
+</ul>
+
+<p><strong>缺点</strong></p>
+
+<ul>
+<li>模块定义繁琐，需要额外嵌套</li>
+<li>酷基本的支持，需要引入额外的库</li>
+<li>无法处理循环依赖</li>
+<li>无法实现条件加载</li>
+</ul>
+
+<h6 id="toc_9">Simplified CommonJS Wrapping</h6>
+
+<p>使用同样的 CommonJS 的依赖管理书写方法，之后在使用正则表达式来提取依赖列表。</p>
+
+<pre><code>define(function(require, exports){
+  // 依赖声明
+  var math = require(&#39;./math&#39;);
+
+  function Calculator(container) {
+    // ...
+  }
+  Calculator.prototype.compute = function(){
+    this.result.textContent = math.add(...);
+  }
+
+  // 接口暴露
+  exports.Calculator = Calculator;
+})
+
+</code></pre>
+
+<h5 id="toc_10">Loader Plugins</h5>
+
+<p>允许调用处理脚本外的其他资源（例如 HTML 与 CSS 文件），这样就可以形成一个完整的组件。</p>
+
+<pre><code>完整组件 = 结构 + 逻辑 + 样式
+
+</code></pre>
+
+<h5 id="toc_11">ECMAScript 6 Module</h5>
+
+<p>ECMAScript 6 中的模块化管理。</p>
+
+<p>math.js</p>
+
+<pre><code>function add(a, b) {
+  return a + b;
+}
+function sub(a, b) {
+  return a- b;
+}
+// export 关键字暴漏接口
+export {add, sub}
+
+</code></pre>
+
+<p>calculator.js</p>
+
+<pre><code>import {add} from &#39;./math&#39;;
+
+class Calculator {
+  constructor(container) {}
+  compute(){
+    this.result.textContent = add(+this.left.value, +this.right.value);
+  }
+}
+export{Calculator}
+
+</code></pre>
+
+<p><strong>优点</strong></p>
+
+<ul>
+<li>真正的规范未来标准</li>
+<li>语言基本支持</li>
+<li>适用于所有的 JavaScript 允许环境</li>
+<li>可用于处理循环依赖</li>
+</ul>
+
+<p><strong>缺点</strong></p>
+
+<ul>
+<li>规范未达到稳定级别</li>
+<li>暂无浏览器支持</li>
+</ul>
+
+<h4 id="toc_12">SystemJS</h4>
+
+<p>SystemJS 是一个动态模块加载器，下面是它的一下特性：</p>
+
+<ul>
+<li>支持加载 AMD</li>
+<li>支持加载 CommonJS</li>
+<li>支持加载 ES6</li>
+<li>支持加载 Transpiler 也可支持任意类型资源</li>
+</ul>
+
+<h4 id="toc_13">模块管理的对比</h4>
+
+<ul>
+<li>IIFE，没有解决核心的依赖分析和注入的问题。</li>
+<li>AMD，可以直接使用，库基本的支持。</li>
+<li>CommonJS，可以直接使用，在运行时的支持。</li>
+<li>ES6，语言本身的支持。</li>
+</ul>
+
+<p>使用插件工具，可以将后三种模块管理系统进行相互转换。</p>
+
+<h3 id="toc_14">框架</h3>
+
+<p>NOTE：以下讨论都是基于 JavaScript 的框架。</p>
+
+<h4 id="toc_15">库（Library）与框架（Framework）的区别</h4>
+
+<p><img src="media/15040127013389/tech_lib_and_frame.png" alt=""/></p>
+
+<p><strong>库</strong> 为针对特定问题的解答具有专业性，不控制应用的流程且被动调用。<br/>
+<strong>框架</strong> 具有<em>控制翻转</em>，决定应用的生命周期，于是便集成了大量的库。</p>
+
+<h4 id="toc_16">解决方案</h4>
+
+<p>常见的解决方案针对的方面：</p>
+
+<ul>
+<li>DOM</li>
+<li>Communication</li>
+<li>Utility</li>
+<li>Templating</li>
+<li>Component</li>
+<li>Routing（单页系统中尤其重要）</li>
+<li>Architecture</li>
+</ul>
+
+<p><strong>使用外部专业解决方案的原因</strong> 可以提高开发效率，可靠性高（浏览器兼容，测试覆盖），也配备优良的配套（文档及工具）。如果外部框架的质量可可靠性无法保证或无法满足业务学期时则不应该选择外部的框架。</p>
+
+<p><strong>实际项目中的使用</strong></p>
+
+<ul>
+<li>开发式：基于外部模块系统自由组合</li>
+<li>半开放：基于一个定制的模块系统，内部外部解决方案共存</li>
+<li>封闭式：深度定制的模块系统不引入外部模块</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[vue插件开发步骤详述]]></title>
+    <link href="wjh4dev.github.io/15025918446050.html"/>
+    <updated>2017-08-13T10:37:24+08:00</updated>
+    <id>wjh4dev.github.io/15025918446050.html</id>
+    <content type="html"><![CDATA[
+<p>对于研究 vue 的同学来说，组件、插件、模块这些名词相信都不陌生，但是这些东西再vue里到底是怎么开发出来的，就需要我们好好的思考与研究一下，下面我们就以 vue 插件为例，来试验一下开发一个通用顶部 menu 插件出来。</p>
+
+<span id="more"></span><!-- more -->
+
+<ul>
+<li>
+<a href="#toc_0">一、关于vue插件</a>
+</li>
+<li>
+<a href="#toc_1">二、vue插件规范</a>
+</li>
+<li>
+<a href="#toc_2">三、开发过程</a>
+<ul>
+<li>
+<a href="#toc_3">3.1 开发环境搭建</a>
+</li>
+<li>
+<a href="#toc_4">3.2 业务代码编写</a>
+</li>
+<li>
+<a href="#toc_5">3.3 查看开发效果</a>
+</li>
+<li>
+<a href="#toc_6">3.4 发包准备工作</a>
+<ul>
+<li>
+<a href="#toc_7">3.4.1 webpack.config.js配置调整</a>
+</li>
+<li>
+<a href="#toc_8">3.4.2 package.json配置调整</a>
+</li>
+<li>
+<a href="#toc_9">3.4.3 npm 配置调整</a>
+</li>
+<li>
+<a href="#toc_10">3.4.4 编写 README.md 说明</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_11">3.5 发布包，持续优化</a>
+<ul>
+<li>
+<a href="#toc_12">3.5.1 登录私服仓库</a>
+</li>
+<li>
+<a href="#toc_13">3.5.2 发布包</a>
+</li>
+<li>
+<a href="#toc_14">3.5.3 查看是否发布成功</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_15">四、如何使用</a>
+<ul>
+<li>
+<a href="#toc_16">4.1 安装插件</a>
+</li>
+<li>
+<a href="#toc_17">4.2 引入插件</a>
+</li>
+<li>
+<a href="#toc_18">4.3 页面直接使用组件标签即可</a>
+</li>
+<li>
+<a href="#toc_19">4.4 引入插件的效果：</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_20">总结</a>
+</li>
+</ul>
+
+
+<h3 id="toc_0">一、关于vue插件</h3>
+
+<p>对于vue插件，官网有介绍：<a href="https://cn.vuejs.org/v2/guide/plugins.html#%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6">vue插件开发</a></p>
+
+<p>插件的导入形式有以下几种：</p>
+
+<pre><code class="language-js">// ES6
+import shfbVueMenu from &#39;shfb-vue-menu&#39;;
+
+// 通过require 导入
+var ShfbVueMenu = require(&#39;shfbVueMenu&#39;);
+
+// 通过use挂载
+Vue.use(shfbVueMenu);
+
+// 或者直接导入js文件
+&lt;script src=&quot;./dist/shfb-vue-menu.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<h3 id="toc_1">二、vue插件规范</h3>
+
+<p>vue插件需要一个公开的install方法，里面包含我们需要的插件代码。<br/>
+共有两个参数第一个是Vue的构造器，第二个是一个可选option对象。</p>
+
+<pre><code class="language-js">import shfbVueMenu from &quot;./shfb-vue-menu.vue&quot;
+const shfbvuemenu = {
+  install(Vue, options) {
+    Vue.component(shfbVueMenu.name, shfbVueMenu)
+    // shfbVueMenu 组件的name属性
+    // 类似通过 this.$xxx 方式调用插件的 其实只是挂载到原型上而已
+    // Vue.prototype.$xxx  // 最终可以在任何地方通过 this.$xxx 调用
+    // 虽然没有明确规定用$开头  但是大家都默认遵守这个规定
+  }
+};
+</code></pre>
+
+<p>这样开发完的组件就可以使用如下代码使用：</p>
+
+<pre><code class="language-js">import shfbVueMenu from &#39;shfb-vue-menu&#39;
+Vue.use(shfbVueMenu);
+</code></pre>
+
+<p>前提你需要：<code>npm install -S shfb-vue-menu</code></p>
+
+<h3 id="toc_2">三、开发过程</h3>
+
+<h4 id="toc_3">3.1 开发环境搭建</h4>
+
+<p>使用vue脚手架，创建webpack-simple项目（不要用webpack，配置太复杂不需要）</p>
+
+<pre><code class="language-bash">$ vue init webpack-simple shfb-vue-menu
+$ cd shfb-vue-menu
+$ npm install -dd
+$ npm run dev
+</code></pre>
+
+<p>工程目录如下：</p>
+
+<pre><code class="language-text">./
+├── README.md
+├── dist                    // 打包发布的文件
+│   ├── shfb-vue-menu.js
+│   └── shfb-vue-menu.js.map
+├── index.html                
+├── package-lock.json
+├── package.json
+├── src                     
+│   ├── App.vue
+│   ├── lib                 // 源码，也是主要编写代码的地方
+│   │    ├── index.js
+│   │    └── shfb-vue-menu.vue
+│   └── main.js
+├── tree.txt
+└── webpack.config.js
+</code></pre>
+
+<p>我们为了看到开发过程中的效果，就创建了整个vue工程；其实开发只有lib内的文件就可以了。<br/>
+<br></p>
+
+<h4 id="toc_4">3.2 业务代码编写</h4>
+
+<p>本次插件主要是讲解vue插件开发示例，所以业务代码比较简单，只有一个顶部导航菜单，而且是简单的。<br></p>
+
+<p><code>shfb-vue-menu.vue</code> <code>&lt;script&gt;</code>代码如下：</p>
+
+<pre><code class="language-js">export default {
+    // name 必须的
+    name: &#39;shfb-vue-menu&#39;,
+    // 接受外部传入 菜单title、以及菜单列表
+    props: [&#39;title&#39;, &#39;menuList&#39;],
+    data () {
+      return {}
+    },
+    created () {
+        // Todo: 后续自己查询菜单列表，不接受外部传入
+    },
+    methods: {
+      clickMenu(item){
+        console.log(item);
+      }
+    }
+  }
+</code></pre>
+
+<p>开发过程中需要时刻查看效果：<br/>
+<code>App.vue</code> 中如此使用：</p>
+
+<pre><code class="language-html">  &lt;div id=&quot;app&quot;&gt;
+    &lt;shfb-vue-menu title=&quot;四海棚改服务平台&quot; :menuList=&quot;menuList&quot;&gt;&lt;/shfb-vue-menu&gt;
+  &lt;/div&gt;
+</code></pre>
+
+<pre><code class="language-js">export default {
+    name: &#39;app&#39;,
+    data () {
+      return {
+        menuList: [
+          {itemName: &quot;信息登记&quot;, itemUrl: &quot;http://test.bjshfb.com:3002&quot;, itemActive: &#39;&#39;},
+          {itemName: &quot;居民签约&quot;, itemUrl: &quot;http://test.bjshfb.com:3003&quot;, itemActive: &#39;active&#39;},
+          {itemName: &quot;居民选房&quot;, itemUrl: &quot;http://test.bjshfb.com:3004&quot;, itemActive: &#39;&#39;},
+          {itemName: &quot;数据分析&quot;, itemUrl: &quot;http://test.bjshfb.com:3005&quot;, itemActive: &#39;&#39;},
+          {itemName: &quot;系统管理&quot;, itemUrl: &quot;http://test.bjshfb.com:3006&quot;, itemActive: &#39;&#39;}
+        ]
+      }
+    }
+  }
+</code></pre>
+
+<h4 id="toc_5">3.3 查看开发效果</h4>
+
+<p><img src="media/15025918446050/15025936675385.jpg" alt="" style="width:527px;"/><br/>
+至此一个简单的插件就开发完成了。但是你以为这样就可以使用了吗？NO，你需要打包发布</p>
+
+<h4 id="toc_6">3.4 发包准备工作</h4>
+
+<h5 id="toc_7">3.4.1 webpack.config.js配置调整</h5>
+
+<p><img src="media/15025918446050/15026017073126.jpg" alt="" style="width:587px;"/></p>
+
+<h5 id="toc_8">3.4.2 package.json配置调整</h5>
+
+<p><img src="media/15025918446050/15026016417208.jpg" alt="" style="width:718px;"/></p>
+
+<h5 id="toc_9">3.4.3 npm 配置调整</h5>
+
+<p><img src="media/15025918446050/15026017892518.jpg" alt="" style="width:696px;"/></p>
+
+<h5 id="toc_10">3.4.4 编写 README.md 说明</h5>
+
+<p><img src="media/15025918446050/15026031786411.jpg" alt="" style="width:795px;"/><br/>
+⚠️建议都去学习了解一下markdown语法。写文档需要。现在哪哪都是markdown</p>
+
+<h4 id="toc_11">3.5 发布包，持续优化</h4>
+
+<p>发包的过程我们之前已经在其他文章中说过，这里只贴一下过程即可；不清楚的可以翻看之前文章。</p>
+
+<h5 id="toc_12">3.5.1 登录私服仓库</h5>
+
+<p><img src="media/15025918446050/15026045993279.jpg" alt="" style="width:698px;"/></p>
+
+<h5 id="toc_13">3.5.2 发布包</h5>
+
+<p><img src="media/15025918446050/15026046363762.jpg" alt="" style="width:749px;"/></p>
+
+<h5 id="toc_14">3.5.3 查看是否发布成功</h5>
+
+<p>查看是否成功可以有很多形式，<br/>
+1. npm info xxx // 可以查看包信息<br/>
+2. 直接查看仓库。 仓库中已有，OK。<br/>
+<img src="media/15025918446050/15026047401242.jpg" alt="" style="width:754px;"/></p>
+
+<h3 id="toc_15">四、如何使用</h3>
+
+<p>其实上面已经有介绍，在新项目中使用插件：</p>
+
+<h4 id="toc_16">4.1 安装插件</h4>
+
+<p><code>npm install -S shfb-vue-menu</code></p>
+
+<h4 id="toc_17">4.2 引入插件</h4>
+
+<pre><code class="language-js">// 在main.js 中引入组件
+import shfbVueMenu from &#39;shfb-vue-menu&#39;
+Vue.use(shfbVueMenu);
+</code></pre>
+
+<h4 id="toc_18">4.3 页面直接使用组件标签即可</h4>
+
+<pre><code class="language-html">&lt;shfb-vue-menu title=&quot;四海棚改服务平台&quot; :menuList=&quot;menuList&quot;&gt;&lt;/shfb-vue-menu&gt;
+</code></pre>
+
+<p>可传递参数见上方属性说明</p>
+
+<h4 id="toc_19">4.4 引入插件的效果：</h4>
+
+<p>shfb-vue-menu安装使用效果：<br/>
+<img src="media/15025918446050/15025937125647.jpg" alt="" style="width:527px;"/></p>
+
+<h3 id="toc_20">总结</h3>
+
+<p>OK，至此这就是开发一个vue插件的全部过程，以及顺带又重新讲解了一下，发包的过程。<br/>
+今天就到这里。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[node包开发、发布流程]]></title>
+    <link href="wjh4dev.github.io/15006205842047.html"/>
+    <updated>2017-07-21T15:03:04+08:00</updated>
+    <id>wjh4dev.github.io/15006205842047.html</id>
+    <content type="html"><![CDATA[
+<h3 id="toc_0">准备工作</h3>
+
+<p>在开始之前你可能需要了解： node、npm、等相关知识，并安装相关开发环境。<br/>
+这里默认你对开发环境，以及node都有了基础的理解。</p>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_1">正式开始：开发node包</h3>
+
+<ol>
+<li><p>在你自己的工程目录下执行命令：<code>npm init</code><br/>
+<img src="media/15006205842047/15006207314544.jpg" alt=""/><br/>
+这是执行命令的结果，会在目录下生成<code>package.json</code>文件。</p></li>
+<li><p>接下来创建工程目录结构<br/>
+执行如下命令：<br/>
+<code>mkdir tests lib &amp;&amp; touch index.js README.md</code><br/>
+结果如下：<br/>
+<img src="media/15006205842047/15006212179975.jpg" alt="" style="width:200px;"/></p></li>
+<li><p>开始开发工作<br/>
+对于node包来说基本代码都是一些公用js文件。<br/>
+详细开发过程可以查看另一篇文章：<a href="15014119322439.html">node包开发过程</a>。<br/>
+注意点：</p>
+
+<ol>
+<li>index.js中要 export 包对象，也就是暴露接口给外部；</li>
+<li>index.js内部可以依赖其他js文件，可以放置在lib中，也可以依赖其他包；</li>
+</ol></li>
+<li><p>功能开发基本完毕<br/>
+此时我们并不知道我们实现的功能是否可行、可用，我们需要进行单元测试。</p>
+
+<blockquote>
+<h3 id="toc_2">如何写单元测试？</h3>
+
+<p>先剧透一下，我们的单测框架使用的是 <a href="http://mochajs.org/"><strong>Mocha</strong></a><br/>
+这里有<a href="http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html">阮一峰老师的一个例子</a>，可以先了解一下</p>
+
+<h3 id="toc_3">单元测试原则</h3>
+
+<ul>
+<li>对全新的代码或修改过的代码进行单元测试</li>
+<li>单元测试根据单元测试计划和方案进行，排除测试的随意性</li>
+<li>必须保证单元测试计划、单元测试方案、单元测试用例等经过评审</li>
+<li>当测试用例的测试结果与预期结果不一致时，单元测试的执行人员需如实记录实际的测试结果</li>
+<li>只有当测试计划中的结束标准达到时，单元测试才能结束</li>
+<li>对被测试单元需达到的一定的代码覆盖率要求
+对于编写单元测试，将独立章节详细讲解。</li>
+</ul>
+</blockquote></li>
+<li><p>代码开发完成，如何发布？</p>
+
+<ul>
+<li>npm adduser（用户名、密码、邮箱）-- 注册帐号</li>
+<li>npm whoami（查看当前帐号）</li>
+<li>sudo npm publish（发布到npmjs.org）-- 注意：sudo权限</li>
+</ul></li>
+<li><p>发布之后的包如何使用呢？<br/>
+npm install 你的包名，就可以向我们平时使用其他模块的包一样使用了。</p></li>
+</ol>
+
+<h3 id="toc_4">总结</h3>
+
+<p>这就是node包的开发以及发布流程，总结一下：</p>
+
+<ol>
+<li>配置node环境</li>
+<li>使用npm初始化命令生成package.json（npm init）</li>
+<li>创建工程环境：目录，入口文件等</li>
+<li>编辑package添加第三方依赖包（如果需要）</li>
+<li>根据package安装依赖包（npm install）</li>
+<li>编写index.js开始实现功能...</li>
+<li>完成功能之后测试没有问题发包（npm publish）</li>
+</ol>
+
+<p>以上就是大体的流程，有些步骤可根据自己需要删减，看那个人需求。最后祝大家能在代码的世界中找到自己。</p>
+
+<h3 id="toc_5">整理大纲</h3>
+
+<ul>
+<li>
+<a href="#toc_0">准备工作</a>
+</li>
+<li>
+<a href="#toc_1">正式开始：开发node包</a>
+</li>
+<li>
+<a href="#toc_4">总结</a>
+</li>
+<li>
+<a href="#toc_5">整理大纲</a>
+</li>
+</ul>
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[node包详细开发过程]]></title>
+    <link href="wjh4dev.github.io/15014119322439.html"/>
+    <updated>2017-07-30T18:52:12+08:00</updated>
+    <id>wjh4dev.github.io/15014119322439.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>上一篇文章讲解了如何开发和发布node包的大体操作流程。<br/>
+这篇是着重就如何编写代码来详细说明一下，好接下来直奔主题：</p>
+</blockquote>
+
+<h3 id="toc_0">初始化工程环境</h3>
+
+<p>默认认为你的node环境已经没有问题。</p>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_1">npm init</h3>
+
+<p>如果使用了<code>-f</code>（代表force）、<code>-y</code>（代表yes），则跳过提问阶段，直接生成一个新的<code>package.json</code>文件。<br/>
+结果如下：<br/>
+<img src="media/15014119322439/15015805053275.jpg" alt="" style="width:529px;"/></p>
+
+<h3 id="toc_2">创建工程文件</h3>
+
+<p><code>mkdir tests lib &amp;&amp; touch index.js README.md</code><br/>
+工程结构如下：<br/>
+<img src="media/15014119322439/15015988151400.jpg" alt="" style="width:400px;"/></p>
+
+<h3 id="toc_3">开发功能</h3>
+
+<p><strong>lib/utils.js</strong></p>
+
+<pre><code class="language-js">var Promise = require(&quot;es6-promise&quot;).Promise;
+
+/**
+ * 提供各种工具方法
+ * @type {{*}}
+ */
+module.exports = {
+    /**
+     * 获取Defer对象
+     * @return {[type]} [description]
+     */
+    getDefer: function (){
+        var deferred = {};
+        deferred.promise = new Promise(function(resolve, reject){
+            deferred.resolve = resolve;
+            deferred.reject = reject;
+        });
+        return deferred;
+    },
+    /**
+     * promise when方法
+     * @param promises promise数组
+     * @returns {[type]} [description]
+     */
+    when: function(promises) {
+        var deffered = this.getDefer();
+        Promise.all(promises).then(function(data) {
+            deffered.resolve(data);
+        }, function(err) {
+            deffered.reject(err);
+        });
+        return deffered.promise;
+    }
+}
+</code></pre>
+
+<p>⚠️ npm install es6-promise --save --verbos</p>
+
+<p><strong>lib/file.js</strong></p>
+
+<pre><code class="language-js">var fs = require(&#39;fs&#39;);
+var path = require(&#39;path&#39;);
+var utils = require(&#39;./utils.js&#39;);
+
+module.exports = {
+    /**
+     * 写文件
+     * @param file 文件路径
+     * @param data 数据
+     */
+    writeFile: function(file, data) {
+        var deferred = utils.getDefer();
+        file = path.resolve(file);
+
+        fs.writeFile(file, data, &#39;utf-8&#39;, function(err) {
+            if(err){
+                deferred.reject(err);
+            }else {
+                deferred.resolve(true);
+            }
+        });
+        return deferred.promise;
+    },
+    /**
+     * 读文件
+     * @param file 文件路径
+     */
+    readFile: function(file) {
+        var deferred = utils.getDefer();
+        file = path.resolve(file);
+
+        fs.readFile(file, &#39;utf-8&#39;, function(err, data) {
+            if(err){
+                deferred.reject(err);
+            }else {
+                deferred.resolve(data);
+            }
+        });
+        return deferred.promise;
+    }
+};
+</code></pre>
+
+<p>主函数index.js</p>
+
+<pre><code class="language-js">&#39;use strict&#39;;
+var file = require(&#39;./lib/file.js&#39;);
+
+module.exports = {
+    writeFile: file.writeFile,
+    readFile: file.readFile
+}
+</code></pre>
+
+<p>⚠️ 主要为了暴露接口</p>
+
+<hr/>
+
+<p>到此编码开发基本完毕<br/>
+此时我们并不知道我们实现的功能是否可行、可用<br/>
+我们需要进行单元测试</p>
+
+<h3 id="toc_4">书写单元测试</h3>
+
+<h3 id="toc_5">手动测试</h3>
+
+<h3 id="toc_6">跑脚本自动测试</h3>
+
+<h3 id="toc_7">总结</h3>
+
+<ol>
+<li>配置node环境</li>
+<li>使用npm初始化命令生成package.json（npm init）</li>
+<li>创建工程环境：目录，入口文件等</li>
+<li>编辑package添加第三方依赖包（如果需要）</li>
+<li>根据package安装依赖包（npm install）</li>
+<li>编写index.js开始实现功能...</li>
+<li>完成功能之后测试</li>
+<li>测试通过没有问题发包（npm publish）</li>
+</ol>
+
+<h3 id="toc_8">整理大纲</h3>
+
+<ul>
+<li>
+<a href="#toc_0">初始化工程环境</a>
+</li>
+<li>
+<a href="#toc_1">npm init</a>
+</li>
+<li>
+<a href="#toc_2">创建工程文件</a>
+</li>
+<li>
+<a href="#toc_3">开发功能</a>
+</li>
+<li>
+<a href="#toc_4">书写单元测试</a>
+</li>
+<li>
+<a href="#toc_5">手动测试</a>
+</li>
+<li>
+<a href="#toc_6">跑脚本自动测试</a>
+</li>
+<li>
+<a href="#toc_7">总结</a>
+</li>
+<li>
+<a href="#toc_8">整理大纲</a>
+</li>
+</ul>
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[npm 私有仓库配置过程]]></title>
+    <link href="wjh4dev.github.io/15014123618753.html"/>
+    <updated>2017-07-30T18:59:21+08:00</updated>
+    <id>wjh4dev.github.io/15014123618753.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>在开发过程中有时候我们需要开发自己的node package，但是由于是我们自己使用的包，不希望发布到<code>npmjs.org</code>公共库上去，于是就需要一个私有的仓库，推荐nexus，因为当初写java也是用nexus管理jar包的。<br/>
+接下来就介绍如何配置nexus npm仓库。 </p>
+</blockquote>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_0">一、nexus安装</h3>
+
+<p>此处省略几百字...<br/>
+说几句题外话：对于一个开发人员，linux命令行模式还是必须要掌握的，安装软件，查看日志，都是必须的。因为你离不开它。就像写代码必须要电脑一样，这个年代你不可能在纸上写代码去执行。<br/>
+尤其近几年：前端使用的 Bower 管理器、Node 环境以及自动化测试、版本控制等都离不开 Linux 命令行的设计思想。所以<strong>linux命令、node命令、npm命令</strong>都需要掌握。</p>
+
+<h3 id="toc_1">二、nexus仓库配置</h3>
+
+<p>在nexus新建npm仓库：<code>Repositories &gt; create repository</code> 说明一下npm仓库有三种：</p>
+
+<pre><code>proxy：代理仓库（我们需要用到公网的包，从这个代理走）
+hosted：私有仓库（这就是你本地的仓库）
+group：仓库组（每个组里要包含 proxy 和 hosted ）
+</code></pre>
+
+<ol>
+<li><p>分别创建三种库：</p>
+
+<ul>
+<li><p>创建proxy仓库：<br/>
+填写require的地方；<br/>
+<img src="media/15014123618753/15015741997799.jpg" alt="" style="width:688px;"/><br/>
+完成之后就是如下的样子：<br/>
+<img src="media/15014123618753/15015744921908.jpg" alt="" style="width:646px;"/></p></li>
+<li><p>创建hosted仓库：<br/>
+同样填写required内容（就是你的仓库名称）<br/>
+<img src="media/15014123618753/15015746270890.jpg" alt=""/><br/>
+保存成功之后如下：（注意Deployment 要设置为：Allow redeploy，否则后续发布npm包，会失败）<br/>
+<img src="media/15014123618753/15015745874238.jpg" alt="" style="width:657px;"/></p></li>
+<li><p>创建Group组 （这个group组其实就是将上面两个组合到一块）<br/>
+注意填写仓库名称，将之前建立好的proxy和hosted添加到此group中<br/>
+<img src="media/15014123618753/15015749248742.jpg" alt="" style="width:675px;"/><br/>
+成功之后如下图：（我们最后要在本地使用的也就是下面标红这个仓库地址）<br/>
+<img src="media/15014123618753/15015749770106.jpg" alt="" style="width:658px;"/></p></li>
+</ul></li>
+</ol>
+
+<p>npm仓库配置完成之后，需要验证一下仓库可是使用。我们使用另一篇文章<a href="15006205842047.html">node包开发、发布流程</a>的例子试验一下。</p>
+
+<h3 id="toc_2">三、npm私服的使用</h3>
+
+<p>⚠️ 以下的仓库IP地址我都用yourIp替换了，需要替换成你自己的仓库IP地址。</p>
+
+<h4 id="toc_3">3.1 配置本地仓库地址</h4>
+
+<p>地址：<code>--registry=http://yourIp:port/repository/shfb-node-all/</code></p>
+
+<pre><code class="language-bash">$ &gt; npm config set registry http://yourIp:port/repository/shfb-node-all/
+
+$ &gt; npm adduser --registry=http://yourIp:port/repository/shfb-node-repo/
+Username: wangjh
+Password:
+Email: (this IS public) wangjh@bjshfb.com
+Logged in as wangjh on http://yourIp:port/repository/shfb-node-repo/.
+</code></pre>
+
+<h4 id="toc_4">3.2 使用本地仓库地址登录</h4>
+
+<pre><code class="language-bash">$ npm login
+Username: wangjh
+Password:
+Email:(this IS public) wangjh@bjshfb.com
+Logged in as wangjh on http://yourIp:port/repository/shfb-node-all/
+</code></pre>
+
+<p><img src="media/15014123618753/15015970250581.jpg" alt="" style="width:633px;"/></p>
+
+<h4 id="toc_5">3.3 publish注意</h4>
+
+<p>需要使用hosted地址发布：<br/>
+<code>http://yourIp:port/repository/shfb-node-repo/</code></p>
+
+<pre><code class="language-bash">$ npm publish --registry=http://yourIp:port/repository/shfb-node-repo/
+</code></pre>
+
+<p>结果如图：<br/>
+<img src="media/15014123618753/15015978199744.jpg" alt="" style="width:646px;"/></p>
+
+<p>于npm私服仓库查询发布npm包<br/>
+<img src="media/15014123618753/15015980573106.jpg" alt="" style="width:849px;"/></p>
+
+<h4 id="toc_6">3.4 发布成功如何使用？</h4>
+
+<p>新建项目直接使用<code>npm install</code>即可安装<code>learnNpm</code>包，前提是你的<code>registry</code>要指向我们的私服仓库。</p>
+
+<p>（全文完）</p>
+
+<h3 id="toc_7">目录</h3>
+
+<ul>
+<li>
+<a href="#toc_0">一、nexus安装</a>
+</li>
+<li>
+<a href="#toc_1">二、nexus仓库配置</a>
+</li>
+<li>
+<a href="#toc_2">三、npm私服的使用</a>
+<ul>
+<li>
+<a href="#toc_3">3.1 配置本地仓库地址</a>
+</li>
+<li>
+<a href="#toc_4">3.2 使用本地仓库地址登录</a>
+</li>
+<li>
+<a href="#toc_5">3.3 publish注意</a>
+</li>
+<li>
+<a href="#toc_6">3.4 发布成功如何使用？</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_7">目录</a>
+</li>
+</ul>
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NPM 模块管理器]]></title>
+    <link href="wjh4dev.github.io/15015937003199.html"/>
+    <updated>2017-08-01T21:21:40+08:00</updated>
+    <id>wjh4dev.github.io/15015937003199.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">目录大纲</h2>
+
+<ul>
+<li>
+<a href="#toc_0">目录大纲</a>
+</li>
+<li>
+<a href="#toc_1">简介</a>
+</li>
+<li>
+<a href="#toc_2">npm init</a>
+</li>
+<li>
+<a href="#toc_3">npm set</a>
+</li>
+<li>
+<a href="#toc_4">npm config</a>
+</li>
+<li>
+<a href="#toc_5">npm info</a>
+</li>
+<li>
+<a href="#toc_6">npm search</a>
+</li>
+<li>
+<a href="#toc_7">npm list</a>
+</li>
+<li>
+<a href="#toc_8">npm install</a>
+<ul>
+<li>
+<a href="#toc_9">基本用法</a>
+</li>
+<li>
+<a href="#toc_10">安装不同版本</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_11">避免系统权限</a>
+</li>
+<li>
+<a href="#toc_12">npm update，npm uninstall</a>
+</li>
+<li>
+<a href="#toc_13">npm run</a>
+<ul>
+<li>
+<a href="#toc_14">参数</a>
+</li>
+<li>
+<a href="#toc_15">scripts脚本命令最佳实践</a>
+</li>
+<li>
+<a href="#toc_16">pre- 和 post- 脚本</a>
+</li>
+<li>
+<a href="#toc_17">内部变量</a>
+</li>
+<li>
+<a href="#toc_18">通配符</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_19">npm link</a>
+</li>
+<li>
+<a href="#toc_20">npm bin</a>
+</li>
+<li>
+<a href="#toc_21">npm adduser</a>
+</li>
+<li>
+<a href="#toc_22">npm publish</a>
+</li>
+<li>
+<a href="#toc_23">npm deprecate</a>
+</li>
+<li>
+<a href="#toc_24">npm owner</a>
+</li>
+<li>
+<a href="#toc_25">其他命令</a>
+<ul>
+<li>
+<a href="#toc_26">npm home，npm repo</a>
+</li>
+<li>
+<a href="#toc_27">npm outdated</a>
+</li>
+<li>
+<a href="#toc_28">npm prune</a>
+</li>
+<li>
+<a href="#toc_29">npm shrinkwrap</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_30">参考链接</a>
+</li>
+</ul>
+
+
+<h2 id="toc_1">简介</h2>
+
+<p><code>npm</code>有两层含义。一层含义是Node的开放式模块登记和管理系统，网址为<a href="http://npmjs.org">npmjs.org</a>。另一层含义是Node默认的模块管理器，是一个命令行下的软件，用来安装和管理Node模块。</p>
+
+<span id="more"></span><!-- more -->
+
+<p><code>npm</code>不需要单独安装。在安装Node的时候，会连带一起安装<code>npm</code>。但是，Node附带的<code>npm</code>可能不是最新版本，最好用下面的命令，更新到最新版本。</p>
+
+<pre><code class="language-bash">$ npm install npm@latest -g
+</code></pre>
+
+<p>上面的命令中，<code>@latest</code>表示最新版本，<code>-g</code>表示全局安装。所以，命令的主干是<code>npm install npm</code>，也就是使用<code>npm</code>安装自己。之所以可以这样，是因为<code>npm</code>本身与Node的其他模块没有区别。</p>
+
+<p>然后，运行下面的命令，查看各种信息。</p>
+
+<pre><code class="language-bash"># 查看 npm 命令列表
+$ npm help
+
+# 查看各个命令的简单用法
+$ npm -l
+
+# 查看 npm 的版本
+$ npm -v
+
+# 查看 npm 的配置
+$ npm config list -l
+</code></pre>
+
+<h2 id="toc_2">npm init</h2>
+
+<p><code>npm init</code>用来初始化生成一个新的<code>package.json</code>文件。它会向用户提问一系列问题，如果你觉得不用修改默认配置，一路回车就可以了。</p>
+
+<p>如果使用了<code>-f</code>（代表force）、<code>-y</code>（代表yes），则跳过提问阶段，直接生成一个新的<code>package.json</code>文件。</p>
+
+<pre><code class="language-bash">$ npm init -y
+</code></pre>
+
+<h2 id="toc_3">npm set</h2>
+
+<p><code>npm set</code>用来设置环境变量。</p>
+
+<pre><code class="language-bash">$ npm set init-author-name &#39;Your name&#39;
+$ npm set init-author-email &#39;Your email&#39;
+$ npm set init-author-url &#39;http://yourdomain.com&#39;
+$ npm set init-license &#39;MIT&#39;
+</code></pre>
+
+<p>上面命令等于为<code>npm init</code>设置了默认值，以后执行<code>npm init</code>的时候，<code>package.json</code>的作者姓名、邮件、主页、许可证字段就会自动写入预设的值。这些信息会存放在用户主目录的<code>~/.npmrc</code>文件，使得用户不用每个项目都输入。如果某个项目有不同的设置，可以针对该项目运行<code>npm config</code>。</p>
+
+<pre><code class="language-bash">$ npm set save-exact true
+</code></pre>
+
+<p>上面命令设置加入模块时，<code>package.json</code>将记录模块的确切版本，而不是一个可选的版本范围。</p>
+
+<h2 id="toc_4">npm config</h2>
+
+<pre><code class="language-bash">$ npm config set prefix $dir
+</code></pre>
+
+<p>上面的命令将指定的<code>$dir</code>目录，设为模块的全局安装目录。如果当前有这个目录的写权限，那么运行<code>npm install</code>的时候，就不再需要<code>sudo</code>命令授权了。</p>
+
+<pre><code class="language-bash">$ npm config set save-prefix ~
+</code></pre>
+
+<p>上面的命令使得<code>npm install --save</code>和<code>npm install --save-dev</code>安装新模块时，允许的版本范围从克拉符号（<code>^</code>）改成波浪号（<code>~</code>），即从允许小版本升级，变成只允许补丁包的升级。</p>
+
+<pre><code class="language-bash">$ npm config set init.author.name $name
+$ npm config set init.author.email $email
+</code></pre>
+
+<p>上面命令指定使用<code>npm init</code>时，生成的<code>package.json</code>文件的字段默认值。</p>
+
+<h2 id="toc_5">npm info</h2>
+
+<p><code>npm info</code>命令可以查看每个模块的具体信息。比如，查看underscore模块的信息。</p>
+
+<pre><code class="language-bash">$ npm info underscore
+{ name: &#39;underscore&#39;,
+  description: &#39;JavaScript\&#39;s functional programming helper library.&#39;,
+  &#39;dist-tags&#39;: { latest: &#39;1.5.2&#39;, stable: &#39;1.5.2&#39; },
+  repository:
+   { type: &#39;git&#39;,
+     url: &#39;git://github.com/jashkenas/underscore.git&#39; },
+  homepage: &#39;http://underscorejs.org&#39;,
+  main: &#39;underscore.js&#39;,
+  version: &#39;1.5.2&#39;,
+  devDependencies: { phantomjs: &#39;1.9.0-1&#39; },
+  licenses:
+   { type: &#39;MIT&#39;,
+     url: &#39;https://raw.github.com/jashkenas/underscore/master/LICENSE&#39; },
+  files:
+   [ &#39;underscore.js&#39;,
+     &#39;underscore-min.js&#39;,
+     &#39;LICENSE&#39; ],
+  readmeFilename: &#39;README.md&#39;}
+</code></pre>
+
+<p>上面命令返回一个JavaScript对象，包含了underscore模块的详细信息。这个对象的每个成员，都可以直接从info命令查询。</p>
+
+<pre><code class="language-bash">$ npm info underscore description
+JavaScript&#39;s functional programming helper library.
+
+$ npm info underscore homepage
+http://underscorejs.org
+
+$ npm info underscore version
+1.5.2
+</code></pre>
+
+<h2 id="toc_6">npm search</h2>
+
+<p><code>npm search</code>命令用于搜索npm仓库，它后面可以跟字符串，也可以跟正则表达式。</p>
+
+<pre><code class="language-bash">$ npm search &lt;搜索词&gt;
+</code></pre>
+
+<p>下面是一个例子。</p>
+
+<pre><code class="language-bash">$ npm search node-gyp
+// NAME                  DESCRIPTION
+// autogypi              Autogypi handles dependencies for node-gyp projects.
+// grunt-node-gyp        Run node-gyp commands from Grunt.
+// gyp-io                Temporary solution to let node-gyp run `rebuild` under…
+// ...
+</code></pre>
+
+<h2 id="toc_7">npm list</h2>
+
+<p><code>npm list</code>命令以树型结构列出当前项目安装的所有模块，以及它们依赖的模块。</p>
+
+<pre><code class="language-bash">$ npm list
+</code></pre>
+
+<p>加上global参数，会列出全局安装的模块。</p>
+
+<pre><code class="language-bash">$ npm list -global
+</code></pre>
+
+<p><code>npm list</code>命令也可以列出单个模块。</p>
+
+<pre><code class="language-bash">$ npm list underscore
+</code></pre>
+
+<h2 id="toc_8">npm install</h2>
+
+<h3 id="toc_9">基本用法</h3>
+
+<p>Node模块采用<code>npm install</code>命令安装。</p>
+
+<p>每个模块可以“全局安装”，也可以“本地安装”。“全局安装”指的是将一个模块安装到系统目录中，各个项目都可以调用。一般来说，全局安装只适用于工具模块，比如<code>eslint</code>和<code>gulp</code>。“本地安装”指的是将一个模块下载到当前项目的<code>node_modules</code>子目录，然后只有在项目目录之中，才能调用这个模块。</p>
+
+<pre><code class="language-bash"># 本地安装
+$ npm install &lt;package name&gt;
+
+# 全局安装
+$ sudo npm install -global &lt;package name&gt;
+$ sudo npm install -g &lt;package name&gt;
+</code></pre>
+
+<p><code>npm install</code>也支持直接输入Github代码库地址。</p>
+
+<pre><code class="language-bash">$ npm install git://github.com/package/path.git
+$ npm install git://github.com/package/path.git#0.1.0
+</code></pre>
+
+<p>安装之前，<code>npm install</code>会先检查，<code>node_modules</code>目录之中是否已经存在指定模块。如果存在，就不再重新安装了，即使远程仓库已经有了一个新版本，也是如此。</p>
+
+<p>如果你希望，一个模块不管是否安装过，npm 都要强制重新安装，可以使用<code>-f</code>或<code>--force</code>参数。</p>
+
+<pre><code class="language-bash">$ npm install &lt;packageName&gt; --force
+</code></pre>
+
+<p>如果你希望，所有模块都要强制重新安装，那就删除<code>node_modules</code>目录，重新执行<code>npm install</code>。</p>
+
+<pre><code class="language-bash">$ rm -rf node_modules
+$ npm install
+</code></pre>
+
+<h3 id="toc_10">安装不同版本</h3>
+
+<p>install命令总是安装模块的最新版本，如果要安装模块的特定版本，可以在模块名后面加上@和版本号。</p>
+
+<pre><code class="language-bash">$ npm install sax@latest
+$ npm install sax@0.1.1
+$ npm install sax@&quot;&gt;=0.1.0 &lt;0.2.0&quot;
+</code></pre>
+
+<p>如果使用<code>--save-exact</code>参数，会在package.json文件指定安装模块的确切版本。</p>
+
+<pre><code class="language-bash">$ npm install readable-stream --save --save-exact
+</code></pre>
+
+<p>install命令可以使用不同参数，指定所安装的模块属于哪一种性质的依赖关系，即出现在packages.json文件的哪一项中。</p>
+
+<ul>
+<li>--save：模块名将被添加到dependencies，可以简化为参数<code>-S</code>。</li>
+<li>--save-dev: 模块名将被添加到devDependencies，可以简化为参数<code>-D</code>。</li>
+</ul>
+
+<pre><code class="language-bash">$ npm install sax --save
+$ npm install node-tap --save-dev
+# 或者
+$ npm install sax -S
+$ npm install node-tap -D
+</code></pre>
+
+<p>如果要安装beta版本的模块，需要使用下面的命令。</p>
+
+<pre><code class="language-bash"># 安装最新的beta版
+$ npm install &lt;module-name&gt;@beta (latest beta)
+
+# 安装指定的beta版
+$ npm install &lt;module-name&gt;@1.3.1-beta.3
+</code></pre>
+
+<p><code>npm install</code>默认会安装<code>dependencies</code>字段和<code>devDependencies</code>字段中的所有模块，如果使用<code>--production</code>参数，可以只安装<code>dependencies</code>字段的模块。</p>
+
+<pre><code class="language-bash">$ npm install --production
+# 或者
+$ NODE_ENV=production npm install
+</code></pre>
+
+<p>一旦安装了某个模块，就可以在代码中用<code>require</code>命令加载这个模块。</p>
+
+<pre><code class="language-javascript">var backbone = require(&#39;backbone&#39;)
+console.log(backbone.VERSION)
+</code></pre>
+
+<h2 id="toc_11">避免系统权限</h2>
+
+<p>默认情况下，Npm全局模块都安装在系统目录（比如<code>/usr/local/lib/</code>），普通用户没有写入权限，需要用到<code>sudo</code>命令。这不是很方便，我们可以在没有root权限的情况下，安装全局模块。</p>
+
+<p>首先，在主目录下新建配置文件<code>.npmrc</code>，然后在该文件中将<code>prefix</code>变量定义到主目录下面。</p>
+
+<pre><code class="language-bash">prefix = /home/yourUsername/npm
+</code></pre>
+
+<p>然后在主目录下新建<code>npm</code>子目录。</p>
+
+<pre><code class="language-bash">$ mkdir ~/npm
+</code></pre>
+
+<p>此后，全局安装的模块都会安装在这个子目录中，npm也会到<code>~/npm/bin</code>目录去寻找命令。</p>
+
+<p>最后，将这个路径在<code>.bash_profile</code>文件（或<code>.bashrc</code>文件）中加入PATH变量。</p>
+
+<pre><code class="language-bash">export PATH=~/npm/bin:$PATH
+</code></pre>
+
+<h2 id="toc_12">npm update，npm uninstall</h2>
+
+<p><code>npm update</code>命令可以更新本地安装的模块。</p>
+
+<pre><code class="language-bash"># 升级当前项目的指定模块
+$ npm update [package name]
+
+# 升级全局安装的模块
+$ npm update -global [package name]
+</code></pre>
+
+<p>它会先到远程仓库查询最新版本，然后查询本地版本。如果本地版本不存在，或者远程版本较新，就会安装。</p>
+
+<p>使用<code>-S</code>或<code>--save</code>参数，可以在安装的时候更新<code>package.json</code>里面模块的版本号。</p>
+
+<pre><code class="language-javascript">// 更新之前的package.json
+dependencies: {
+  dep1: &quot;^1.1.1&quot;
+}
+
+// 更新之后的package.json
+dependencies: {
+  dep1: &quot;^1.2.2&quot;
+}
+</code></pre>
+
+<p>注意，从npm v2.6.1 开始，<code>npm update</code>只更新顶层模块，而不更新依赖的依赖，以前版本是递归更新的。如果想取到老版本的效果，要使用下面的命令。</p>
+
+<pre><code class="language-bash">$ npm --depth 9999 update
+</code></pre>
+
+<p><code>npm uninstall</code>命令，卸载已安装的模块。</p>
+
+<pre><code class="language-bash">$ npm uninstall [package name]
+
+# 卸载全局模块
+$ npm uninstall [package name] -global
+</code></pre>
+
+<h2 id="toc_13">npm run</h2>
+
+<p><code>npm</code>不仅可以用于模块管理，还可以用于执行脚本。<code>package.json</code>文件有一个<code>scripts</code>字段，可以用于指定脚本命令，供<code>npm</code>直接调用。</p>
+
+<pre><code class="language-javascript">{
+  &quot;name&quot;: &quot;myproject&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;jshint&quot;: &quot;latest&quot;,
+    &quot;browserify&quot;: &quot;latest&quot;,
+    &quot;mocha&quot;: &quot;latest&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;lint&quot;: &quot;jshint **.js&quot;,
+    &quot;test&quot;: &quot;mocha test/&quot;
+  }
+}
+</code></pre>
+
+<p>上面代码中，<code>scripts</code>字段指定了两项命令<code>lint</code>和<code>test</code>。命令行输入<code>npm run-script lint</code>或者<code>npm run lint</code>，就会执行<code>jshint **.js</code>，输入<code>npm run-script test</code>或者<code>npm run test</code>，就会执行<code>mocha test/</code>。<code>npm run</code>是<code>npm run-script</code>的缩写，一般都使用前者，但是后者可以更好地反应这个命令的本质。</p>
+
+<p><code>npm run</code>命令会自动在环境变量<code>$PATH</code>添加<code>node_modules/.bin</code>目录，所以<code>scripts</code>字段里面调用命令时不用加上路径，这就避免了全局安装NPM模块。</p>
+
+<p><code>npm run</code>如果不加任何参数，直接运行，会列出<code>package.json</code>里面所有可以执行的脚本命令。</p>
+
+<p>npm内置了两个命令简写，<code>npm test</code>等同于执行<code>npm run test</code>，<code>npm start</code>等同于执行<code>npm run start</code>。</p>
+
+<p><code>npm run</code>会创建一个Shell，执行指定的命令，并临时将<code>node_modules/.bin</code>加入PATH变量，这意味着本地模块可以直接运行。</p>
+
+<p>举例来说，你执行ESLint的安装命令。</p>
+
+<pre><code class="language-bash">$ npm i eslint --save-dev
+</code></pre>
+
+<p>运行上面的命令以后，会产生两个结果。首先，ESLint被安装到当前目录的<code>node_modules</code>子目录；其次，<code>node_modules/.bin</code>目录会生成一个符号链接<code>node_modules/.bin/eslint</code>，指向ESLint模块的可执行脚本。</p>
+
+<p>然后，你就可以在<code>package.json</code>的<code>script</code>属性里面，不带路径的引用<code>eslint</code>这个脚本。</p>
+
+<pre><code class="language-javascript">{
+  &quot;name&quot;: &quot;Test Project&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;eslint&quot;: &quot;^1.10.3&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;lint&quot;: &quot;eslint .&quot;
+  }
+}
+</code></pre>
+
+<p>等到运行<code>npm run lint</code>的时候，它会自动执行<code>./node_modules/.bin/eslint .</code>。</p>
+
+<p>如果直接运行<code>npm run</code>不给出任何参数，就会列出<code>scripts</code>属性下所有命令。</p>
+
+<pre><code class="language-bash">$ npm run
+Available scripts in the user-service package:
+  lint
+     jshint **.js
+  test
+    mocha test/
+</code></pre>
+
+<p>下面是另一个<code>package.json</code>文件的例子。</p>
+
+<pre><code class="language-javascript">&quot;scripts&quot;: {
+  &quot;watch&quot;: &quot;watchify client/main.js -o public/app.js -v&quot;,
+  &quot;build&quot;: &quot;browserify client/main.js -o public/app.js&quot;,
+  &quot;start&quot;: &quot;npm run watch &amp; nodemon server.js&quot;,
+  &quot;test&quot;: &quot;node test/all.js&quot;
+},
+</code></pre>
+
+<p>上面代码在<code>scripts</code>项，定义了四个别名，每个别名都有对应的脚本命令。</p>
+
+<pre><code class="language-bash">$ npm run watch
+$ npm run build
+$ npm run start
+$ npm run test
+</code></pre>
+
+<p>其中，<code>start</code>和<code>test</code>属于特殊命令，可以省略<code>run</code>。</p>
+
+<pre><code class="language-bash">$ npm start
+$ npm test
+</code></pre>
+
+<p>如果希望一个操作的输出，是另一个操作的输入，可以借用Linux系统的管道命令，将两个操作连在一起。</p>
+
+<pre><code class="language-javascript">&quot;build-js&quot;: &quot;browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js&quot;
+</code></pre>
+
+<p>但是，更方便的写法是引用其他<code>npm run</code>命令。</p>
+
+<pre><code class="language-javascript">&quot;build&quot;: &quot;npm run build-js &amp;&amp; npm run build-css&quot;
+</code></pre>
+
+<p>上面的写法是先运行<code>npm run build-js</code>，然后再运行<code>npm run build-css</code>，两个命令中间用<code>&amp;&amp;</code>连接。如果希望两个命令同时平行执行，它们中间可以用<code>&amp;</code>连接。</p>
+
+<p>下面是一个流操作的例子。</p>
+
+<pre><code class="language-javascript">&quot;devDependencies&quot;: {
+  &quot;autoprefixer&quot;: &quot;latest&quot;,
+  &quot;cssmin&quot;: &quot;latest&quot;
+},
+
+&quot;scripts&quot;: {
+  &quot;build:css&quot;: &quot;autoprefixer -b &#39;last 2 versions&#39; &lt; assets/styles/main.css | cssmin &gt; dist/main.css&quot;
+}
+</code></pre>
+
+<p>写在<code>scripts</code>属性中的命令，也可以在<code>node_modules/.bin</code>目录中直接写成bash脚本。下面是一个bash脚本。</p>
+
+<pre><code class="language-javascript">#!/bin/bash
+
+cd site/main
+browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js
+</code></pre>
+
+<p>假定上面的脚本文件名为build.sh，并且权限为可执行，就可以在scripts属性中引用该文件。</p>
+
+<pre><code class="language-javascript">&quot;build-js&quot;: &quot;bin/build.sh&quot;
+</code></pre>
+
+<h3 id="toc_14">参数</h3>
+
+<p><code>npm run</code>命令还可以添加参数。</p>
+
+<pre><code class="language-javascript">&quot;scripts&quot;: {
+  &quot;test&quot;: &quot;mocha test/&quot;
+}
+</code></pre>
+
+<p>上面代码指定<code>npm test</code>，实际运行<code>mocha test/</code>。如果要通过<code>npm test</code>命令，将参数传到mocha，则参数之前要加上两个连词线。</p>
+
+<pre><code class="language-bash">$ npm run test -- anothertest.js
+# 等同于
+$ mocha test/ anothertest.js
+</code></pre>
+
+<p>上面命令表示，mocha要运行所有<code>test</code>子目录的测试脚本，以及另外一个测试脚本<code>anothertest.js</code>。</p>
+
+<p><code>npm run</code>本身有一个参数<code>-s</code>，表示关闭npm本身的输出，只输出脚本产生的结果。</p>
+
+<pre><code class="language-bash">// 输出npm命令头
+$ npm run test
+
+// 不输出npm命令头
+$ npm run -s test
+</code></pre>
+
+<h3 id="toc_15">scripts脚本命令最佳实践</h3>
+
+<p><code>scripts</code>字段的脚本命令，有一些最佳实践，可以方便开发。首先，安装<code>npm-run-all</code>模块。</p>
+
+<pre><code class="language-bash">$ npm install npm-run-all --save-dev
+</code></pre>
+
+<p>这个模块用于运行多个<code>scripts</code>脚本命令。</p>
+
+<pre><code class="language-bash"># 继发执行
+$ npm-run-all build:html build:js
+# 等同于
+$ npm run build:html &amp;&amp; npm run build:js
+
+# 并行执行
+$ npm-run-all --parallel watch:html watch:js
+# 等同于
+$ npm run watch:html &amp; npm run watch:js
+
+# 混合执行
+$ npm-run-all clean lint --parallel watch:html watch:js
+# 等同于
+$ npm-run-all clean lint
+$ npm-run-all --parallel watch:html watch:js
+
+# 通配符
+$ npm-run-all --parallel watch:*
+</code></pre>
+
+<p>（1）start脚本命令</p>
+
+<p><code>start</code>脚本命令，用于启动应用程序。</p>
+
+<pre><code class="language-javascript">&quot;start&quot;: &quot;npm-run-all --parallel dev serve&quot;
+</code></pre>
+
+<p>上面命令并行执行<code>dev</code>脚本命令和<code>serve</code>脚本命令，等同于下面的形式。</p>
+
+<pre><code class="language-bash">$ npm run dev &amp; npm run serve
+</code></pre>
+
+<p>如果start脚本没有配置，<code>npm start</code>命令默认执行下面的脚本，前提是模块的根目录存在一个server.js文件。</p>
+
+<pre><code class="language-bash">$ node server.js
+</code></pre>
+
+<p>（2）dev脚本命令</p>
+
+<p><code>dev</code>脚本命令，规定开发阶段所要做的处理，比如构建网页资源。</p>
+
+<pre><code class="language-javascript">&quot;dev&quot;: &quot;npm-run-all dev:*&quot;
+</code></pre>
+
+<p>上面命令用于继发执行所有<code>dev</code>的子命令。</p>
+
+<pre><code class="language-javascript">&quot;predev:sass&quot;: &quot;node-sass --source-map src/css/hoodie.css.map --output-style nested src/sass/base.scss src/css/hoodie.css&quot;
+</code></pre>
+
+<p>上面命令将sass文件编译为css文件，并生成source map文件。</p>
+
+<pre><code class="language-javascript">&quot;dev:sass&quot;: &quot;node-sass --source-map src/css/hoodie.css.map --watch --output-style nested src/sass/base.scss src/css/hoodie.css&quot;
+</code></pre>
+
+<p>上面命令会监视sass文件的变动，只要有变动，就自动将其编译为css文件。</p>
+
+<pre><code class="language-javascript">&quot;dev:autoprefix&quot;: &quot;postcss --use autoprefixer --autoprefixer.browsers \&quot;&gt; 5%\&quot; --output src/css/hoodie.css src/css/hoodie.css&quot;
+</code></pre>
+
+<p>上面命令为css文件加上浏览器前缀，限制条件是只考虑市场份额大于5%的浏览器。</p>
+
+<p>（3）serve脚本命令</p>
+
+<p><code>serve</code>脚本命令用于启动服务。</p>
+
+<pre><code class="language-javascript">&quot;serve&quot;: &quot;live-server dist/ --port=9090&quot;
+</code></pre>
+
+<p>上面命令启动服务，用的是<a href="http://npmjs.com/package/live-server">live-server</a>模块，将服务启动在9090端口，展示<code>dist</code>子目录。</p>
+
+<p><code>live-server</code>模块有三个功能。</p>
+
+<ul>
+<li>启动一个HTTP服务器，展示指定目录的<code>index.html</code>文件，通过该文件加载各种网络资源，这是<code>file://</code>协议做不到的。</li>
+<li>添加自动刷新功能。只要指定目录之中，文件有任何变化，它就会刷新页面。</li>
+<li><code>npm run serve</code>命令执行以后，自动打开浏览器。、</li>
+</ul>
+
+<p>以前，上面三个功能需要三个模块来完成：<code>http-server</code>、<code>live-reload</code>和<code>opener</code>，现在只要<code>live-server</code>一个模块就够了。</p>
+
+<p>（4）test脚本命令</p>
+
+<p><code>test</code>脚本命令用于执行测试。</p>
+
+<pre><code class="language-javascript">&quot;test&quot;: &quot;npm-run-all test:*&quot;,
+&quot;test:lint&quot;: &quot;sass-lint --verbose --config .sass-lint.yml src/sass/*&quot;
+</code></pre>
+
+<p>上面命令规定，执行测试时，运行<code>lint</code>脚本，检查脚本之中的语法错误。</p>
+
+<p>（5）prod脚本命令</p>
+
+<p><code>prod</code>脚本命令，规定进入生产环境时需要做的处理。</p>
+
+<pre><code class="language-javascript">&quot;prod&quot;: &quot;npm-run-all prod:*&quot;,
+&quot;prod:sass&quot;: &quot;node-sass --output-style compressed src/sass/base.scss src/css/prod/hoodie.min.css&quot;,
+&quot;prod:autoprefix&quot;: &quot;postcss --use autoprefixer --autoprefixer.browsers &quot;&gt; 5%&quot; --output src/css/prod/hoodie.min.css src/css/prod/hoodie.min.css&quot;
+</code></pre>
+
+<p>上面命令将sass文件转为css文件，并加上浏览器前缀。</p>
+
+<p>（6）help脚本命令</p>
+
+<p><code>help</code>脚本命令用于展示帮助信息。</p>
+
+<pre><code class="language-javascript">&quot;help&quot;: &quot;markdown-chalk --input DEVELOPMENT.md&quot;
+</code></pre>
+
+<p>上面命令之中，<code>markdown-chalk</code>模块用于将指定的markdown文件，转为彩色文本显示在终端之中。</p>
+
+<p>（7）docs脚本命令</p>
+
+<p><code>docs</code>脚本命令用于生成文档。</p>
+
+<pre><code class="language-javascript">&quot;docs&quot;: &quot;kss-node --source src/sass --homepage ../../styleguide.md&quot;
+</code></pre>
+
+<p>上面命令使用<code>kss-node</code>模块，提供源码的注释生成markdown格式的文档。</p>
+
+<h3 id="toc_16">pre- 和 post- 脚本</h3>
+
+<p><code>npm run</code>为每条命令提供了<code>pre-</code>和<code>post-</code>两个钩子（hook）。以<code>npm run lint</code>为例，执行这条命令之前，npm会先查看有没有定义prelint和postlint两个钩子，如果有的话，就会先执行<code>npm run prelint</code>，然后执行<code>npm run lint</code>，最后执行<code>npm run postlint</code>。</p>
+
+<pre><code class="language-javascript">{
+  &quot;name&quot;: &quot;myproject&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;eslint&quot;: &quot;latest&quot;
+    &quot;karma&quot;: &quot;latest&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;lint&quot;: &quot;eslint --cache --ext .js --ext .jsx src&quot;,
+    &quot;test&quot;: &quot;karma start --log-leve=error karma.config.js --single-run=true&quot;,
+    &quot;pretest&quot;: &quot;npm run lint&quot;,
+    &quot;posttest&quot;: &quot;echo &#39;Finished running tests&#39;&quot;
+  }
+}
+</code></pre>
+
+<p>上面代码是一个<code>package.json</code>文件的例子。如果执行<code>npm test</code>，会按下面的顺序执行相应的命令。</p>
+
+<ol>
+<li><code>pretest</code></li>
+<li><code>test</code></li>
+<li><code>posttest</code></li>
+</ol>
+
+<p>如果执行过程出错，就不会执行排在后面的脚本，即如果prelint脚本执行出错，就不会接着执行lint和postlint脚本。</p>
+
+<p>下面是一个例子。</p>
+
+<pre><code class="language-javascript">{
+  &quot;test&quot;: &quot;karma start&quot;,
+  &quot;test:lint&quot;: &quot;eslint . --ext .js --ext .jsx&quot;,
+  &quot;pretest&quot;: &quot;npm run test:lint&quot;
+}
+</code></pre>
+
+<p>上面代码中，在运行<code>npm run test</code>之前，会自动检查代码，即运行<code>npm run test:lint</code>命令。</p>
+
+<p>下面是一些常见的<code>pre-</code>和<code>post-</code>脚本。</p>
+
+<ul>
+<li><code>prepublish</code>：发布一个模块前执行。</li>
+<li><code>postpublish</code>：发布一个模块后执行。</li>
+<li><code>preinstall</code>：用户执行<code>npm install</code>命令时，先执行该脚本。</li>
+<li><code>postinstall</code>：用户执行<code>npm install</code>命令时，安装结束后执行该脚本，通常用于将下载的源码编译成用户需要的格式，比如有些模块需要在用户机器上跟本地的C++模块一起编译。</li>
+<li><code>preuninstall</code>：卸载一个模块前执行。</li>
+<li><code>postuninstall</code>：卸载一个模块后执行。</li>
+<li><code>preversion</code>：更改模块版本前执行。</li>
+<li><code>postversion</code>：更改模块版本后执行。</li>
+<li><code>pretest</code>：运行<code>npm test</code>命令前执行。</li>
+<li><code>posttest</code>：运行<code>npm test</code>命令后执行。</li>
+<li><code>prestop</code>：运行<code>npm stop</code>命令前执行。</li>
+<li><code>poststop</code>：运行<code>npm stop</code>命令后执行。</li>
+<li><code>prestart</code>：运行<code>npm start</code>命令前执行。</li>
+<li><code>poststart</code>：运行<code>npm start</code>命令后执行。</li>
+<li><code>prerestart</code>：运行<code>npm restart</code>命令前执行。</li>
+<li><code>postrestart</code>：运行<code>npm restart</code>命令后执行。</li>
+</ul>
+
+<p>对于最后一个<code>npm restart</code>命令，如果没有设置<code>restart</code>脚本，<code>prerestart</code>和<code>postrestart</code>会依次执行stop和start脚本。</p>
+
+<p>另外，不能在<code>pre</code>脚本之前再加<code>pre</code>，即<code>prepretest</code>脚本不起作用。</p>
+
+<p>注意，即使Npm可以自动运行<code>pre</code>和<code>post</code>脚本，也可以手动执行它们。</p>
+
+<pre><code class="language-bash">$ npm run prepublish
+</code></pre>
+
+<p>下面是<code>post install</code>的例子。</p>
+
+<pre><code class="language-javascript">{
+  &quot;postinstall&quot;: &quot;node lib/post_install.js&quot;
+}
+</code></pre>
+
+<p>上面的这个命令，主要用于处理从Git仓库拉下来的源码。比如，有些源码是用TypeScript写的，可能需要转换一下。</p>
+
+<p>下面是<code>publish</code>钩子的一个例子。</p>
+
+<pre><code class="language-javascript">{
+  &quot;dist:modules&quot;: &quot;babel ./src --out-dir ./dist-modules&quot;,
+  &quot;gh-pages&quot;: &quot;webpack&quot;,
+  &quot;gh-pages:deploy&quot;: &quot;gh-pages -d gh-pages&quot;,
+  &quot;prepublish&quot;: &quot;npm run dist:modules&quot;,
+  &quot;postpublish&quot;: &quot;npm run gh-pages &amp;&amp; npm run gh-pages:deploy&quot;
+}
+</code></pre>
+
+<p>上面命令在运行<code>npm run publish</code>时，会先执行Babel编译，然后调用Webpack构建，最后发到Github Pages上面。</p>
+
+<p>以上都是npm相关操作的钩子，如果安装某些模块，还能支持Git相关的钩子。下面以<a href="https://github.com/typicode/husky">husky</a>模块为例。</p>
+
+<pre><code class="language-bash">$ npm install husky --save-dev
+</code></pre>
+
+<p>安装以后，就能在<code>package.json</code>添加<code>precommit</code>、<code>prepush</code>等钩子。</p>
+
+<pre><code class="language-javascript">{
+    &quot;scripts&quot;: {
+        &quot;lint&quot;: &quot;eslint yourJsFiles.js&quot;,
+        &quot;precommit&quot;: &quot;npm run test &amp;&amp; npm run lint&quot;,
+        &quot;prepush&quot;: &quot;npm run test &amp;&amp; npm run lint&quot;,
+        &quot;...&quot;: &quot;...&quot;
+    }
+}
+</code></pre>
+
+<p>类似作用的模块还有<code>pre-commit</code>、<code>precommit-hook</code>等。</p>
+
+<h3 id="toc_17">内部变量</h3>
+
+<p>scripts字段可以使用一些内部变量，主要是package.json的各种字段。</p>
+
+<p>比如，package.json的内容是<code>{&quot;name&quot;:&quot;foo&quot;, &quot;version&quot;:&quot;1.2.5&quot;}</code>，那么变量<code>npm_package_name</code>的值是foo，变量<code>npm_package_version</code>的值是1.2.5。</p>
+
+<pre><code class="language-javascript">{
+  &quot;scripts&quot;:{
+    &quot;bundle&quot;: &quot;mkdir -p build/$npm_package_version/&quot;
+  }
+}
+</code></pre>
+
+<p>运行<code>npm run bundle</code>以后，将会生成<code>build/1.2.5/</code>子目录。</p>
+
+<p><code>config</code>字段也可以用于设置内部字段。</p>
+
+<pre><code class="language-javascript">  &quot;name&quot;: &quot;fooproject&quot;,
+  &quot;config&quot;: {
+    &quot;reporter&quot;: &quot;xunit&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;mocha test/ --reporter $npm_package_config_reporter&quot;
+  }
+</code></pre>
+
+<p>上面代码中，变量<code>npm_package_config_reporter</code>对应的就是reporter。</p>
+
+<h3 id="toc_18">通配符</h3>
+
+<p>npm的通配符的规则如下。</p>
+
+<ul>
+<li><code>*</code> 匹配0个或多个字符</li>
+<li><code>?</code> 匹配1个字符</li>
+<li><code>[...]</code> 匹配某个范围的字符。如果该范围的第一个字符是<code>!</code>或<code>^</code>，则匹配不在该范围的字符。</li>
+<li><code>!(pattern|pattern|pattern)</code> 匹配任何不符合给定的模式</li>
+<li><code>?(pattern|pattern|pattern)</code> 匹配0个或1个给定的模式</li>
+<li><code>+(pattern|pattern|pattern)</code> 匹配1个或多个给定的模式</li>
+<li><code>*(a|b|c)</code> 匹配0个或多个给定的模式</li>
+<li><code>@(pattern|pat*|pat?erN)</code> 只匹配给定模式之一</li>
+<li><code>**</code> 如果出现在路径部分，表示0个或多个子目录。</li>
+</ul>
+
+<h2 id="toc_19">npm link</h2>
+
+<p>开发NPM模块的时候，有时我们会希望，边开发边试用，比如本地调试的时候，<code>require(&#39;myModule&#39;)</code>会自动加载本机开发中的模块。Node规定，使用一个模块时，需要将其安装到全局的或项目的<code>node_modules</code>目录之中。对于开发中的模块，解决方法就是在全局的<code>node_modules</code>目录之中，生成一个符号链接，指向模块的本地目录。</p>
+
+<p><code>npm link</code>就能起到这个作用，会自动建立这个符号链接。</p>
+
+<p>请设想这样一个场景，你开发了一个模块<code>myModule</code>，目录为<code>src/myModule</code>，你自己的项目<code>myProject</code>要用到这个模块，项目目录为<code>src/myProject</code>。首先，在模块目录（<code>src/myModule</code>）下运行<code>npm link</code>命令。</p>
+
+<pre><code class="language-bash">src/myModule$ npm link
+</code></pre>
+
+<p>上面的命令会在NPM的全局模块目录内，生成一个符号链接文件，该文件的名字就是<code>package.json</code>文件中指定的模块名。</p>
+
+<pre><code class="language-bash">/path/to/global/node_modules/myModule -&gt; src/myModule
+</code></pre>
+
+<p>这个时候，已经可以全局调用<code>myModule</code>模块了。但是，如果我们要让这个模块安装在项目内，还要进行下面的步骤。</p>
+
+<p>切换到项目目录，再次运行<code>npm link</code>命令，并指定模块名。</p>
+
+<pre><code class="language-bash">src/myProject$ npm link myModule
+</code></pre>
+
+<p>上面命令等同于生成了本地模块的符号链接。</p>
+
+<pre><code class="language-bash">src/myProject/node_modules/myModule -&gt; /path/to/global/node_modules/myModule
+</code></pre>
+
+<p>然后，就可以在你的项目中，加载该模块了。</p>
+
+<pre><code class="language-javascript">var myModule = require(&#39;myModule&#39;);
+</code></pre>
+
+<p>这样一来，<code>myModule</code>的任何变化，都可以直接反映在<code>myProject</code>项目之中。但是，这样也出现了风险，任何在<code>myProject</code>目录中对<code>myModule</code>的修改，都会反映到模块的源码中。</p>
+
+<p>如果你的项目不再需要该模块，可以在项目目录内使用<code>npm unlink</code>命令，删除符号链接。</p>
+
+<pre><code class="language-bash">src/myProject$ npm unlink myModule
+</code></pre>
+
+<h2 id="toc_20">npm bin</h2>
+
+<p><code>npm bin</code>命令显示相对于当前目录的，Node模块的可执行脚本所在的目录（即<code>.bin</code>目录）。</p>
+
+<pre><code class="language-bash"># 项目根目录下执行
+$ npm bin
+./node_modules/.bin
+</code></pre>
+
+<h2 id="toc_21">npm adduser</h2>
+
+<p><code>npm adduser</code>用于在npmjs.com注册一个用户。</p>
+
+<pre><code class="language-bash">$ npm adduser
+Username: YOUR_USER_NAME
+Password: YOUR_PASSWORD
+Email: YOUR_EMAIL@domain.com
+</code></pre>
+
+<h2 id="toc_22">npm publish</h2>
+
+<p><code>npm publish</code>用于将当前模块发布到<code>npmjs.com</code>。执行之前，需要向<code>npmjs.com</code>申请用户名。</p>
+
+<pre><code class="language-bash">$ npm adduser
+</code></pre>
+
+<p>如果已经注册过，就使用下面的命令登录。</p>
+
+<pre><code class="language-bash">$ npm login
+</code></pre>
+
+<p>登录以后，就可以使用<code>npm publish</code>命令发布。</p>
+
+<pre><code class="language-bash">$ npm publish
+</code></pre>
+
+<p>如果当前模块是一个beta版，比如<code>1.3.1-beta.3</code>，那么发布的时候需要使用<code>tag</code>参数，将其发布到指定标签，默认的发布标签是<code>latest</code>。</p>
+
+<pre><code class="language-bash">$ npm publish --tag beta
+</code></pre>
+
+<p>如果发布私有模块，模块初始化的时候，需要加上<code>scope</code>参数。只有npm的付费用户才能发布私有模块。</p>
+
+<pre><code class="language-bash">$ npm init --scope=&lt;yourscope&gt;
+</code></pre>
+
+<p>如果你的模块是用ES6写的，那么发布的时候，最好转成ES5。首先，需要安装Babel。</p>
+
+<pre><code class="language-javascript">$ npm install --save-dev babel-cli@6 babel-preset-es2015@6
+</code></pre>
+
+<p>然后，在<code>package.json</code>里面写入<code>build</code>脚本。</p>
+
+<pre><code class="language-javascript">&quot;scripts&quot;: {
+  &quot;build&quot;: &quot;babel source --presets babel-preset-es2015 --out-dir distribution&quot;,
+  &quot;prepublish&quot;: &quot;npm run build&quot;
+}
+</code></pre>
+
+<p>运行上面的脚本，会将<code>source</code>目录里面的ES6源码文件，转为<code>distribution</code>目录里面的ES5源码文件。然后，在项目根目录下面创建两个文件<code>.npmignore</code>和<code>.gitignore</code>，分别写入以下内容。</p>
+
+<pre><code class="language-javascrip">// .npmignore
+source
+
+// .gitignore
+node_modules
+distribution
+</code></pre>
+
+<h2 id="toc_23">npm deprecate</h2>
+
+<p>如果想废弃某个版本的模块，可以使用<code>npm deprecate</code>命令。</p>
+
+<pre><code class="language-bash">$ npm deprecate my-thing@&quot;&lt; 0.2.3&quot; &quot;critical bug fixed in v0.2.3&quot;
+</code></pre>
+
+<p>运行上面的命令以后，小于<code>0.2.3</code>版本的模块的<code>package.json</code>都会写入一行警告，用户安装这些版本时，这行警告就会在命令行显示。</p>
+
+<h2 id="toc_24">npm owner</h2>
+
+<p>模块的维护者可以发布新版本。<code>npm owner</code>命令用于管理模块的维护者。</p>
+
+<pre><code class="language-bash"># 列出指定模块的维护者
+$ npm owner ls &lt;package name&gt;
+
+# 新增维护者
+$ npm owner add &lt;user&gt; &lt;package name&gt;
+
+# 删除维护者
+$ npm owner rm &lt;user&gt; &lt;package name&gt;
+</code></pre>
+
+<h2 id="toc_25">其他命令</h2>
+
+<h3 id="toc_26">npm home，npm repo</h3>
+
+<p><code>npm home</code>命令可以打开一个模块的主页，<code>npm repo</code>命令则是打开一个模块的代码仓库。</p>
+
+<pre><code class="language-bash">$ npm home $package
+$ npm repo $package
+</code></pre>
+
+<p>这两个命令不需要模块先安装。</p>
+
+<h3 id="toc_27">npm outdated</h3>
+
+<p><code>npm outdated</code>命令检查当前项目所依赖的模块，是否已经有新版本。</p>
+
+<pre><code class="language-bash">$ npm outdated
+</code></pre>
+
+<p>它会输出当前版本（current version）、应当安装的版本（wanted version）和最新发布的版本（latest version）。</p>
+
+<h3 id="toc_28">npm prune</h3>
+
+<p><code>npm prune</code>检查当前项目的<code>node_modules</code>目录中，是否有<code>package.json</code>里面没有提到的模块，然后将所有这些模块输出在命令行。</p>
+
+<pre><code class="language-bash">$ npm prune
+</code></pre>
+
+<h3 id="toc_29">npm shrinkwrap</h3>
+
+<p><code>npm shrinkwrap</code>的作用是锁定当前项目的依赖模块的版本。</p>
+
+<pre><code class="language-bash">$ npm shrinkwrap
+</code></pre>
+
+<p>运行该命令后，会在当前项目的根目录下生成一个<code>npm-shrinkwrap.json</code>文件，内容是<code>node_modules</code>目录下所有已经安装的模块，以及它们的精确版本。</p>
+
+<p>下次运行<code>npm install</code>命令时，<code>npm</code>发现当前目录下有<code>npm-shrinkwrap.json</code>文件，就会只安装里面提到的模块，且版本也会保持一致。</p>
+
+<h2 id="toc_30">参考链接</h2>
+
+<ul>
+<li>James Halliday, <a href="http://substack.net/task_automation_with_npm_run">task automation with npm run</a>: npm run命令（package.json文件的script属性）的用法</li>
+<li>Keith Cirkel, <a href="http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/">How to Use npm as a Build Tool</a></li>
+<li>justjs, <a href="http://justjs.com/posts/npm-link-developing-your-own-npm-modules-without-tears">npm link: developing your own npm modules without tears</a></li>
+<li>hoodie-css, <a href="https://github.com/hoodiehq/hoodie-css/blob/feature/build-automation/DEVELOPMENT.md">Development Environment Help</a></li>
+<li>Stephan Bönnemann, <a href="https://medium.com/greenkeeper-blog/one-simple-trick-for-javascript-package-maintainers-to-avoid-breaking-their-user-s-software-and-to-6edf06dc5617#.5omqgsg45">How to make use of npm’s package distribution tags to create release channels</a></li>
+<li>Alex Booker, <a href="https://booker.codes/how-to-build-and-publish-es6-npm-modules-today-with-babel/">How to Build and Publish ES6 npm Modules Today, with Babel</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[React Native之webview 与 vue单页通信]]></title>
+    <link href="wjh4dev.github.io/15005174554482.html"/>
+    <updated>2017-07-20T10:24:15+08:00</updated>
+    <id>wjh4dev.github.io/15005174554482.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>由于目前需要在RN开发的webview中引用vue单页应用，但是需要一些交互（比如进入vue单页之后，此时就是完全进入Vue的路由体系中，要返回到RN的界面中就需要与RN进行通信）</p>
+</blockquote>
+
+<span id="more"></span><!-- more -->
+
+<h3 id="toc_0">整理大纲</h3>
+
+<ul>
+<li>
+<a href="#toc_0">整理大纲</a>
+</li>
+<li>
+<a href="#toc_1">安装环境依赖</a>
+</li>
+<li>
+<a href="#toc_2">使用方法</a>
+<ul>
+<li>
+<a href="#toc_3">React Native端</a>
+</li>
+<li>
+<a href="#toc_4">Web端</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3 id="toc_1">安装环境依赖</h3>
+
+<ol>
+<li>需要用到RN‘s webview 与页面通信的插件
+<a href="https://github.com/pinqy520/react-native-webview-invoke">react-native-webview-invoke</a></br>
+具体原理看这里：<a href="http://www.jianshu.com/p/b37ee000379e">关于 React Native 与 WebView 的通信</a></li>
+<li>RN版本：React Native &gt;= 0.37</li>
+<li>安装依赖包</li>
+</ol>
+
+<pre><code>$ npm install react-native-webview-invoke --save
+</code></pre>
+
+<h3 id="toc_2">使用方法</h3>
+
+<p>⭐️两端使用的方法是需要双方约定的。</p>
+
+<ol>
+<li>在RN组件引入<code>react-native-webview-invoke</code>包</li>
+</ol>
+
+<h4 id="toc_3">React Native端</h4>
+
+<pre><code class="language-javascript">import React from &#39;react&#39;;
+import { WebView } from &#39;react-native&#39;
+import createInvoke from &#39;react-native-webview-invoke/native&#39;
+
+export default class 你的组件 extends React.Component {
+  webview = WebView;
+  invoke = createInvoke(() =&gt; this.webview);
+  /**
+   * RN暴露接口，供 webview 页面调用
+   */
+  goBackRN = () =&gt; {
+    this.props.navigator.pop()
+  };
+  /**
+   * 设置返回给页面端的参数，可以接受数组
+   */
+  webGetParam = () =&gt; {
+    let channel = [&#39;rn&#39;];
+    let prjCd = this.props.prjCd;
+    let token = this.props.token;
+    // 返回结果数组[访问来源标志，项目编号，token]
+    return {channel, prjCd, token}
+  };
+
+  componentDidMount() {
+    this.invoke.define(&#39;goBackRN&#39;, this.goBackRN)
+    this.invoke.define(&#39;getParams&#39;, this.webGetParam)
+  }
+
+  render() {
+    return (
+      &lt;WebView ref={w =&gt; this.webview = w}
+               source={{uri: &#39;http://localhost:8080&#39;}}
+               onMessage={this.invoke.listener}
+      /&gt;
+    );
+  }
+}
+</code></pre>
+
+<h4 id="toc_4">Web端</h4>
+
+<p>这里有点需要注意的是，我的web页面是使用vue开发的，直接 <code>npm install</code> 包是没法使用的。<br/>
+所以只能在页面标签引入js：<br/>
+1. 需要引入<br/>
+<code>&lt;script src=&quot;https://tb1.bdstatic.com/tb/libs/rnwi-browser.js&quot;&gt;&lt;/script&gt;</code><br/>
+2. 在根组件<code>&lt;script&gt;</code>中编写调用代码：</p>
+
+<pre><code class="language-javascript">&lt;script&gt;
+     // 在vue组件 created 时，与RN通信获取RN传递参数
+     let invoke = window.WebViewInvoke
+     let getParams = invoke.bind(&#39;getParams&#39;)
+     // 获取RN传递参数
+     getParams().then((data) =&gt; {
+       this.prjCd = data.prjCd[0]
+       this.token = data.token[0]
+       this.channel = data.channel[0]
+     })
+    
+    ...
+    
+     // 获取全局对象，与RN通信，调用返回RN的方法
+     let invoke = window.WebViewInvoke
+     // 已经回到根目录，如果在RN中打开，返回RN界面
+     let goBackRN = invoke.bind(&#39;goBackRN&#39;)
+     goBackRN().then(function () {
+       console.log(&#39;go back to RN&#39;)
+     })
+&lt;/script&gt;
+</code></pre>
+
+<p>以上就是RN与页面通信插件的使用示例。如果还有疑问可查阅插件文档，文档地址开头已给出。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[React Native 版本升级无法编译]]></title>
+    <link href="wjh4dev.github.io/15004831139883.html"/>
+    <updated>2017-07-20T00:51:53+08:00</updated>
+    <id>wjh4dev.github.io/15004831139883.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">0.31.0 =&gt; 0.37.0</h2>
+
+<p><code>原创</code>  作者：大辉</p>
+
+<h2 id="toc_1">缘由</h2>
+
+<blockquote>
+<p>2016年后半年研究半年React Native（以下简称RN）独自完成了一版上线App，在完成之后就搁置半年时间（软件行业半年那可能会发生翻天覆地的变化），应公司要求改投了Vue的行列，并且前端全部转由Vue开发单页应用（SPA），准备嵌入可以展示网页的webview类app中，如：微信、QQ、或者RN，于是有了下面的需求。</p>
+
+<p>最近项目需要优化改版部分功能，也就是上面说的改造RN的webview可以更平滑的支持Vue集成展示。</p>
+</blockquote>
+
+<span id="more"></span><!-- more -->
+
+<blockquote>
+<p>于是重新拾起RN发现确实发生了翻天覆地的变化；<br/>
+举个🌰：ListView 渐渐被 FlatList 所取代，因为 FlatList 性能更佳，更多优化推荐查看<a href="http://reactnative.cn">RN中文网</a> ，也可以加官方群：115487854，管理 <a href="https://github.com/tdzl2003">天地之灵</a>、<a href="https://github.com/sunnylqm">晴明</a> 都是很热心的高手。</p>
+
+<p>这广告打得有点多了，言归正传。</p>
+</blockquote>
+
+<h2 id="toc_2">升级填坑</h2>
+
+<p>最初 package.json 如下：</p>
+
+<pre><code>&quot;dependencies&quot;: {
+    &quot;jpush-react-native&quot;: &quot;^1.1.3&quot;,
+    &quot;react&quot;: &quot;^15.3.2&quot;,
+    &quot;react-native&quot;: &quot;^0.33.0&quot;,
+    &quot;react-native-update&quot;: &quot;^3.0.2&quot;,
+    ...
+  }
+</code></pre>
+
+<p>现在 package.json 如下：</p>
+
+<pre><code class="language-&quot;dependencies&quot;:">    &quot;jcore-react-native&quot;: &quot;^1.1.5&quot;,
+    &quot;jpush-react-native&quot;: &quot;^1.1.3&quot;,
+    &quot;react&quot;: &quot;^15.3.1&quot;,
+    &quot;react-native&quot;: &quot;^0.37.0&quot;,
+    &quot;react-native-update&quot;: &quot;^4.0.5&quot;,
+    ...  // 省略部分没有更新第三方包
+  }
+</code></pre>
+
+<p>最主要出问题导致项目启动不了的就是：<br/>
+1. 极光推送：<a href="https://github.com/jpush/jpush-react-native">jpush-react-native</a><br/>
+2. RN热更新：<a href="https://github.com/reactnativecn/react-native-pushy">react-native-update</a><br/>
+<strong>由于这两个包都是底层包，有很多原生代码需要修改，所以很耗精力，尤其是不懂原生开发的朋友，建议根据GitHub教程一步一步执行，要有耐心。</strong></p>
+
+<h2 id="toc_3">具体问题</h2>
+
+<p>说一点官方文档没有说明的问题：有时候iOS构建不成功，说找不到文件，有可能是缺少库的原因。<br/>
+例如：<br/>
+<img src="media/15004831139883/15004867808298.jpg" alt=""/><br/>
+就是缺少下面第一个库导致编译不过去<br/>
+<img src="media/15004831139883/15004868821688.jpg" alt=""/></p>
+
+<p>上面仅仅是一个问题：还有好多版本不兼容的问题：<br/>
+在命令行执行 <code>react-native run-ios</code> 启动不了可能就是编译失败了，一定要在Xcode中run 才能看到错误信息。</p>
+
+<h3 id="toc_4">整理大纲</h3>
+
+<ul>
+<li>
+<a href="#toc_0">0.31.0 =&gt; 0.37.0</a>
+</li>
+<li>
+<a href="#toc_1">缘由</a>
+</li>
+<li>
+<a href="#toc_2">升级填坑</a>
+</li>
+<li>
+<a href="#toc_3">具体问题</a>
+<ul>
+<li>
+<a href="#toc_4">整理大纲</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+]]></content>
+  </entry>
+  
+</feed>
