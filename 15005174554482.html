@@ -139,7 +139,30 @@
 
 <span id="more"></span><!-- more -->
 
-<h3 id="toc_0">安装环境依赖</h3>
+<h3 id="toc_0">整理大纲</h3>
+
+<ul>
+<li>
+<a href="#toc_0">整理大纲</a>
+</li>
+<li>
+<a href="#toc_1">安装环境依赖</a>
+</li>
+<li>
+<a href="#toc_2">使用方法</a>
+<ul>
+<li>
+<a href="#toc_3">React Native端</a>
+</li>
+<li>
+<a href="#toc_4">Web端</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3 id="toc_1">安装环境依赖</h3>
 
 <ol>
 <li>需要用到RN‘s webview 与页面通信的插件
@@ -152,7 +175,7 @@
 <pre><code>$ npm install react-native-webview-invoke --save
 </code></pre>
 
-<h3 id="toc_1">使用方法</h3>
+<h3 id="toc_2">使用方法</h3>
 
 <p>⭐️两端使用的方法是需要双方约定的。</p>
 
@@ -160,7 +183,7 @@
 <li>在RN组件引入<code>react-native-webview-invoke</code>包</li>
 </ol>
 
-<h4 id="toc_2">React Native端</h4>
+<h4 id="toc_3">React Native端</h4>
 
 <pre><code class="language-javascript">import React from &#39;react&#39;;
 import { WebView } from &#39;react-native&#39;
@@ -202,7 +225,7 @@ export default class 你的组件 extends React.Component {
 }
 </code></pre>
 
-<h4 id="toc_3">Web端</h4>
+<h4 id="toc_4">Web端</h4>
 
 <p>这里有点需要注意的是，我的web页面是使用vue开发的，直接 <code>npm install</code> 包是没法使用的。<br/>
 所以只能在页面标签引入js：<br/>
@@ -234,29 +257,6 @@ export default class 你的组件 extends React.Component {
 </code></pre>
 
 <p>以上就是RN与页面通信插件的使用示例。如果还有疑问可查阅插件文档，文档地址开头已给出。</p>
-
-<h3 id="toc_4">整理大纲</h3>
-
-<ul>
-<li>
-<a href="#toc_0">安装环境依赖</a>
-</li>
-<li>
-<a href="#toc_1">使用方法</a>
-<ul>
-<li>
-<a href="#toc_2">React Native端</a>
-</li>
-<li>
-<a href="#toc_3">Web端</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_4">整理大纲</a>
-</li>
-</ul>
-
 
 
     
@@ -378,6 +378,18 @@ s.setAttribute('data-timestamp', +new Date());
 	      
 		      
 			      <li class="post">
+			        <a href="15233569249531.html">GitLab 配置持续集成 runner</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15180793325774.html">CMD vs AMD vs CommonJS 的区别</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15158546952914.html">常用 Git 命令</a>
 			      </li>
 		     
@@ -395,16 +407,8 @@ s.setAttribute('data-timestamp', +new Date());
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15060698348348.html">React Native 开发环境搭建 基于Mac</a>
-			      </li>
-		     
 		  
 		      
-			      <li class="post">
-			        <a href="15048050884744.html">javascript中函数的各种姿势</a>
-			      </li>
-		     
 		  
 		      
 		  

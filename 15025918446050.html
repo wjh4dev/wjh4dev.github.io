@@ -133,7 +133,84 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <span id="more"></span><!-- more -->
+      <p>对于研究 vue 的同学来说，组件、插件、模块这些名词相信都不陌生，但是这些东西再vue里到底是怎么开发出来的，就需要我们好好的思考与研究一下，下面我们就以 vue 插件为例，来试验一下开发一个通用顶部 menu 插件出来。</p>
+
+<span id="more"></span><!-- more -->
+
+<ul>
+<li>
+<a href="#toc_0">一、关于vue插件</a>
+</li>
+<li>
+<a href="#toc_1">二、vue插件规范</a>
+</li>
+<li>
+<a href="#toc_2">三、开发过程</a>
+<ul>
+<li>
+<a href="#toc_3">3.1 开发环境搭建</a>
+</li>
+<li>
+<a href="#toc_4">3.2 业务代码编写</a>
+</li>
+<li>
+<a href="#toc_5">3.3 查看开发效果</a>
+</li>
+<li>
+<a href="#toc_6">3.4 发包准备工作</a>
+<ul>
+<li>
+<a href="#toc_7">3.4.1 webpack.config.js配置调整</a>
+</li>
+<li>
+<a href="#toc_8">3.4.2 package.json配置调整</a>
+</li>
+<li>
+<a href="#toc_9">3.4.3 npm 配置调整</a>
+</li>
+<li>
+<a href="#toc_10">3.4.4 编写 README.md 说明</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_11">3.5 发布包，持续优化</a>
+<ul>
+<li>
+<a href="#toc_12">3.5.1 登录私服仓库</a>
+</li>
+<li>
+<a href="#toc_13">3.5.2 发布包</a>
+</li>
+<li>
+<a href="#toc_14">3.5.3 查看是否发布成功</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_15">四、如何使用</a>
+<ul>
+<li>
+<a href="#toc_16">4.1 安装插件</a>
+</li>
+<li>
+<a href="#toc_17">4.2 引入插件</a>
+</li>
+<li>
+<a href="#toc_18">4.3 页面直接使用组件标签即可</a>
+</li>
+<li>
+<a href="#toc_19">4.4 引入插件的效果：</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_20">总结</a>
+</li>
+</ul>
+
 
 <h3 id="toc_0">一、关于vue插件</h3>
 
@@ -338,81 +415,6 @@ Vue.use(shfbVueMenu);
 <p>OK，至此这就是开发一个vue插件的全部过程，以及顺带又重新讲解了一下，发包的过程。<br/>
 今天就到这里。</p>
 
-<ul>
-<li>
-<a href="#toc_0">一、关于vue插件</a>
-</li>
-<li>
-<a href="#toc_1">二、vue插件规范</a>
-</li>
-<li>
-<a href="#toc_2">三、开发过程</a>
-<ul>
-<li>
-<a href="#toc_3">3.1 开发环境搭建</a>
-</li>
-<li>
-<a href="#toc_4">3.2 业务代码编写</a>
-</li>
-<li>
-<a href="#toc_5">3.3 查看开发效果</a>
-</li>
-<li>
-<a href="#toc_6">3.4 发包准备工作</a>
-<ul>
-<li>
-<a href="#toc_7">3.4.1 webpack.config.js配置调整</a>
-</li>
-<li>
-<a href="#toc_8">3.4.2 package.json配置调整</a>
-</li>
-<li>
-<a href="#toc_9">3.4.3 npm 配置调整</a>
-</li>
-<li>
-<a href="#toc_10">3.4.4 编写 README.md 说明</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_11">3.5 发布包，持续优化</a>
-<ul>
-<li>
-<a href="#toc_12">3.5.1 登录私服仓库</a>
-</li>
-<li>
-<a href="#toc_13">3.5.2 发布包</a>
-</li>
-<li>
-<a href="#toc_14">3.5.3 查看是否发布成功</a>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_15">四、如何使用</a>
-<ul>
-<li>
-<a href="#toc_16">4.1 安装插件</a>
-</li>
-<li>
-<a href="#toc_17">4.2 引入插件</a>
-</li>
-<li>
-<a href="#toc_18">4.3 页面直接使用组件标签即可</a>
-</li>
-<li>
-<a href="#toc_19">4.4 引入插件的效果：</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_20">总结</a>
-</li>
-</ul>
-
-
 
     
 
@@ -533,6 +535,18 @@ s.setAttribute('data-timestamp', +new Date());
 	      
 		      
 			      <li class="post">
+			        <a href="15233569249531.html">GitLab 配置持续集成 runner</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15180793325774.html">CMD vs AMD vs CommonJS 的区别</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15158546952914.html">常用 Git 命令</a>
 			      </li>
 		     
@@ -550,16 +564,8 @@ s.setAttribute('data-timestamp', +new Date());
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15060698348348.html">React Native 开发环境搭建 基于Mac</a>
-			      </li>
-		     
 		  
 		      
-			      <li class="post">
-			        <a href="15048050884744.html">javascript中函数的各种姿势</a>
-			      </li>
-		     
 		  
 		      
 		  

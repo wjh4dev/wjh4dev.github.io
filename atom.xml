@@ -4,13 +4,178 @@
   <title><![CDATA[大辉-wjh4dev]]></title>
   <link href="wjh4dev.github.io/atom.xml" rel="self"/>
   <link href="wjh4dev.github.io/"/>
-  <updated>2018-01-14T12:59:13+08:00</updated>
+  <updated>2018-04-11T23:12:19+08:00</updated>
   <id>wjh4dev.github.io/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[GitLab 配置持续集成 runner]]></title>
+    <link href="wjh4dev.github.io/15233569249531.html"/>
+    <updated>2018-04-10T18:42:04+08:00</updated>
+    <id>wjh4dev.github.io/15233569249531.html</id>
+    <content type="html"><![CDATA[
+<p>最近组内在编写 react 组件库，涉及到多人协作问题，多人协作肯定会碰到版本管理、代码持续集成等问题；在现在这个大环境下代码版本管理第一解决方案肯定是 git，代码持续集成大家肯定会想到 Jenkins。鉴于公司内部使用自建 gitlab 管理代码，其实 GitLab 中也有持续集成的功能，下面我们就重点说说使用 GitLab 进行持续集成（CI）的方法。</p>
+
+<span id="more"></span><!-- more -->
+
+<h2 id="toc_0">1. GitLab runner</h2>
+
+<blockquote>
+<p>本次实践基于：GitLab Community Edition 10.1.2；<br/>
+系统基于：windows7 x64企业版。</p>
+</blockquote>
+
+<h3 id="toc_1">1.1、什么是 runner？</h3>
+
+<p>runner 可以运行你的作业，并将运行结果返回给 GitLab 的工具，通常配合 Gitlab 持续集成使用。<br/>
+更多内容可以参考官网解释：<a href="https://docs.gitlab.com/runner/">GitLab Runner</a></p>
+
+<h3 id="toc_2">1.2、runner 安装配置</h3>
+
+<blockquote>
+<p>前提：你的机器上有基本的开发环境；git、.net framework4.0 等运行环境。鉴于前端开发有些 node 包经常要依赖 .net framework 所以直接安装一次 vs 是最省事的，将所有 .net framework 环境安装好。</p>
+</blockquote>
+
+<ol>
+<li>创建文件夹：<code>D:\GitLab-Runner</code>，并下载 <a href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-amd64.exe">gitlab-runner 安装程序</a> 放置于当前目录下。（<strong>下载程序必须改名为：<code>gitlab-runner</code></strong>）</li>
+<li>以<strong>管理员</strong>运行<strong>git-bash 或者 cmd 或者 powershell</strong> 等命令行工具。进入 <code>D:\GitLab-Runner</code> 目录下，下一步开始注册 Runners。</li>
+<li>注册 Runners</li>
+<li>查看 windows 服务中是否有 gitlab-runner 服务，如果有就启动，没有在命令行，继续执行：<code>./gitlab-runner.exe install</code> 即可安装服务，再次查看并启动。</li>
+<li>修改配置文件 <code>D:\GitLab-Runner\config.toml</code> 在其中 <code>[[runner]]</code> 下增加 <code>shell=&#39;powershell&#39;</code>。</li>
+</ol>
+
+<p>到此你的 gitlab-runner 就算安装成功了，在你的 gitlab 项目中查看，就会发现，已经有 activated 的 Runners 在运行了。</p>
+
+<h3 id="toc_3">1.3、runner 使用</h3>
+
+<p>使用需要在你的项目中增加配置文件：<code>.gitlab-ci.yml</code>。<br/>
+内容中执行的脚本是自己编写的。</p>
+
+<pre><code>stages:
+  - prepare
+  - eslint
+  - test
+  - deploy
+
+cache:
+  key: $CI_COMMIT_SHA
+  untracked: true
+
+prepare:
+  stage: prepare
+  script: npm install
+
+eslint:
+  stage: eslint
+  script: npm run eslint
+
+test:
+  stage: test
+  script:
+    - npm test
+
+build:
+  only:
+  - master@wangjianhui2464/react-components
+  stage: deploy
+  script:
+    - npm run build
+
+upload:
+  only:
+  - master@wangjianhui2464/react-components
+  stage: deploy
+  script:
+    - npm run upload
+
+</code></pre>
+
+<p>当你在你的仓库中配置好次配置文件之后，每次提交代码 gitlab 就会自动执行相应的 jobs。这样一个持续集成的环境就算搭建成功了。</p>
+
+<p>持续集成有时候会为我们的工程化提供很多便利，可谓是工程化之利器。</p>
+
+<p>文章配图，后续补充。</p>
+
+<h2 id="toc_4">参考文章：</h2>
+
+<p><a href="https://docs.gitlab.com/">GitLab官方文档</a><br/>
+<a href="https://www.cnblogs.com/xishuai/p/gitlab-ci.html">劈荆斩棘：Gitlab 部署 CI 持续集成</a><br/>
+<a href="http://www.cnblogs.com/newP/p/5735366.html#_Toc458009359">GitLab CI持续集成配置方案</a></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CMD vs AMD vs CommonJS 的区别]]></title>
+    <link href="wjh4dev.github.io/15180793325774.html"/>
+    <updated>2018-02-08T16:42:12+08:00</updated>
+    <id>wjh4dev.github.io/15180793325774.html</id>
+    <content type="html"><![CDATA[
+<p>作为一个前端开发面对不同的项目，不同的开发小组使用的不同技术栈总有一种“前端东西真是杂，学不完”的想法。其中包含的“杂”就有很多方面的内容。今天我们主要说的就是：前端模块化开发过程中遇到的“模块化规范”。</p>
+
+<p>提到前端模块化首先想到的肯定是 <code>CMD、AMD、CommonJS</code> 这些规范，当然还有 <code>UMD</code>。下面我们就逐个解释一下各种规范的意义，并做一下对比。</p>
+
+<ul>
+<li>
+<a href="#toc_0">1、概念解释</a>
+<ul>
+<li>
+<a href="#toc_1">1.1 AMD(Asynchronous module definition)</a>
+</li>
+<li>
+<a href="#toc_2">1.2 CMD()</a>
+</li>
+<li>
+<a href="#toc_3">1.3 CommonJS()</a>
+</li>
+<li>
+<a href="#toc_4">1.4 UMD()</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_5">2、不同模式的对比</a>
+</li>
+<li>
+<a href="#toc_6">参考资料：</a>
+</li>
+</ul>
+
+
+<span id="more"></span><!-- more -->
+
+<h2 id="toc_0">1、概念解释</h2>
+
+<h3 id="toc_1">1.1 AMD(Asynchronous module definition)</h3>
+
+<p>AMD 全称是：Asynchronous module definition，译为：异步模块定义。是编程语言 JavaScript 的规范。它定义了一个定义代码模块及其相关性的应用程序编程接口（API），并在需要时异步加载它们。AMD 的实现提供了以下好处：</p>
+
+<ul>
+<li>网站性能改进。为什么说改进了网站的性能，因为它实现了可以加载更小的JS文件，并且是再用到的时候才加载，也就是异步加载。</li>
+<li>减少页面错误。解释一下，AMD模式之所以能减少错误，是因为AMD实现了在开发时可以定义依赖关系，并且是在代码执行之前。这样就可以减少我们使用到了没有依赖的代码，从而减少错误。</li>
+</ul>
+
+<p><img src="media/15180793325774/15180832381487.jpg" alt="" style="width:481px;"/></p>
+
+<h3 id="toc_2">1.2 CMD()</h3>
+
+<h3 id="toc_3">1.3 CommonJS()</h3>
+
+<h3 id="toc_4">1.4 UMD()</h3>
+
+<h2 id="toc_5">2、不同模式的对比</h2>
+
+<h2 id="toc_6">参考资料：</h2>
+
+<p>1.<a href="https://addyosmani.com/writing-modular-js/">Writing Modular JavaScript With AMD, CommonJS &amp; ES Harmony</a><br/>
+2.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[常用 Git 命令]]></title>
@@ -1201,7 +1366,84 @@ export{Calculator}
     <updated>2017-08-13T10:37:24+08:00</updated>
     <id>wjh4dev.github.io/15025918446050.html</id>
     <content type="html"><![CDATA[
+<p>对于研究 vue 的同学来说，组件、插件、模块这些名词相信都不陌生，但是这些东西再vue里到底是怎么开发出来的，就需要我们好好的思考与研究一下，下面我们就以 vue 插件为例，来试验一下开发一个通用顶部 menu 插件出来。</p>
+
 <span id="more"></span><!-- more -->
+
+<ul>
+<li>
+<a href="#toc_0">一、关于vue插件</a>
+</li>
+<li>
+<a href="#toc_1">二、vue插件规范</a>
+</li>
+<li>
+<a href="#toc_2">三、开发过程</a>
+<ul>
+<li>
+<a href="#toc_3">3.1 开发环境搭建</a>
+</li>
+<li>
+<a href="#toc_4">3.2 业务代码编写</a>
+</li>
+<li>
+<a href="#toc_5">3.3 查看开发效果</a>
+</li>
+<li>
+<a href="#toc_6">3.4 发包准备工作</a>
+<ul>
+<li>
+<a href="#toc_7">3.4.1 webpack.config.js配置调整</a>
+</li>
+<li>
+<a href="#toc_8">3.4.2 package.json配置调整</a>
+</li>
+<li>
+<a href="#toc_9">3.4.3 npm 配置调整</a>
+</li>
+<li>
+<a href="#toc_10">3.4.4 编写 README.md 说明</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_11">3.5 发布包，持续优化</a>
+<ul>
+<li>
+<a href="#toc_12">3.5.1 登录私服仓库</a>
+</li>
+<li>
+<a href="#toc_13">3.5.2 发布包</a>
+</li>
+<li>
+<a href="#toc_14">3.5.3 查看是否发布成功</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_15">四、如何使用</a>
+<ul>
+<li>
+<a href="#toc_16">4.1 安装插件</a>
+</li>
+<li>
+<a href="#toc_17">4.2 引入插件</a>
+</li>
+<li>
+<a href="#toc_18">4.3 页面直接使用组件标签即可</a>
+</li>
+<li>
+<a href="#toc_19">4.4 引入插件的效果：</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_20">总结</a>
+</li>
+</ul>
+
 
 <h3 id="toc_0">一、关于vue插件</h3>
 
@@ -1405,81 +1647,6 @@ Vue.use(shfbVueMenu);
 
 <p>OK，至此这就是开发一个vue插件的全部过程，以及顺带又重新讲解了一下，发包的过程。<br/>
 今天就到这里。</p>
-
-<ul>
-<li>
-<a href="#toc_0">一、关于vue插件</a>
-</li>
-<li>
-<a href="#toc_1">二、vue插件规范</a>
-</li>
-<li>
-<a href="#toc_2">三、开发过程</a>
-<ul>
-<li>
-<a href="#toc_3">3.1 开发环境搭建</a>
-</li>
-<li>
-<a href="#toc_4">3.2 业务代码编写</a>
-</li>
-<li>
-<a href="#toc_5">3.3 查看开发效果</a>
-</li>
-<li>
-<a href="#toc_6">3.4 发包准备工作</a>
-<ul>
-<li>
-<a href="#toc_7">3.4.1 webpack.config.js配置调整</a>
-</li>
-<li>
-<a href="#toc_8">3.4.2 package.json配置调整</a>
-</li>
-<li>
-<a href="#toc_9">3.4.3 npm 配置调整</a>
-</li>
-<li>
-<a href="#toc_10">3.4.4 编写 README.md 说明</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_11">3.5 发布包，持续优化</a>
-<ul>
-<li>
-<a href="#toc_12">3.5.1 登录私服仓库</a>
-</li>
-<li>
-<a href="#toc_13">3.5.2 发布包</a>
-</li>
-<li>
-<a href="#toc_14">3.5.3 查看是否发布成功</a>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_15">四、如何使用</a>
-<ul>
-<li>
-<a href="#toc_16">4.1 安装插件</a>
-</li>
-<li>
-<a href="#toc_17">4.2 引入插件</a>
-</li>
-<li>
-<a href="#toc_18">4.3 页面直接使用组件标签即可</a>
-</li>
-<li>
-<a href="#toc_19">4.4 引入插件的效果：</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_20">总结</a>
-</li>
-</ul>
-
 
 ]]></content>
   </entry>
@@ -1917,7 +2084,112 @@ Logged in as wangjh on http://yourIp:port/repository/shfb-node-all/
     <updated>2017-08-01T21:21:40+08:00</updated>
     <id>wjh4dev.github.io/15015937003199.html</id>
     <content type="html"><![CDATA[
-<h2 id="toc_0">简介</h2>
+<h2 id="toc_0">目录大纲</h2>
+
+<ul>
+<li>
+<a href="#toc_0">目录大纲</a>
+</li>
+<li>
+<a href="#toc_1">简介</a>
+</li>
+<li>
+<a href="#toc_2">npm init</a>
+</li>
+<li>
+<a href="#toc_3">npm set</a>
+</li>
+<li>
+<a href="#toc_4">npm config</a>
+</li>
+<li>
+<a href="#toc_5">npm info</a>
+</li>
+<li>
+<a href="#toc_6">npm search</a>
+</li>
+<li>
+<a href="#toc_7">npm list</a>
+</li>
+<li>
+<a href="#toc_8">npm install</a>
+<ul>
+<li>
+<a href="#toc_9">基本用法</a>
+</li>
+<li>
+<a href="#toc_10">安装不同版本</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_11">避免系统权限</a>
+</li>
+<li>
+<a href="#toc_12">npm update，npm uninstall</a>
+</li>
+<li>
+<a href="#toc_13">npm run</a>
+<ul>
+<li>
+<a href="#toc_14">参数</a>
+</li>
+<li>
+<a href="#toc_15">scripts脚本命令最佳实践</a>
+</li>
+<li>
+<a href="#toc_16">pre- 和 post- 脚本</a>
+</li>
+<li>
+<a href="#toc_17">内部变量</a>
+</li>
+<li>
+<a href="#toc_18">通配符</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_19">npm link</a>
+</li>
+<li>
+<a href="#toc_20">npm bin</a>
+</li>
+<li>
+<a href="#toc_21">npm adduser</a>
+</li>
+<li>
+<a href="#toc_22">npm publish</a>
+</li>
+<li>
+<a href="#toc_23">npm deprecate</a>
+</li>
+<li>
+<a href="#toc_24">npm owner</a>
+</li>
+<li>
+<a href="#toc_25">其他命令</a>
+<ul>
+<li>
+<a href="#toc_26">npm home，npm repo</a>
+</li>
+<li>
+<a href="#toc_27">npm outdated</a>
+</li>
+<li>
+<a href="#toc_28">npm prune</a>
+</li>
+<li>
+<a href="#toc_29">npm shrinkwrap</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_30">参考链接</a>
+</li>
+</ul>
+
+
+<h2 id="toc_1">简介</h2>
 
 <p><code>npm</code>有两层含义。一层含义是Node的开放式模块登记和管理系统，网址为<a href="http://npmjs.org">npmjs.org</a>。另一层含义是Node默认的模块管理器，是一个命令行下的软件，用来安装和管理Node模块。</p>
 
@@ -1945,7 +2217,7 @@ $ npm -v
 $ npm config list -l
 </code></pre>
 
-<h2 id="toc_1">npm init</h2>
+<h2 id="toc_2">npm init</h2>
 
 <p><code>npm init</code>用来初始化生成一个新的<code>package.json</code>文件。它会向用户提问一系列问题，如果你觉得不用修改默认配置，一路回车就可以了。</p>
 
@@ -1954,7 +2226,7 @@ $ npm config list -l
 <pre><code class="language-bash">$ npm init -y
 </code></pre>
 
-<h2 id="toc_2">npm set</h2>
+<h2 id="toc_3">npm set</h2>
 
 <p><code>npm set</code>用来设置环境变量。</p>
 
@@ -1971,7 +2243,7 @@ $ npm set init-license &#39;MIT&#39;
 
 <p>上面命令设置加入模块时，<code>package.json</code>将记录模块的确切版本，而不是一个可选的版本范围。</p>
 
-<h2 id="toc_3">npm config</h2>
+<h2 id="toc_4">npm config</h2>
 
 <pre><code class="language-bash">$ npm config set prefix $dir
 </code></pre>
@@ -1989,7 +2261,7 @@ $ npm config set init.author.email $email
 
 <p>上面命令指定使用<code>npm init</code>时，生成的<code>package.json</code>文件的字段默认值。</p>
 
-<h2 id="toc_4">npm info</h2>
+<h2 id="toc_5">npm info</h2>
 
 <p><code>npm info</code>命令可以查看每个模块的具体信息。比如，查看underscore模块的信息。</p>
 
@@ -2026,7 +2298,7 @@ $ npm info underscore version
 1.5.2
 </code></pre>
 
-<h2 id="toc_5">npm search</h2>
+<h2 id="toc_6">npm search</h2>
 
 <p><code>npm search</code>命令用于搜索npm仓库，它后面可以跟字符串，也可以跟正则表达式。</p>
 
@@ -2043,7 +2315,7 @@ $ npm info underscore version
 // ...
 </code></pre>
 
-<h2 id="toc_6">npm list</h2>
+<h2 id="toc_7">npm list</h2>
 
 <p><code>npm list</code>命令以树型结构列出当前项目安装的所有模块，以及它们依赖的模块。</p>
 
@@ -2060,9 +2332,9 @@ $ npm info underscore version
 <pre><code class="language-bash">$ npm list underscore
 </code></pre>
 
-<h2 id="toc_7">npm install</h2>
+<h2 id="toc_8">npm install</h2>
 
-<h3 id="toc_8">基本用法</h3>
+<h3 id="toc_9">基本用法</h3>
 
 <p>Node模块采用<code>npm install</code>命令安装。</p>
 
@@ -2095,7 +2367,7 @@ $ npm install git://github.com/package/path.git#0.1.0
 $ npm install
 </code></pre>
 
-<h3 id="toc_9">安装不同版本</h3>
+<h3 id="toc_10">安装不同版本</h3>
 
 <p>install命令总是安装模块的最新版本，如果要安装模块的特定版本，可以在模块名后面加上@和版本号。</p>
 
@@ -2145,7 +2417,7 @@ $ NODE_ENV=production npm install
 console.log(backbone.VERSION)
 </code></pre>
 
-<h2 id="toc_10">避免系统权限</h2>
+<h2 id="toc_11">避免系统权限</h2>
 
 <p>默认情况下，Npm全局模块都安装在系统目录（比如<code>/usr/local/lib/</code>），普通用户没有写入权限，需要用到<code>sudo</code>命令。这不是很方便，我们可以在没有root权限的情况下，安装全局模块。</p>
 
@@ -2166,7 +2438,7 @@ console.log(backbone.VERSION)
 <pre><code class="language-bash">export PATH=~/npm/bin:$PATH
 </code></pre>
 
-<h2 id="toc_11">npm update，npm uninstall</h2>
+<h2 id="toc_12">npm update，npm uninstall</h2>
 
 <p><code>npm update</code>命令可以更新本地安装的模块。</p>
 
@@ -2205,7 +2477,7 @@ dependencies: {
 $ npm uninstall [package name] -global
 </code></pre>
 
-<h2 id="toc_12">npm run</h2>
+<h2 id="toc_13">npm run</h2>
 
 <p><code>npm</code>不仅可以用于模块管理，还可以用于执行脚本。<code>package.json</code>文件有一个<code>scripts</code>字段，可以用于指定脚本命令，供<code>npm</code>直接调用。</p>
 
@@ -2326,7 +2598,7 @@ browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js
 <pre><code class="language-javascript">&quot;build-js&quot;: &quot;bin/build.sh&quot;
 </code></pre>
 
-<h3 id="toc_13">参数</h3>
+<h3 id="toc_14">参数</h3>
 
 <p><code>npm run</code>命令还可以添加参数。</p>
 
@@ -2353,7 +2625,7 @@ $ npm run test
 $ npm run -s test
 </code></pre>
 
-<h3 id="toc_14">scripts脚本命令最佳实践</h3>
+<h3 id="toc_15">scripts脚本命令最佳实践</h3>
 
 <p><code>scripts</code>字段的脚本命令，有一些最佳实践，可以方便开发。首先，安装<code>npm-run-all</code>模块。</p>
 
@@ -2481,7 +2753,7 @@ $ npm-run-all --parallel watch:*
 
 <p>上面命令使用<code>kss-node</code>模块，提供源码的注释生成markdown格式的文档。</p>
 
-<h3 id="toc_15">pre- 和 post- 脚本</h3>
+<h3 id="toc_16">pre- 和 post- 脚本</h3>
 
 <p><code>npm run</code>为每条命令提供了<code>pre-</code>和<code>post-</code>两个钩子（hook）。以<code>npm run lint</code>为例，执行这条命令之前，npm会先查看有没有定义prelint和postlint两个钩子，如果有的话，就会先执行<code>npm run prelint</code>，然后执行<code>npm run lint</code>，最后执行<code>npm run postlint</code>。</p>
 
@@ -2592,7 +2864,7 @@ $ npm-run-all --parallel watch:*
 
 <p>类似作用的模块还有<code>pre-commit</code>、<code>precommit-hook</code>等。</p>
 
-<h3 id="toc_16">内部变量</h3>
+<h3 id="toc_17">内部变量</h3>
 
 <p>scripts字段可以使用一些内部变量，主要是package.json的各种字段。</p>
 
@@ -2620,7 +2892,7 @@ $ npm-run-all --parallel watch:*
 
 <p>上面代码中，变量<code>npm_package_config_reporter</code>对应的就是reporter。</p>
 
-<h3 id="toc_17">通配符</h3>
+<h3 id="toc_18">通配符</h3>
 
 <p>npm的通配符的规则如下。</p>
 
@@ -2636,7 +2908,7 @@ $ npm-run-all --parallel watch:*
 <li><code>**</code> 如果出现在路径部分，表示0个或多个子目录。</li>
 </ul>
 
-<h2 id="toc_18">npm link</h2>
+<h2 id="toc_19">npm link</h2>
 
 <p>开发NPM模块的时候，有时我们会希望，边开发边试用，比如本地调试的时候，<code>require(&#39;myModule&#39;)</code>会自动加载本机开发中的模块。Node规定，使用一个模块时，需要将其安装到全局的或项目的<code>node_modules</code>目录之中。对于开发中的模块，解决方法就是在全局的<code>node_modules</code>目录之中，生成一个符号链接，指向模块的本地目录。</p>
 
@@ -2676,7 +2948,7 @@ $ npm-run-all --parallel watch:*
 <pre><code class="language-bash">src/myProject$ npm unlink myModule
 </code></pre>
 
-<h2 id="toc_19">npm bin</h2>
+<h2 id="toc_20">npm bin</h2>
 
 <p><code>npm bin</code>命令显示相对于当前目录的，Node模块的可执行脚本所在的目录（即<code>.bin</code>目录）。</p>
 
@@ -2685,7 +2957,7 @@ $ npm bin
 ./node_modules/.bin
 </code></pre>
 
-<h2 id="toc_20">npm adduser</h2>
+<h2 id="toc_21">npm adduser</h2>
 
 <p><code>npm adduser</code>用于在npmjs.com注册一个用户。</p>
 
@@ -2695,7 +2967,7 @@ Password: YOUR_PASSWORD
 Email: YOUR_EMAIL@domain.com
 </code></pre>
 
-<h2 id="toc_21">npm publish</h2>
+<h2 id="toc_22">npm publish</h2>
 
 <p><code>npm publish</code>用于将当前模块发布到<code>npmjs.com</code>。执行之前，需要向<code>npmjs.com</code>申请用户名。</p>
 
@@ -2745,7 +3017,7 @@ node_modules
 distribution
 </code></pre>
 
-<h2 id="toc_22">npm deprecate</h2>
+<h2 id="toc_23">npm deprecate</h2>
 
 <p>如果想废弃某个版本的模块，可以使用<code>npm deprecate</code>命令。</p>
 
@@ -2754,7 +3026,7 @@ distribution
 
 <p>运行上面的命令以后，小于<code>0.2.3</code>版本的模块的<code>package.json</code>都会写入一行警告，用户安装这些版本时，这行警告就会在命令行显示。</p>
 
-<h2 id="toc_23">npm owner</h2>
+<h2 id="toc_24">npm owner</h2>
 
 <p>模块的维护者可以发布新版本。<code>npm owner</code>命令用于管理模块的维护者。</p>
 
@@ -2768,9 +3040,9 @@ $ npm owner add &lt;user&gt; &lt;package name&gt;
 $ npm owner rm &lt;user&gt; &lt;package name&gt;
 </code></pre>
 
-<h2 id="toc_24">其他命令</h2>
+<h2 id="toc_25">其他命令</h2>
 
-<h3 id="toc_25">npm home，npm repo</h3>
+<h3 id="toc_26">npm home，npm repo</h3>
 
 <p><code>npm home</code>命令可以打开一个模块的主页，<code>npm repo</code>命令则是打开一个模块的代码仓库。</p>
 
@@ -2780,7 +3052,7 @@ $ npm repo $package
 
 <p>这两个命令不需要模块先安装。</p>
 
-<h3 id="toc_26">npm outdated</h3>
+<h3 id="toc_27">npm outdated</h3>
 
 <p><code>npm outdated</code>命令检查当前项目所依赖的模块，是否已经有新版本。</p>
 
@@ -2789,14 +3061,14 @@ $ npm repo $package
 
 <p>它会输出当前版本（current version）、应当安装的版本（wanted version）和最新发布的版本（latest version）。</p>
 
-<h3 id="toc_27">npm prune</h3>
+<h3 id="toc_28">npm prune</h3>
 
 <p><code>npm prune</code>检查当前项目的<code>node_modules</code>目录中，是否有<code>package.json</code>里面没有提到的模块，然后将所有这些模块输出在命令行。</p>
 
 <pre><code class="language-bash">$ npm prune
 </code></pre>
 
-<h3 id="toc_28">npm shrinkwrap</h3>
+<h3 id="toc_29">npm shrinkwrap</h3>
 
 <p><code>npm shrinkwrap</code>的作用是锁定当前项目的依赖模块的版本。</p>
 
@@ -2807,7 +3079,7 @@ $ npm repo $package
 
 <p>下次运行<code>npm install</code>命令时，<code>npm</code>发现当前目录下有<code>npm-shrinkwrap.json</code>文件，就会只安装里面提到的模块，且版本也会保持一致。</p>
 
-<h2 id="toc_29">参考链接</h2>
+<h2 id="toc_30">参考链接</h2>
 
 <ul>
 <li>James Halliday, <a href="http://substack.net/task_automation_with_npm_run">task automation with npm run</a>: npm run命令（package.json文件的script属性）的用法</li>
@@ -2817,113 +3089,6 @@ $ npm repo $package
 <li>Stephan Bönnemann, <a href="https://medium.com/greenkeeper-blog/one-simple-trick-for-javascript-package-maintainers-to-avoid-breaking-their-user-s-software-and-to-6edf06dc5617#.5omqgsg45">How to make use of npm’s package distribution tags to create release channels</a></li>
 <li>Alex Booker, <a href="https://booker.codes/how-to-build-and-publish-es6-npm-modules-today-with-babel/">How to Build and Publish ES6 npm Modules Today, with Babel</a></li>
 </ul>
-
-<h3 id="toc_30">整理大纲</h3>
-
-<ul>
-<li>
-<a href="#toc_0">简介</a>
-</li>
-<li>
-<a href="#toc_1">npm init</a>
-</li>
-<li>
-<a href="#toc_2">npm set</a>
-</li>
-<li>
-<a href="#toc_3">npm config</a>
-</li>
-<li>
-<a href="#toc_4">npm info</a>
-</li>
-<li>
-<a href="#toc_5">npm search</a>
-</li>
-<li>
-<a href="#toc_6">npm list</a>
-</li>
-<li>
-<a href="#toc_7">npm install</a>
-<ul>
-<li>
-<a href="#toc_8">基本用法</a>
-</li>
-<li>
-<a href="#toc_9">安装不同版本</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_10">避免系统权限</a>
-</li>
-<li>
-<a href="#toc_11">npm update，npm uninstall</a>
-</li>
-<li>
-<a href="#toc_12">npm run</a>
-<ul>
-<li>
-<a href="#toc_13">参数</a>
-</li>
-<li>
-<a href="#toc_14">scripts脚本命令最佳实践</a>
-</li>
-<li>
-<a href="#toc_15">pre- 和 post- 脚本</a>
-</li>
-<li>
-<a href="#toc_16">内部变量</a>
-</li>
-<li>
-<a href="#toc_17">通配符</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_18">npm link</a>
-</li>
-<li>
-<a href="#toc_19">npm bin</a>
-</li>
-<li>
-<a href="#toc_20">npm adduser</a>
-</li>
-<li>
-<a href="#toc_21">npm publish</a>
-</li>
-<li>
-<a href="#toc_22">npm deprecate</a>
-</li>
-<li>
-<a href="#toc_23">npm owner</a>
-</li>
-<li>
-<a href="#toc_24">其他命令</a>
-<ul>
-<li>
-<a href="#toc_25">npm home，npm repo</a>
-</li>
-<li>
-<a href="#toc_26">npm outdated</a>
-</li>
-<li>
-<a href="#toc_27">npm prune</a>
-</li>
-<li>
-<a href="#toc_28">npm shrinkwrap</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_29">参考链接</a>
-<ul>
-<li>
-<a href="#toc_30">整理大纲</a>
-</li>
-</ul>
-</li>
-</ul>
-
 
 ]]></content>
   </entry>
@@ -2940,7 +3105,30 @@ $ npm repo $package
 
 <span id="more"></span><!-- more -->
 
-<h3 id="toc_0">安装环境依赖</h3>
+<h3 id="toc_0">整理大纲</h3>
+
+<ul>
+<li>
+<a href="#toc_0">整理大纲</a>
+</li>
+<li>
+<a href="#toc_1">安装环境依赖</a>
+</li>
+<li>
+<a href="#toc_2">使用方法</a>
+<ul>
+<li>
+<a href="#toc_3">React Native端</a>
+</li>
+<li>
+<a href="#toc_4">Web端</a>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3 id="toc_1">安装环境依赖</h3>
 
 <ol>
 <li>需要用到RN‘s webview 与页面通信的插件
@@ -2953,7 +3141,7 @@ $ npm repo $package
 <pre><code>$ npm install react-native-webview-invoke --save
 </code></pre>
 
-<h3 id="toc_1">使用方法</h3>
+<h3 id="toc_2">使用方法</h3>
 
 <p>⭐️两端使用的方法是需要双方约定的。</p>
 
@@ -2961,7 +3149,7 @@ $ npm repo $package
 <li>在RN组件引入<code>react-native-webview-invoke</code>包</li>
 </ol>
 
-<h4 id="toc_2">React Native端</h4>
+<h4 id="toc_3">React Native端</h4>
 
 <pre><code class="language-javascript">import React from &#39;react&#39;;
 import { WebView } from &#39;react-native&#39;
@@ -3003,7 +3191,7 @@ export default class 你的组件 extends React.Component {
 }
 </code></pre>
 
-<h4 id="toc_3">Web端</h4>
+<h4 id="toc_4">Web端</h4>
 
 <p>这里有点需要注意的是，我的web页面是使用vue开发的，直接 <code>npm install</code> 包是没法使用的。<br/>
 所以只能在页面标签引入js：<br/>
@@ -3035,29 +3223,6 @@ export default class 你的组件 extends React.Component {
 </code></pre>
 
 <p>以上就是RN与页面通信插件的使用示例。如果还有疑问可查阅插件文档，文档地址开头已给出。</p>
-
-<h3 id="toc_4">整理大纲</h3>
-
-<ul>
-<li>
-<a href="#toc_0">安装环境依赖</a>
-</li>
-<li>
-<a href="#toc_1">使用方法</a>
-<ul>
-<li>
-<a href="#toc_2">React Native端</a>
-</li>
-<li>
-<a href="#toc_3">Web端</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_4">整理大纲</a>
-</li>
-</ul>
-
 
 ]]></content>
   </entry>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  npm 私有仓库配置过程 - 大辉-wjh4dev
+  GitLab 配置持续集成 runner - 大辉-wjh4dev
   
   </title>
   
@@ -111,14 +111,14 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>npm 私有仓库配置过程</h1>
+          <h1>GitLab 配置持续集成 runner</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2017/7/30</span>
+          <span class="date">2018/4/10</span>
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='Npm.html'>Npm</a></span>
+              <span class="posted-in"><a href='git.html'>git</a></span>
            
          
           <span class="comments">
@@ -131,131 +131,93 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <blockquote>
-<p>在开发过程中有时候我们需要开发自己的node package，但是由于是我们自己使用的包，不希望发布到<code>npmjs.org</code>公共库上去，于是就需要一个私有的仓库，推荐nexus，因为当初写java也是用nexus管理jar包的。<br/>
-接下来就介绍如何配置nexus npm仓库。 </p>
-</blockquote>
+      <p>最近组内在编写 react 组件库，涉及到多人协作问题，多人协作肯定会碰到版本管理、代码持续集成等问题；在现在这个大环境下代码版本管理第一解决方案肯定是 git，代码持续集成大家肯定会想到 Jenkins。鉴于公司内部使用自建 gitlab 管理代码，其实 GitLab 中也有持续集成的功能，下面我们就重点说说使用 GitLab 进行持续集成（CI）的方法。</p>
 
 <span id="more"></span><!-- more -->
 
-<h3 id="toc_0">一、nexus安装</h3>
+<h2 id="toc_0">1. GitLab runner</h2>
 
-<p>此处省略几百字...<br/>
-说几句题外话：对于一个开发人员，linux命令行模式还是必须要掌握的，安装软件，查看日志，都是必须的。因为你离不开它。就像写代码必须要电脑一样，这个年代你不可能在纸上写代码去执行。<br/>
-尤其近几年：前端使用的 Bower 管理器、Node 环境以及自动化测试、版本控制等都离不开 Linux 命令行的设计思想。所以<strong>linux命令、node命令、npm命令</strong>都需要掌握。</p>
+<blockquote>
+<p>本次实践基于：GitLab Community Edition 10.1.2；<br/>
+系统基于：windows7 x64企业版。</p>
+</blockquote>
 
-<h3 id="toc_1">二、nexus仓库配置</h3>
+<h3 id="toc_1">1.1、什么是 runner？</h3>
 
-<p>在nexus新建npm仓库：<code>Repositories &gt; create repository</code> 说明一下npm仓库有三种：</p>
+<p>runner 可以运行你的作业，并将运行结果返回给 GitLab 的工具，通常配合 Gitlab 持续集成使用。<br/>
+更多内容可以参考官网解释：<a href="https://docs.gitlab.com/runner/">GitLab Runner</a></p>
 
-<pre><code>proxy：代理仓库（我们需要用到公网的包，从这个代理走）
-hosted：私有仓库（这就是你本地的仓库）
-group：仓库组（每个组里要包含 proxy 和 hosted ）
-</code></pre>
+<h3 id="toc_2">1.2、runner 安装配置</h3>
+
+<blockquote>
+<p>前提：你的机器上有基本的开发环境；git、.net framework4.0 等运行环境。鉴于前端开发有些 node 包经常要依赖 .net framework 所以直接安装一次 vs 是最省事的，将所有 .net framework 环境安装好。</p>
+</blockquote>
 
 <ol>
-<li><p>分别创建三种库：</p>
-
-<ul>
-<li><p>创建proxy仓库：<br/>
-填写require的地方；<br/>
-<img src="media/15014123618753/15015741997799.jpg" alt="" style="width:688px;"/><br/>
-完成之后就是如下的样子：<br/>
-<img src="media/15014123618753/15015744921908.jpg" alt="" style="width:646px;"/></p></li>
-<li><p>创建hosted仓库：<br/>
-同样填写required内容（就是你的仓库名称）<br/>
-<img src="media/15014123618753/15015746270890.jpg" alt=""/><br/>
-保存成功之后如下：（注意Deployment 要设置为：Allow redeploy，否则后续发布npm包，会失败）<br/>
-<img src="media/15014123618753/15015745874238.jpg" alt="" style="width:657px;"/></p></li>
-<li><p>创建Group组 （这个group组其实就是将上面两个组合到一块）<br/>
-注意填写仓库名称，将之前建立好的proxy和hosted添加到此group中<br/>
-<img src="media/15014123618753/15015749248742.jpg" alt="" style="width:675px;"/><br/>
-成功之后如下图：（我们最后要在本地使用的也就是下面标红这个仓库地址）<br/>
-<img src="media/15014123618753/15015749770106.jpg" alt="" style="width:658px;"/></p></li>
-</ul></li>
+<li>创建文件夹：<code>D:\GitLab-Runner</code>，并下载 <a href="https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-amd64.exe">gitlab-runner 安装程序</a> 放置于当前目录下。（<strong>下载程序必须改名为：<code>gitlab-runner</code></strong>）</li>
+<li>以<strong>管理员</strong>运行<strong>git-bash 或者 cmd 或者 powershell</strong> 等命令行工具。进入 <code>D:\GitLab-Runner</code> 目录下，下一步开始注册 Runners。</li>
+<li>注册 Runners</li>
+<li>查看 windows 服务中是否有 gitlab-runner 服务，如果有就启动，没有在命令行，继续执行：<code>./gitlab-runner.exe install</code> 即可安装服务，再次查看并启动。</li>
+<li>修改配置文件 <code>D:\GitLab-Runner\config.toml</code> 在其中 <code>[[runner]]</code> 下增加 <code>shell=&#39;powershell&#39;</code>。</li>
 </ol>
 
-<p>npm仓库配置完成之后，需要验证一下仓库可是使用。我们使用另一篇文章<a href="15006205842047.html">node包开发、发布流程</a>的例子试验一下。</p>
+<p>到此你的 gitlab-runner 就算安装成功了，在你的 gitlab 项目中查看，就会发现，已经有 activated 的 Runners 在运行了。</p>
 
-<h3 id="toc_2">三、npm私服的使用</h3>
+<h3 id="toc_3">1.3、runner 使用</h3>
 
-<p>⚠️ 以下的仓库IP地址我都用yourIp替换了，需要替换成你自己的仓库IP地址。</p>
+<p>使用需要在你的项目中增加配置文件：<code>.gitlab-ci.yml</code>。<br/>
+内容中执行的脚本是自己编写的。</p>
 
-<h4 id="toc_3">3.1 配置本地仓库地址</h4>
+<pre><code>stages:
+  - prepare
+  - eslint
+  - test
+  - deploy
 
-<p>地址：<code>--registry=http://yourIp:port/repository/shfb-node-all/</code></p>
+cache:
+  key: $CI_COMMIT_SHA
+  untracked: true
 
-<pre><code class="language-bash">$ &gt; npm config set registry http://yourIp:port/repository/shfb-node-all/
+prepare:
+  stage: prepare
+  script: npm install
 
-$ &gt; npm adduser --registry=http://yourIp:port/repository/shfb-node-repo/
-Username: wangjh
-Password:
-Email: (this IS public) wangjh@bjshfb.com
-Logged in as wangjh on http://yourIp:port/repository/shfb-node-repo/.
+eslint:
+  stage: eslint
+  script: npm run eslint
+
+test:
+  stage: test
+  script:
+    - npm test
+
+build:
+  only:
+  - master@wangjianhui2464/react-components
+  stage: deploy
+  script:
+    - npm run build
+
+upload:
+  only:
+  - master@wangjianhui2464/react-components
+  stage: deploy
+  script:
+    - npm run upload
+
 </code></pre>
 
-<h4 id="toc_4">3.2 使用本地仓库地址登录</h4>
+<p>当你在你的仓库中配置好次配置文件之后，每次提交代码 gitlab 就会自动执行相应的 jobs。这样一个持续集成的环境就算搭建成功了。</p>
 
-<pre><code class="language-bash">$ npm login
-Username: wangjh
-Password:
-Email:(this IS public) wangjh@bjshfb.com
-Logged in as wangjh on http://yourIp:port/repository/shfb-node-all/
-</code></pre>
+<p>持续集成有时候会为我们的工程化提供很多便利，可谓是工程化之利器。</p>
 
-<p><img src="media/15014123618753/15015970250581.jpg" alt="" style="width:633px;"/></p>
+<p>文章配图，后续补充。</p>
 
-<h4 id="toc_5">3.3 publish注意</h4>
+<h2 id="toc_4">参考文章：</h2>
 
-<p>需要使用hosted地址发布：<br/>
-<code>http://yourIp:port/repository/shfb-node-repo/</code></p>
-
-<pre><code class="language-bash">$ npm publish --registry=http://yourIp:port/repository/shfb-node-repo/
-</code></pre>
-
-<p>结果如图：<br/>
-<img src="media/15014123618753/15015978199744.jpg" alt="" style="width:646px;"/></p>
-
-<p>于npm私服仓库查询发布npm包<br/>
-<img src="media/15014123618753/15015980573106.jpg" alt="" style="width:849px;"/></p>
-
-<h4 id="toc_6">3.4 发布成功如何使用？</h4>
-
-<p>新建项目直接使用<code>npm install</code>即可安装<code>learnNpm</code>包，前提是你的<code>registry</code>要指向我们的私服仓库。</p>
-
-<p>（全文完）</p>
-
-<h3 id="toc_7">目录</h3>
-
-<ul>
-<li>
-<a href="#toc_0">一、nexus安装</a>
-</li>
-<li>
-<a href="#toc_1">二、nexus仓库配置</a>
-</li>
-<li>
-<a href="#toc_2">三、npm私服的使用</a>
-<ul>
-<li>
-<a href="#toc_3">3.1 配置本地仓库地址</a>
-</li>
-<li>
-<a href="#toc_4">3.2 使用本地仓库地址登录</a>
-</li>
-<li>
-<a href="#toc_5">3.3 publish注意</a>
-</li>
-<li>
-<a href="#toc_6">3.4 发布成功如何使用？</a>
-</li>
-</ul>
-</li>
-<li>
-<a href="#toc_7">目录</a>
-</li>
-</ul>
-
+<p><a href="https://docs.gitlab.com/">GitLab官方文档</a><br/>
+<a href="https://www.cnblogs.com/xishuai/p/gitlab-ci.html">劈荆斩棘：Gitlab 部署 CI 持续集成</a><br/>
+<a href="http://www.cnblogs.com/newP/p/5735366.html#_Toc458009359">GitLab CI持续集成配置方案</a></p>
 
 
     
@@ -266,16 +228,13 @@ Logged in as wangjh on http://yourIp:port/repository/shfb-node-all/
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="15014119322439.html" 
-          title="Previous Post: node包详细开发过程">&laquo; node包详细开发过程</a>
-      
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="15015937003199.html" 
-          title="Next Post: NPM 模块管理器">NPM 模块管理器 &raquo;</a>
+          <a  href="15180793325774.html" 
+          title="Next Post: CMD vs AMD vs CommonJS 的区别">CMD vs AMD vs CommonJS 的区别 &raquo;</a>
       
       </p>
         </div>
